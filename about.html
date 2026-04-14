@@ -1,0 +1,780 @@
+<!-- FILE: about.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<title>About contractorcalctoolstools— Free Contractor &amp; Home Improvement Calculators</title>
+<meta name="description" content="Learn about contractorcalctoolstools— free online calculators for contractors and homeowners. Transparent methodology, national cost data, and planning tools you can trust.">
+<link rel="canonical" href="https://www.contractorcalctools.com/about.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="About contractorcalctoolstools— Free Contractor &amp; Home Improvement Calculators">
+<meta property="og:description" content="Free online contractor and home improvement calculators for preliminary planning and budgeting. Learn about our mission, methodology, and team.">
+<meta property="og:url" content="https://www.contractorcalctools.com/about.html">
+<meta property="og:site_name" content="contractorcalctools">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About contractorcalctoolstools— Free Contractor &amp; Home Improvement Calculators">
+<meta name="twitter:description" content="Free online contractor and home improvement calculators for preliminary planning and budgeting. Learn about our mission, methodology, and team.">
+
+<!-- Google Fonts: Preload + swap -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+<!-- Organization JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "contractorcalctools",
+  "url": "https://www.contractorcalctools.com",
+  "logo": "https://www.contractorcalctools.com/images/logo.svg",
+  "description": "Free online contractor and home improvement calculators for preliminary planning and budgeting.",
+  "sameAs": [
+    "https://www.facebook.com/contractorcalctools",
+    "https://twitter.com/contractorcalctools",
+    "https://www.pinterest.com/contractorcalctools"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Support",
+    "url": "https://www.contractorcalctools.com/contact.html",
+    "email": "support@contractorcalctools.com"
+  }
+}
+</script>
+
+<!-- FAQPage JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are these estimates accurate for my area?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our estimates are based on national averages from industry reports and contractor surveys. Actual costs vary widely by region, local labor rates, material availability, and site conditions. We recommend using our calculators for preliminary planning and then getting at least three quotes from local, licensed contractors for accurate pricing in your area."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use contractorcalctoolstoolsfor final bids?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. contractorcalctoolstoolsis designed for preliminary planning and budgeting only. Our estimates are not a substitute for professional bids, architectural plans, structural engineering review, or local building department approval. Always work with licensed professionals for final project pricing and construction decisions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do you get your numbers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our cost data is compiled from publicly available remodeling reports (such as the Remodeling Magazine Cost vs. Value Report), contractor surveys, supplier price lists, and industry publications. We review and update our estimates periodically to reflect current market conditions, though actual project costs may differ by ±30% to ±60% depending on your specific circumstances."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════ */
+:root {
+  --color-primary: #1e3a5f;
+  --color-primary-dark: #152a45;
+  --color-primary-light: #2a4a6f;
+  --color-secondary: #f7941d;
+  --color-secondary-dark: #e08515;
+  --color-success: #28a745;
+  --color-error: #dc3545;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f8f9fa;
+  --color-text: #212529;
+  --color-text-secondary: #495057;
+  --color-text-muted: #6c757d;
+  --color-border: #dee2e6;
+  --color-border-light: #e9ecef;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+  --max-width: 1140px;
+  --gap: 1rem;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.1);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,.12);
+  --transition: .25s ease;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font-body);font-size:clamp(.95rem,2.2vw,1rem);line-height:1.65;color:var(--color-text);background:var(--color-bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--color-primary);text-decoration:none;transition:color var(--transition)}
+a:hover{color:var(--color-secondary)}
+ul,ol{list-style:none}
+h1,h2,h3,h4{font-family:var(--font-heading);font-weight:700;line-height:1.2;color:var(--color-primary)}
+h1{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:800}
+h2{font-size:clamp(1.3rem,4vw,1.9rem)}
+h3{font-size:clamp(1.05rem,3vw,1.35rem)}
+p{margin-bottom:1rem}
+
+/* ═══════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════ */
+.container{width:100%;max-width:var(--max-width);margin:0 auto;padding:0 var(--gap)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;white-space:nowrap}
+.section{padding:clamp(2rem,6vw,4rem) 0}
+.section-alt{background:var(--color-bg-alt)}
+.text-muted{color:var(--color-text-muted)}
+.text-small{font-size:.85rem}
+.text-center{text-align:center}
+
+/* ═══════════════════════════════════════════
+   SKIP LINK
+   ═══════════════════════════════════════════ */
+.skip-link{position:absolute;top:-100%;left:0;background:var(--color-primary);color:#fff;padding:.75rem 1.5rem;z-index:10001;font-weight:600;border-radius:0 0 var(--radius) 0;transition:top var(--transition)}
+.skip-link:focus{top:0;color:#fff}
+
+/* ═══════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════ */
+.site-header{background:var(--color-primary);color:#fff;position:sticky;top:0;z-index:1000;box-shadow:var(--shadow-md)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;min-height:56px}
+.logo{display:flex;align-items:center;gap:.5rem;font-family:var(--font-heading);font-weight:700;font-size:1.2rem;color:#fff;text-decoration:none;flex-shrink:0}
+.logo:hover{color:var(--color-secondary)}
+.logo svg{width:28px;height:28px;flex-shrink:0}
+
+/* Desktop nav */
+.nav-desktop{display:none;align-items:center;gap:.25rem}
+.nav-desktop a{color:rgba(255,255,255,.85);padding:.5rem .8rem;border-radius:var(--radius);font-size:.9rem;font-weight:500;transition:all var(--transition);white-space:nowrap}
+.nav-desktop a:hover,.nav-desktop a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.12)}
+
+/* Hamburger */
+.hamburger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;align-items:center;background:0 0;border:0;cursor:pointer;padding:8px;border-radius:var(--radius);transition:background var(--transition)}
+.hamburger:hover{background:rgba(255,255,255,.1)}
+.hamburger:focus-visible{outline:3px solid var(--color-secondary);outline-offset:2px}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all var(--transition)}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Mobile nav */
+.nav-mobile{display:none;position:absolute;top:100%;left:0;right:0;background:var(--color-primary-dark);border-top:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow-lg);padding:.5rem 0;z-index:999}
+.nav-mobile.open{display:block}
+.nav-mobile a{display:block;color:rgba(255,255,255,.85);padding:.85rem 1.5rem;font-weight:500;border-bottom:1px solid rgba(255,255,255,.05);transition:all var(--transition)}
+.nav-mobile a:hover,.nav-mobile a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.08);padding-left:2rem}
+
+@media(min-width:768px){
+  .nav-desktop{display:flex}
+  .hamburger{display:none}
+}
+
+/* ═══════════════════════════════════════════
+   BREADCRUMB
+   ═══════════════════════════════════════════ */
+.breadcrumb{background:var(--color-bg-alt);border-bottom:1px solid var(--color-border);padding:.6rem 0}
+.breadcrumb-list{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem;font-size:.825rem;color:var(--color-text-muted)}
+.breadcrumb-list a{color:var(--color-primary);font-weight:500}
+.breadcrumb-list a:hover{color:var(--color-secondary);text-decoration:underline}
+.breadcrumb-sep{margin:0 .15rem;color:var(--color-border)}
+.breadcrumb-current{font-weight:500;color:var(--color-text-secondary)}
+
+/* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+.hero{background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-primary-light) 100%);color:#fff;padding:clamp(2.5rem,7vw,4.5rem) 0;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-15%;width:450px;height:450px;background:radial-gradient(circle,rgba(247,148,29,.12) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero h1{color:#fff;margin-bottom:.75rem}
+.hero-mission{font-size:clamp(.95rem,2.5vw,1.15rem);color:rgba(255,255,255,.88);max-width:720px;line-height:1.65}
+
+/* Feature badges */
+.feature-badges{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:2rem}
+@media(min-width:540px){.feature-badges{grid-template-columns:1fr 1fr}}
+.badge-card{background:rgba(255,255,255,.1);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-lg);padding:1.2rem 1.4rem;display:flex;align-items:flex-start;gap:1rem;transition:all var(--transition)}
+.badge-card:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.badge-icon{font-size:1.8rem;flex-shrink:0;line-height:1}
+.badge-title{font-family:var(--font-heading);font-weight:600;font-size:1rem;margin-bottom:.2rem}
+.badge-desc{font-size:.85rem;color:rgba(255,255,255,.78);line-height:1.45}
+
+/* ═══════════════════════════════════════════
+   CONTENT SECTIONS
+   ═══════════════════════════════════════════ */
+.prose{max-width:800px}
+.prose h2{margin-bottom:.75rem}
+.prose h3{margin-top:1.5rem;margin-bottom:.5rem}
+.prose p,.prose li{color:var(--color-text-secondary)}
+.prose ul,.prose ol{padding-left:1.5rem;margin-bottom:1rem}
+.prose li{margin-bottom:.35rem;list-style:disc}
+.prose ol li{list-style:decimal}
+
+/* Commitments list */
+.commitments{display:grid;grid-template-columns:1fr;gap:.75rem;margin:1.5rem 0}
+@media(min-width:540px){.commitments{grid-template-columns:1fr 1fr}}
+.commitment-item{display:flex;align-items:flex-start;gap:.75rem;background:#fff;border:1px solid var(--color-border);border-radius:var(--radius);padding:1rem 1.2rem;transition:box-shadow var(--transition)}
+.commitment-item:hover{box-shadow:var(--shadow-sm)}
+.commitment-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.commitment-icon.accuracy{background:#e7f3ff;color:#0d6efd}
+.commitment-icon.transparency{background:#fff3cd;color:#856404}
+.commitment-icon.privacy{background:#d4edda;color:var(--color-success)}
+.commitment-icon.a11y{background:#f8d7da;color:var(--color-error)}
+.commitment-title{font-weight:600;font-size:.95rem;margin-bottom:.15rem}
+.commitment-desc{font-size:.83rem;color:var(--color-text-muted);line-height:1.45}
+
+/* Methodology notice */
+.method-notice{background:#fff3cd;border:1px solid #ffc107;border-left:4px solid #ffc107;border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0;font-size:.9rem;line-height:1.6}
+
+/* Data source note */
+.data-source-note{background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius);padding:.85rem 1.1rem;font-size:.82rem;color:var(--color-text-muted);margin:1rem 0;display:flex;align-items:flex-start;gap:.5rem}
+
+/* Cite block */
+.cite-block{background:#e7f3ff;border:1px solid #b6d4fe;border-radius:var(--radius);padding:1rem 1.25rem;font-size:.88rem;line-height:1.6;margin:1.5rem 0}
+.cite-block code{background:rgba(0,0,0,.06);padding:.15rem .4rem;border-radius:4px;font-size:.82rem;word-break:break-all}
+
+/* ═══════════════════════════════════════════
+   TEAM
+   ═══════════════════════════════════════════ */
+.team-grid{display:grid;grid-template-columns:1fr;gap:1.25rem;margin:2rem 0}
+@media(min-width:600px){.team-grid{grid-template-columns:repeat(3,1fr)}}
+.team-card{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;transition:box-shadow var(--transition),transform var(--transition)}
+.team-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.team-avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;overflow:hidden;background:var(--color-bg-alt);display:flex;align-items:center;justify-content:center;border:3px solid var(--color-border-light)}
+.team-avatar svg{width:48px;height:48px}
+.team-name{font-family:var(--font-heading);font-weight:600;font-size:1.05rem;color:var(--color-primary);margin-bottom:.15rem}
+.team-role{font-size:.82rem;color:var(--color-secondary);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem}
+.team-bio{font-size:.85rem;color:var(--color-text-muted);line-height:1.5}
+.team-cta{text-align:center;margin-top:1.5rem}
+.team-cta a{display:inline-flex;align-items:center;gap:.4rem;color:var(--color-primary);font-weight:600;font-size:.95rem;padding:.6rem 1.2rem;border:2px solid var(--color-primary);border-radius:50px;transition:all var(--transition)}
+.team-cta a:hover{background:var(--color-primary);color:#fff}
+
+/* ═══════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════ */
+.faq-list{max-width:800px;margin:1.5rem 0}
+.faq-item{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius);margin-bottom:.75rem;overflow:hidden}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.25rem;cursor:pointer;background:0 0;border:0;width:100%;text-align:left;font-family:var(--font-heading);font-weight:600;font-size:.95rem;color:var(--color-primary);min-height:48px;transition:background var(--transition)}
+.faq-q:hover{background:var(--color-bg-alt)}
+.faq-q:focus-visible{outline:3px solid var(--color-secondary);outline-offset:-3px}
+.faq-chevron{width:18px;height:18px;flex-shrink:0;transition:transform var(--transition);color:var(--color-text-muted)}
+.faq-item.open .faq-chevron{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 1.25rem 1.25rem;color:var(--color-text-secondary);font-size:.9rem;line-height:1.7;border-top:1px solid var(--color-border-light)}
+.faq-item.open .faq-a{display:block}
+
+/* ═══════════════════════════════════════════
+   CONTACT CTA
+   ═══════════════════════════════════════════ */
+.contact-cta{text-align:center;padding:clamp(2rem,5vw,3.5rem) 0}
+.contact-cta p{color:var(--color-text-muted);font-size:.9rem;margin-bottom:1rem;max-width:500px;margin-left:auto;margin-right:auto}
+.contact-cta p a{color:var(--color-primary);text-decoration:underline}
+.btn-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--color-secondary);color:#fff;font-family:var(--font-heading);font-weight:700;font-size:1.05rem;padding:.85rem 2rem;border:0;border-radius:50px;cursor:pointer;transition:all var(--transition);box-shadow:0 4px 12px rgba(247,148,29,.3);text-decoration:none}
+.btn-cta:hover{background:var(--color-secondary-dark);color:#fff;transform:translateY(-2px);box-shadow:0 6px 18px rgba(247,148,29,.4)}
+.btn-cta:focus-visible{outline:3px solid var(--color-primary);outline-offset:3px}
+
+/* ═══════════════════════════════════════════
+   LAST-UPDATED BAR
+   ═══════════════════════════════════════════ */
+.last-updated{text-align:center;padding:.75rem 0;font-size:.78rem;color:var(--color-text-muted);border-top:1px solid var(--color-border)}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.site-footer{background:var(--color-primary-dark);color:rgba(255,255,255,.75);padding:2.5rem 0 1.25rem}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:1.75rem;margin-bottom:1.75rem}
+@media(min-width:600px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:768px){.footer-grid{grid-template-columns:2fr 1fr 1fr}}
+.footer-col h4{color:#fff;font-size:.95rem;margin-bottom:.6rem}
+.footer-col p{font-size:.83rem;line-height:1.6;margin-bottom:.5rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.35rem}
+.footer-col a{color:rgba(255,255,255,.65);font-size:.83rem;transition:color var(--transition)}
+.footer-col a:hover{color:var(--color-secondary)}
+.footer-disclaimer{border-top:1px solid rgba(255,255,255,.1);padding-top:1.25rem;margin-top:.5rem;font-size:.76rem;color:rgba(255,255,255,.45);line-height:1.6}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:1rem;margin-top:1rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem;font-size:.76rem;color:rgba(255,255,255,.4)}
+.footer-links{display:flex;flex-wrap:wrap;gap:.8rem}
+.footer-links a{color:rgba(255,255,255,.4);font-size:.76rem}
+.footer-links a:hover{color:var(--color-secondary)}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY SECTION
+   ═══════════════════════════════════════════ */
+#accessibility{scroll-margin-top:80px}
+.a11y-note{background:#e7f3ff;border:1px solid #b6d4fe;border-radius:var(--radius);padding:1rem 1.25rem;font-size:.88rem;line-height:1.6;margin-top:1rem}
+
+/* ═══════════════════════════════════════════
+   FOCUS STYLES
+   ═══════════════════════════════════════════ */
+:focus-visible{outline:3px solid var(--color-secondary);outline-offset:2px}
+a:focus-visible{outline:3px solid var(--color-secondary);outline-offset:2px;border-radius:3px}
+
+/* ═══════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════ */
+@media print{
+  .site-header,.nav-mobile,.hamburger,.skip-link,.breadcrumb,.contact-cta .btn-cta,.site-footer .footer-links,.badge-card{display:none!important}
+  body{font-size:11pt;color:#000;background:#fff}
+  .container{max-width:100%;padding:0 .5in}
+  .hero{background:none!important;color:#000!important;padding:1rem 0}
+  .hero h1,.hero-mission,.badge-title,.badge-desc{color:#000!important}
+  a{color:#000;text-decoration:underline}
+  .method-notice,.cite-block,.a11y-note,.data-source-note{border:1px solid #ccc;background:#f9f9f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .team-card{break-inside:avoid;border:1px solid #ccc}
+  .site-footer{background:none!important;color:#000!important;border-top:2px solid #000;padding:1rem 0}
+  .footer-disclaimer{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Skip to Content -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ -->
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="contractorcalctools — Home">
+        <!-- Inline SVG Logo -->
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect width="28" height="28" rx="6" fill="#f7941d"/>
+          <path d="M7 20L14 8l7 12H7z" fill="#fff" opacity=".9"/>
+          <rect x="12" y="14" width="4" height="6" rx="1" fill="#1e3a5f"/>
+        </svg>
+        <span>contractorcalctools</span>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="sitemap.html">Calculators</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <button class="hamburger" id="hamburgerBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="nav-mobile" id="mobileNav" aria-label="Mobile navigation">
+      <a href="index.html">Home</a>
+      <a href="sitemap.html">Calculators</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     BREADCRUMB
+     ═══════════════════════════════════════════ -->
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb-list">
+      <li><a href="index.html">Home</a></li>
+      <li class="breadcrumb-sep" aria-hidden="true">›</li>
+      <li class="breadcrumb-current" aria-current="page">About</li>
+    </ol>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <h1>About contractorcalctools</h1>
+    <p class="hero-mission">Free online contractor &amp; home improvement calculators for preliminary planning and budgeting. We help homeowners and contractors make better-informed decisions with transparent, data-driven cost estimates.</p>
+
+    <div class="feature-badges">
+      <div class="badge-card">
+        <span class="badge-icon" aria-hidden="true">🏠</span>
+        <div>
+          <div class="badge-title">Complete Addition Breakdown</div>
+          <div class="badge-desc">Detailed itemized estimates for every phase of your home addition, from foundation to finishes.</div>
+        </div>
+      </div>
+      <div class="badge-card">
+        <span class="badge-icon" aria-hidden="true">🖨️</span>
+        <div>
+          <div class="badge-title">Print &amp; Save</div>
+          <div class="badge-desc">Print your estimates, download as CSV, copy cost breakdowns, and save for future reference.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════ -->
+<main id="main-content">
+
+  <!-- OUR MISSION & COMMITMENTS -->
+  <section class="section" aria-labelledby="mission-heading">
+    <div class="container prose">
+      <h2 id="mission-heading">Our Mission</h2>
+      <p>contractorcalctoolstoolswas created to fill a simple need: give homeowners and contractors a quick, reliable way to estimate project costs <em>before</em> committing time and money. Whether you're planning a room addition, a kitchen remodel, or a new deck, our calculators provide a solid starting point for conversations with professionals and for setting realistic budgets.</p>
+      <p>We believe that better information leads to better decisions. That's why every calculator we build prioritizes transparency — showing you exactly how we arrive at our numbers and clearly labeling every figure as an estimate.</p>
+
+      <h3>Our Commitments</h3>
+      <div class="commitments">
+        <div class="commitment-item">
+          <span class="commitment-icon accuracy" aria-hidden="true">📐</span>
+          <div>
+            <div class="commitment-title">Accuracy</div>
+            <div class="commitment-desc">We source data from reputable industry reports, contractor surveys, and supplier pricing. We update estimates regularly and show clear ranges rather than false precision.</div>
+          </div>
+        </div>
+        <div class="commitment-item">
+          <span class="commitment-icon transparency" aria-hidden="true">🔍</span>
+          <div>
+            <div class="commitment-title">Transparency</div>
+            <div class="commitment-desc">Every calculator explains its methodology. We clearly state that all figures are estimates and disclose the typical ±30–60% variance you should expect.</div>
+          </div>
+        </div>
+        <div class="commitment-item">
+          <span class="commitment-icon privacy" aria-hidden="true">🔒</span>
+          <div>
+            <div class="commitment-title">Privacy</div>
+            <div class="commitment-desc">We never sell your data. Our calculators run entirely in your browser — no personal information is sent to our servers. See our <a href="/privacy-policy.html">Privacy Policy</a>.</div>
+          </div>
+        </div>
+        <div class="commitment-item">
+          <span class="commitment-icon a11y" aria-hidden="true">♿</span>
+          <div>
+            <div class="commitment-title">Accessibility</div>
+            <div class="commitment-desc">We design for everyone. Our tools follow WCAG AA guidelines with keyboard navigation, screen-reader support, and high-contrast design.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE BUILD OUR CALCULATORS -->
+  <section class="section section-alt" aria-labelledby="methodology-heading">
+    <div class="container prose">
+      <h2 id="methodology-heading">How We Build Our Calculators</h2>
+      <p>Every contractorcalctoolstoolsestimator follows a consistent, documented process to produce useful planning numbers. Here is how it works:</p>
+
+      <h3>Data Sources</h3>
+      <p>We compile cost data from multiple publicly available sources, including:</p>
+      <ul>
+        <li>National remodeling reports (such as the <em>Remodeling Magazine Cost vs. Value Report</em>)</li>
+        <li>Contractor surveys and trade association publications</li>
+        <li>Supplier and manufacturer price lists</li>
+        <li>Regional labor-rate databases and industry cost indices</li>
+      </ul>
+
+      <h3>Methodology</h3>
+      <p>Each calculator breaks a project into its component phases — foundation, framing, roofing, mechanical systems, finishes, and so on. We estimate material quantities from the dimensions you enter (applying standard waste factors), then multiply by typical unit costs. Labor costs are derived from average trade rates and productivity benchmarks. Regional multipliers let you adjust for local market conditions.</p>
+      <p>We always show a <strong>low–high range</strong> rather than a single number. The low end assumes favorable conditions and competitive pricing; the high end accounts for complexity, premium materials, and tighter labor markets.</p>
+
+      <div class="method-notice">
+        <strong>⚠️ Important:</strong> All calculations and costs shown by contractorcalctoolstoolsare <strong>preliminary estimates only</strong>. Actual material quantities, prices, labor costs, permit requirements, and timelines vary significantly by location, contractor, material availability, local building codes, and specific site conditions. Actual project costs commonly differ by <strong>±30% to ±60%</strong> from any planning estimate. Our tools are for budgeting and planning purposes only and do not replace professional estimates, architectural plans, structural engineering review, or local building department approval.
+      </div>
+
+      <h3>Reproducibility &amp; Updates</h3>
+      <p>Because our calculators run entirely in your browser, you can re-enter the same inputs and get the same output. We review and update cost data periodically — typically once or twice per year or when significant market shifts occur. Each calculator page shows a "last reviewed" date so you know how current the data is.</p>
+
+      <div class="data-source-note">
+        <span aria-hidden="true">📊</span>
+        <!-- TODO: Replace /methodology.html with actual methodology page URL when available -->
+        <span><strong>Data sources:</strong> Our estimates are compiled from publicly available industry data. For a detailed list of sources, see our <a href="/methodology.html">Methodology page</a>.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO CITE -->
+  <section class="section" aria-labelledby="cite-heading">
+    <div class="container prose">
+      <h2 id="cite-heading">How to Cite contractorcalctools</h2>
+      <p>If you reference our estimates in a report, article, or proposal, please use the following format:</p>
+      <div class="cite-block">
+        <strong>Suggested citation:</strong><br>
+        contractorcalctools. "<em>[Calculator Name]</em>." Accessed <span id="citeDate"></span>. <code>https://www.contractorcalctools.com/calculators/[calculator-url].html</code>
+      </div>
+      <p class="text-muted text-small">Please note that all estimates are for preliminary planning only and should not be presented as guaranteed costs.</p>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section section-alt" aria-labelledby="team-heading">
+    <div class="container">
+      <h2 id="team-heading" class="text-center">Meet the Team</h2>
+      <p class="text-center text-muted" style="max-width:600px;margin:0 auto 1rem;">The people behind the calculators — dedicated to making construction planning accessible to everyone.</p>
+
+      <div class="team-grid">
+        <!-- Team Member 1 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <!-- Inline SVG avatar placeholder -->
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alex Rivera, Founder and CEO">
+              <circle cx="24" cy="18" r="10" fill="#1e3a5f" opacity=".7"/>
+              <ellipse cx="24" cy="42" rx="16" ry="12" fill="#1e3a5f" opacity=".5"/>
+            </svg>
+          </div>
+          <!-- TODO: Replace placeholder name and bio with real team info -->
+          <div class="team-name">Alex Rivera</div>
+          <div class="team-role">Founder &amp; CEO</div>
+          <p class="team-bio">Former general contractor with 15+ years of field experience. Alex started contractorcalctoolstoolsto bridge the information gap between homeowners and the construction industry.</p>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jordan Chen, Lead Engineer">
+              <circle cx="24" cy="18" r="10" fill="#f7941d" opacity=".7"/>
+              <ellipse cx="24" cy="42" rx="16" ry="12" fill="#f7941d" opacity=".5"/>
+            </svg>
+          </div>
+          <!-- TODO: Replace placeholder name and bio with real team info -->
+          <div class="team-name">Jordan Chen</div>
+          <div class="team-role">Lead Engineer</div>
+          <p class="team-bio">Full-stack developer passionate about building fast, accessible web tools. Jordan ensures every calculator is accurate, performant, and works beautifully on any device.</p>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card">
+          <div class="team-avatar">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Morgan Patel, UX Designer">
+              <circle cx="24" cy="18" r="10" fill="#28a745" opacity=".7"/>
+              <ellipse cx="24" cy="42" rx="16" ry="12" fill="#28a745" opacity=".5"/>
+            </svg>
+          </div>
+          <!-- TODO: Replace placeholder name and bio with real team info -->
+          <div class="team-name">Morgan Patel</div>
+          <div class="team-role">UX Designer</div>
+          <p class="team-bio">Specialist in accessible design and user research. Morgan makes sure our calculators feel intuitive and are usable by everyone, regardless of technical ability.</p>
+        </div>
+      </div>
+
+      <div class="team-cta">
+        <a href="/contact.html">💼 Want to join the team? Get in touch →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-heading" id="faq">
+    <div class="container">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+
+      <div class="faq-list" role="list">
+        <!-- FAQ 1 -->
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" type="button" aria-expanded="false" onclick="toggleFaq(this)">
+            <span>Are these estimates accurate for my area?</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+          </button>
+          <div class="faq-a" role="region">
+            <p>Our estimates are based on national averages from industry reports and contractor surveys. Actual costs vary widely by region, local labor rates, material availability, and site conditions. We recommend using our calculators for preliminary planning and then getting at least three quotes from local, licensed contractors for accurate pricing in your area.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" type="button" aria-expanded="false" onclick="toggleFaq(this)">
+            <span>Can I use contractorcalctoolstoolsfor final bids?</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+          </button>
+          <div class="faq-a" role="region">
+            <p>No. contractorcalctoolstoolsis designed for preliminary planning and budgeting only. Our estimates are not a substitute for professional bids, architectural plans, structural engineering review, or local building department approval. Always work with licensed professionals for final project pricing and construction decisions.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" type="button" aria-expanded="false" onclick="toggleFaq(this)">
+            <span>Where do you get your numbers?</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+          </button>
+          <div class="faq-a" role="region">
+            <p>Our cost data is compiled from publicly available remodeling reports (such as the <em>Remodeling Magazine Cost vs. Value Report</em>), contractor surveys, supplier price lists, and industry publications. We review and update our estimates periodically to reflect current market conditions, though actual project costs may differ by ±30% to ±60% depending on your specific circumstances.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESSIBILITY STATEMENT -->
+  <section class="section section-alt" aria-labelledby="a11y-heading" id="accessibility">
+    <div class="container prose">
+      <h2 id="a11y-heading">Accessibility Statement</h2>
+      <p>contractorcalctoolstoolsis committed to making our website and tools accessible to all users, including people with disabilities. We follow the <strong>Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong> as our standard.</p>
+      <div class="a11y-note">
+        <strong>Our efforts include:</strong> Semantic HTML, keyboard-navigable interfaces, visible focus indicators, sufficient color contrast, screen-reader-compatible markup, and responsive design for all devices. If you encounter any accessibility barrier, please <a href="/contact.html">contact us</a> and we will work to resolve it promptly.
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section class="contact-cta" aria-labelledby="contact-heading">
+    <div class="container">
+      <h2 id="contact-heading">Get in Touch</h2>
+      <p>We respect your privacy — we never sell your contact information. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+      <a href="/contact.html" class="btn-cta">
+        ✉️ Contact Us
+      </a>
+    </div>
+  </section>
+
+  <!-- LAST UPDATED -->
+  <div class="last-updated" aria-live="polite">
+    Last updated: <span id="lastUpdated"></span>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- About -->
+      <div class="footer-col">
+        <h4>contractorcalctools</h4>
+        <p>Free, professional-grade calculator tools for contractors and homeowners. Estimate costs, plan projects, and make better decisions.</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="sitemap.html">All Calculators</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-disclaimer">
+      All calculations and costs shown are estimates only. Actual costs vary by location, contractor, material availability, and site conditions. This site is for planning purposes only and does not replace professional estimates.
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span id="copyrightYear"></span> contractorcalctools. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="terms-of-service.html">Terms</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="sitemap.html">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   MOBILE NAV
+   ═══════════════════════════════════════════ */
+(function(){
+  var btn = document.getElementById('hamburgerBtn');
+  var nav = document.getElementById('mobileNav');
+  if(!btn||!nav) return;
+
+  btn.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    btn.classList.toggle('active', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  });
+
+  // Close on link click
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded','false');
+      btn.setAttribute('aria-label','Open navigation menu');
+    });
+  });
+
+  // Close on outside click
+  document.addEventListener('click', function(e){
+    if(!btn.contains(e.target) && !nav.contains(e.target)){
+      nav.classList.remove('open');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded','false');
+      btn.focus();
+    }
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   FAQ TOGGLE
+   ═══════════════════════════════════════════ */
+function toggleFaq(button){
+  var item = button.closest('.faq-item');
+  if(!item) return;
+  var isOpen = item.classList.contains('open');
+
+  // Close all others (accordion)
+  document.querySelectorAll('.faq-item.open').forEach(function(el){
+    if(el !== item){
+      el.classList.remove('open');
+      el.querySelector('.faq-q').setAttribute('aria-expanded','false');
+    }
+  });
+
+  item.classList.toggle('open', !isOpen);
+  button.setAttribute('aria-expanded', String(!isOpen));
+}
+
+/* ═══════════════════════════════════════════
+   DYNAMIC DATES
+   ═══════════════════════════════════════════ */
+(function(){
+  var now = new Date();
+  var year = now.getFullYear();
+
+  // Copyright year
+  var yearEl = document.getElementById('copyrightYear');
+  if(yearEl) yearEl.textContent = year;
+
+  // Last updated
+  var updatedEl = document.getElementById('lastUpdated');
+  if(updatedEl){
+    updatedEl.textContent = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  }
+
+  // Citation date
+  var citeEl = document.getElementById('citeDate');
+  if(citeEl){
+    citeEl.textContent = now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  }
+})();
+</script>
+</body>
+</html>

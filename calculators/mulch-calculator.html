@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mulch Calculator - Free Professional Mulch Estimator | contractorcalctools</title>
+  <meta name="description" content="Calculate exactly how much mulch you need. Get cubic yards, bags, weight, and cost estimates for any area shape. Free professional mulch calculator.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --primary: #1e3a5f;
+      --primary-foreground: #ffffff;
+      --secondary: #f97316;
+      --secondary-foreground: #ffffff;
+      --background: #f8fafc;
+      --foreground: #1e293b;
+      --card: #ffffff;
+      --card-foreground: #1e293b;
+      --muted: #f1f5f9;
+      --muted-foreground: #64748b;
+      --border: #e2e8f0;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --destructive: #ef4444;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--secondary), #fb923c);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--foreground);
+    }
+    
+    .logo-text span { color: var(--secondary); }
+    
+    .nav { display: flex; gap: 2rem; }
+    .nav a {
+      color: var(--muted-foreground);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--foreground); }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+    }
+    
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+    
+    /* Hero Section */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, var(--primary), #2d4a6f);
+      color: white;
+      padding: 3rem 0;
+      overflow: hidden;
+    }
+    
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .hero-content {
+      position: relative;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero h1 {
+      font-size: clamp(1.75rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+    }
+    
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 0;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      flex-wrap: wrap;
+    }
+    
+    .breadcrumb a {
+      color: var(--muted-foreground);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .breadcrumb a:hover { color: var(--foreground); }
+    .breadcrumb-sep { opacity: 0.5; }
+    .breadcrumb-current { color: var(--foreground); font-weight: 500; }
+    
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--foreground);
+      margin-bottom: 1rem;
+    }
+    
+    /* Main Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+    
+    @media (min-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr 400px;
+      }
+    }
+    
+    /* Preset Cards */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    
+    .preset-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    
+    .preset-card:hover {
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .preset-card.active {
+      border-color: var(--secondary);
+      background: rgba(249, 115, 22, 0.05);
+    }
+    
+    .preset-card .icon { font-size: 1.75rem; margin-bottom: 8px; }
+    .preset-card .name { font-weight: 500; font-size: 0.875rem; margin-bottom: 4px; }
+    .preset-card .desc { font-size: 0.75rem; color: var(--muted-foreground); }
+    
+    /* Shape Tabs */
+    .shape-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    
+    @media (min-width: 640px) {
+      .shape-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+    
+    @media (min-width: 1024px) {
+      .shape-grid { grid-template-columns: repeat(9, 1fr); }
+    }
+    
+    .shape-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 8px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .shape-btn:hover { border-color: var(--secondary); }
+    
+    .shape-btn.active {
+      border-color: var(--secondary);
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .shape-btn .icon { font-size: 1.25rem; margin-bottom: 4px; }
+    .shape-btn .name { font-size: 0.7rem; font-weight: 500; text-align: center; line-height: 1.2; }
+    
+    /* Form Controls */
+    .form-group { margin-bottom: 1rem; }
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--foreground);
+    }
+    
+    .input-wrapper { position: relative; }
+    
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      padding-right: 50px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--card);
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+    
+    .input-unit {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--card);
+      cursor: pointer;
+    }
+    
+    .form-select:focus {
+      outline: none;
+      border-color: var(--secondary);
+    }
+    
+    .input-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    .input-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .input-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    
+    @media (max-width: 640px) {
+      .input-grid-2, .input-grid-3 { grid-template-columns: 1fr; }
+    }
+    
+    /* Depth Selector */
+    .depth-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    
+    @media (min-width: 640px) {
+      .depth-grid { grid-template-columns: repeat(6, 1fr); }
+    }
+    
+    .depth-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 8px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .depth-btn:hover { border-color: var(--secondary); }
+    
+    .depth-btn.active {
+      border-color: var(--secondary);
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .depth-btn .value { font-size: 1.25rem; font-weight: 700; }
+    .depth-btn .desc { font-size: 0.7rem; opacity: 0.8; }
+    
+    .depth-btn .recommended {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: var(--success);
+      color: white;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    /* Coverage Note */
+    .coverage-note {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      text-align: right;
+    }
+    
+    /* Custom Depth Input */
+    .custom-depth-wrapper {
+      max-width: 200px;
+      margin-top: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Mulch Type Selector */
+    .mulch-select-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .mulch-info-card {
+      background: var(--muted);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .mulch-info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    
+    .mulch-info-name { font-weight: 600; color: var(--foreground); }
+    .mulch-info-desc { font-size: 0.75rem; color: var(--muted-foreground); }
+    
+    .eco-badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--success);
+    }
+    
+    .warning-badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    
+    .mulch-info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 12px;
+      font-size: 0.75rem;
+    }
+    
+    .mulch-info-grid dt { color: var(--muted-foreground); }
+    .mulch-info-grid dd { font-weight: 500; color: var(--foreground); margin-top: 2px; }
+    
+    /* Compare Toggle */
+    .compare-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: var(--secondary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    
+    .compare-toggle:hover { opacity: 0.8; }
+    
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .comparison-table th {
+      text-align: left;
+      padding: 12px;
+      background: var(--muted);
+      font-weight: 500;
+    }
+    
+    .comparison-table td {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .comparison-table tr:hover { background: var(--muted); }
+    .comparison-table tr.selected { background: rgba(249, 115, 22, 0.05); }
+    
+    .type-select-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--foreground);
+      transition: color 0.2s;
+    }
+    
+    .type-select-btn:hover { color: var(--secondary); }
+    
+    /* Advanced Options */
+    .advanced-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .advanced-grid { grid-template-columns: 1fr; }
+    }
+    
+    .slider-container { margin-top: 1rem; }
+    
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--muted);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--secondary);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-top: 4px;
+    }
+    
+    /* Switch */
+    .switch-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--muted);
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    
+    .switch-label { font-size: 0.875rem; font-weight: 500; }
+    .switch-desc { font-size: 0.75rem; color: var(--muted-foreground); margin-top: 2px; }
+    
+    .switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .switch.active { background: var(--secondary); }
+    
+    .switch-knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+    
+    .switch.active .switch-knob { transform: translateX(20px); }
+    
+    /* Calculate Button */
+    .calculate-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--secondary), #fb923c);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1.125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1.5rem;
+    }
+    
+    .calculate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+    }
+    
+    /* Results */
+    .results-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem;
+      min-height: 400px;
+    }
+    
+    .results-placeholder .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .results-placeholder h3 { font-weight: 600; margin-bottom: 8px; }
+    .results-placeholder p { color: var(--muted-foreground); font-size: 0.875rem; }
+    
+    .result-card {
+      background: linear-gradient(135deg, var(--primary), #2d5a8f);
+      color: white;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .result-label {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+    
+    .result-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .result-value span { font-size: 1.25rem; }
+    
+    .result-conversions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+    
+    .result-mulch-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .result-mulch-info .icon { font-size: 1.5rem; }
+    .result-mulch-info .name { font-weight: 600; }
+    .result-mulch-info .lifespan { opacity: 0.8; font-size: 0.875rem; }
+    
+    /* Warning/Alert */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      color: #b45309;
+    }
+    
+    .alert-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--destructive);
+    }
+    
+    .alert-icon { flex-shrink: 0; margin-top: 2px; }
+    .alert-text { font-size: 0.875rem; }
+    
+    /* Info Cards */
+    .info-card {
+      background: var(--muted);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .info-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    /* Breakdown Table */
+    .breakdown-table {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 0.875rem;
+    }
+    
+    .breakdown-table dt { color: var(--muted-foreground); }
+    .breakdown-table dd { font-weight: 500; text-align: right; }
+    
+    /* Depth Comparison Table */
+    .depth-comparison-table {
+      width: 100%;
+      font-size: 0.875rem;
+    }
+    
+    .depth-comparison-table th {
+      text-align: left;
+      padding: 8px 0;
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .depth-comparison-table td {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .depth-comparison-table tr.selected {
+      background: rgba(249, 115, 22, 0.05);
+    }
+    
+    /* Cost Comparison */
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .cost-grid { grid-template-columns: 1fr; }
+    }
+    
+    .cost-card {
+      background: var(--muted);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    
+    .cost-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      padding: 6px 0;
+    }
+    
+    .cost-row dt { color: var(--muted-foreground); }
+    .cost-row dd { font-weight: 500; }
+    
+    .cost-total {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+    
+    /* Recommendation */
+    .recommendation {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .recommendation-bulk { background: rgba(34, 197, 94, 0.1); }
+    .recommendation-bags { background: rgba(59, 130, 246, 0.1); }
+    
+    .recommendation-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .recommendation-bulk .recommendation-icon { background: rgba(34, 197, 94, 0.2); }
+    .recommendation-bags .recommendation-icon { background: rgba(59, 130, 246, 0.2); }
+    
+    .recommendation-title { font-weight: 600; margin-bottom: 4px; }
+    .recommendation-text { font-size: 0.875rem; color: var(--muted-foreground); }
+    .recommendation-savings { font-size: 0.875rem; font-weight: 500; color: var(--success); margin-top: 4px; }
+    
+    /* Season Alert */
+    .season-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .season-ideal { background: rgba(34, 197, 94, 0.1); }
+    .season-caution { background: rgba(245, 158, 11, 0.1); }
+    
+    .season-icon { font-size: 1.5rem; }
+    .season-title { font-weight: 600; }
+    .season-text { font-size: 0.875rem; color: var(--muted-foreground); }
+    
+    /* Shopping List */
+    .shopping-list { list-style: none; }
+    
+    .shopping-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    
+    .shopping-checkbox {
+      margin-top: 4px;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .shopping-name { font-weight: 500; }
+    .shopping-detail { font-size: 0.875rem; color: var(--muted-foreground); }
+    
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 1.5rem;
+    }
+    
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .action-btn:hover {
+      border-color: var(--secondary);
+      background: var(--muted);
+    }
+    
+    /* FAQ Section */
+    .faq-section { padding: 3rem 0; }
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--card);
+      border: none;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .faq-question:hover { background: var(--muted); }
+    
+    .faq-chevron {
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .faq-item.open .faq-answer { max-height: 500px; }
+    
+    .faq-answer-content {
+      padding: 0 1rem 1rem;
+      color: var(--muted-foreground);
+      line-height: 1.7;
+    }
+    
+    /* Educational Content */
+    .education-section { padding: 3rem 0; }
+    
+    .education-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .education-block { margin-bottom: 3rem; }
+    
+    .education-block h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .education-block p {
+      color: var(--muted-foreground);
+      margin-bottom: 1rem;
+    }
+    
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .benefits-grid { grid-template-columns: 1fr; }
+    }
+    
+    .benefit-card {
+      background: var(--muted);
+      padding: 1.25rem;
+      border-radius: 8px;
+    }
+    
+    .benefit-card h3 {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .benefit-card ul {
+      list-style: none;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+    
+    .benefit-card li { padding: 4px 0; }
+    
+    /* How To Steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+    
+    .step-item { text-align: center; }
+    
+    .step-number {
+      width: 48px;
+      height: 48px;
+      background: rgba(249, 115, 22, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+    
+    .step-title { font-weight: 600; margin-bottom: 8px; }
+    .step-desc { font-size: 0.875rem; color: var(--muted-foreground); }
+    
+    /* Coverage Table */
+    .coverage-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    
+    .coverage-table th,
+    .coverage-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    
+    .coverage-table th { background: var(--muted); font-weight: 500; }
+    .coverage-table tr:nth-child(even) { background: var(--muted); }
+    .coverage-table tr.recommended { background: rgba(249, 115, 22, 0.1); }
+    
+    /* Tips Grid */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .tips-grid { grid-template-columns: 1fr; }
+    }
+    
+    .tips-section h3 {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .tips-section ul {
+      list-style: none;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+    
+    .tips-section li { padding: 4px 0; }
+    
+    /* Mistakes Grid */
+    .mistakes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .mistakes-grid { grid-template-columns: 1fr; }
+    }
+    
+    .mistake-card {
+      background: rgba(239, 68, 68, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    
+    .mistake-card h3 {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .mistake-card p {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
+    
+    /* Related Calculators */
+    .related-section {
+      padding: 3rem 0;
+      background: var(--muted);
+    }
+    
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    
+    @media (max-width: 1024px) {
+      .related-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    
+    @media (max-width: 640px) {
+      .related-grid { grid-template-columns: 1fr; }
+    }
+    
+    .related-card {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .related-card:hover {
+      border-color: var(--secondary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .related-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .related-card h3 { font-weight: 600; color: var(--foreground); margin-bottom: 8px; }
+    .related-card p { font-size: 0.875rem; color: var(--muted-foreground); }
+    
+    /* Footer */
+    .footer {
+      background: var(--primary);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--secondary), #fb923c);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    
+    .footer-logo-text { font-weight: 700; font-size: 1.25rem; }
+    .footer-desc { opacity: 0.7; font-size: 0.875rem; line-height: 1.7; }
+    
+    .footer h3 { font-weight: 600; margin-bottom: 1rem; }
+    .footer ul { list-style: none; }
+    .footer li { padding: 6px 0; }
+    .footer a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .footer a:hover { color: white; }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-top: 2rem;
+      padding-top: 2rem;
+      text-align: center;
+      opacity: 0.6;
+      font-size: 0.875rem;
+    }
+    
+    /* Print Styles */
+    @media print {
+      .header, .footer, .action-buttons, .calculate-btn, .no-print { display: none !important; }
+      body { background: white; }
+      .card { box-shadow: none; border: 1px solid #ddd; }
+    }
+    
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--foreground);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon font-heading">CCT</div>
+        <span class="logo-text font-heading">Contractor<span>CalcTools</span></span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html">Home</a>
+        <a href="../sitemap.html">Sitemap</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="container hero-content">
+      <div class="hero-icon">🌿</div>
+      <h1 class="font-heading">Mulch Calculator</h1>
+      <p>Calculate exactly how much mulch you need for any project. Get instant estimates in cubic yards, bags, weight, and cost.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="../index.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Home
+      </a>
+      
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Mulch Calculator</span>
+    </nav>
+
+    <div class="main-grid">
+      <!-- Calculator Panel -->
+      <div>
+        <!-- Presets -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 class="card-title font-heading" style="margin-bottom: 0;">Quick Start Presets</h3>
+            <span style="font-size: 0.75rem; color: var(--muted-foreground);">Click to auto-fill dimensions</span>
+          </div>
+          <div class="preset-grid" id="presetGrid"></div>
+        </div>
+
+        <!-- Shape Selector -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <h3 class="card-title font-heading">Area Shape</h3>
+          <div class="shape-grid" id="shapeGrid"></div>
+        </div>
+
+        <!-- Dimension Inputs -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <h3 class="card-title font-heading">Dimensions</h3>
+          <div id="dimensionInputs"></div>
+        </div>
+
+        <!-- Depth Selector -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 class="card-title font-heading" style="margin-bottom: 0;">Mulch Depth</h3>
+            <span class="coverage-note" id="coverageNote">1 cu yd covers 108 sq ft</span>
+          </div>
+          <div class="depth-grid" id="depthGrid"></div>
+          <div class="custom-depth-wrapper hidden" id="customDepthWrapper">
+            <label class="form-label">Custom Depth</label>
+            <div class="input-wrapper">
+              <input type="number" class="form-input" id="customDepthInput" step="0.5" min="0.5" max="12" placeholder="3">
+              <span class="input-unit">inches</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mulch Type Selector -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 class="card-title font-heading" style="margin-bottom: 0;">Mulch Type</h3>
+            <button class="compare-toggle" id="compareToggle">
+              Compare Types
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="compareChevron">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <select class="form-select" id="mulchTypeSelect"></select>
+          <div class="mulch-info-card" id="mulchInfoCard"></div>
+          <div class="hidden" id="comparisonTable"></div>
+        </div>
+
+        <!-- Advanced Options -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <h3 class="card-title font-heading">Additional Options</h3>
+          <div class="advanced-grid">
+            <div class="form-group">
+              <label class="form-label">Region</label>
+              <select class="form-select" id="regionSelect">
+                <option value="northeast">Northeast (+10%)</option>
+                <option value="southeast" selected>Southeast (Base)</option>
+                <option value="midwest">Midwest (-5%)</option>
+                <option value="southwest">Southwest (Base)</option>
+                <option value="westcoast">West Coast (+15%)</option>
+                <option value="pacificnw">Pacific Northwest (+10%)</option>
+              </select>
+              <p style="font-size: 0.75rem; color: var(--muted-foreground); margin-top: 4px;" id="regionNote">Price adjustment: 0%</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Delivery Distance</label>
+              <select class="form-select" id="deliverySelect">
+                <option value="pickup">Pickup (0 mi) - Free</option>
+                <option value="local">Local (0-10 mi) - $50-75</option>
+                <option value="extended">Extended (10-25 mi) - $75-125</option>
+                <option value="longdistance">Long Distance (25+ mi) - $125-200+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Identical Areas</label>
+              <input type="number" class="form-input" id="numberOfBeds" value="1" min="1" max="50" style="padding-right: 12px;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Existing Mulch Depth (to deduct)</label>
+              <div class="input-wrapper">
+                <input type="number" class="form-input" id="existingDepth" value="0" min="0" max="4" step="0.5">
+                <span class="input-unit">inches</span>
+              </div>
+            </div>
+          </div>
+          <div class="slider-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label class="form-label" style="margin-bottom: 0;">Waste Factor: <span id="wasteValue">10</span>%</label>
+              <span style="font-size: 0.75rem; color: var(--muted-foreground);">For settling, spillage, uneven areas</span>
+            </div>
+            <input type="range" class="slider" id="wasteFactor" min="0" max="25" value="10">
+            <div class="slider-labels">
+              <span>0%</span>
+              <span>10% (Standard)</span>
+              <span>25%</span>
+            </div>
+          </div>
+          <div class="switch-container">
+            <div>
+              <div class="switch-label">Overbuy Protection</div>
+              <div class="switch-desc">Alert if ordering significantly more than needed</div>
+            </div>
+            <div class="switch active" id="overbuySwitch">
+              <div class="switch-knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <button class="calculate-btn" id="calculateBtn">Calculate Mulch Needed</button>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="card" id="resultsPanel">
+        <div class="results-placeholder" id="resultsPlaceholder">
+          <div class="icon">📐</div>
+          <h3 class="font-heading">Your Results Will Appear Here</h3>
+          <p>Enter dimensions and click Calculate to see your mulch estimate</p>
+        </div>
+        <div class="hidden" id="resultsContent"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title font-heading">Frequently Asked Questions</h2>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- Educational Content -->
+  <section class="education-section">
+    <div class="container education-content">
+      <div class="education-block">
+        <h2 class="font-heading">What is Mulch?</h2>
+        <p>Mulch is a layer of material applied to the surface of soil around plants, trees, and garden beds. It provides numerous benefits for your landscape and is one of the most effective ways to maintain healthy plants while reducing maintenance.</p>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <h3>✨ Key Benefits</h3>
+            <ul>
+              <li>• Retains soil moisture, reducing watering needs by 25-50%</li>
+              <li>• Suppresses weed growth naturally</li>
+              <li>• Regulates soil temperature in summer and winter</li>
+              <li>• Prevents soil erosion from wind and rain</li>
+              <li>• Improves soil fertility as organic mulch decomposes</li>
+              <li>• Creates a polished, professional landscape appearance</li>
+            </ul>
+          </div>
+          <div class="benefit-card">
+            <h3>📏 Recommended Depths</h3>
+            <ul>
+              <li>• <strong>2 inches:</strong> Annual refresh for existing beds</li>
+              <li>• <strong>3 inches:</strong> New beds (recommended standard)</li>
+              <li>• <strong>4 inches:</strong> New plantings, weed-prone areas</li>
+              <li>• <strong>6 inches:</strong> Playgrounds, erosion control</li>
+              <li>• Keep 3-6" away from plant stems and tree trunks</li>
+              <li>• Never exceed 4" for most landscape applications</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="education-block">
+        <h2 class="font-heading">How to Use This Calculator</h2>
+        <div class="steps-grid">
+          <div class="step-item">
+            <div class="step-number font-heading">1</div>
+            <div class="step-title">Select Your Area</div>
+            <p class="step-desc">Choose a preset or select your area shape and enter dimensions</p>
+          </div>
+          <div class="step-item">
+            <div class="step-number font-heading">2</div>
+            <div class="step-title">Choose Depth & Type</div>
+            <p class="step-desc">Select mulch depth (3" recommended) and your preferred mulch type</p>
+          </div>
+          <div class="step-item">
+            <div class="step-number font-heading">3</div>
+            <div class="step-title">Get Your Estimate</div>
+            <p class="step-desc">Click Calculate to see cubic yards, bags needed, and cost comparison</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="education-block">
+        <h2 class="font-heading">Mulch Coverage Reference</h2>
+        <p>How much area does 1 cubic yard of mulch cover at different depths?</p>
+        <div style="overflow-x: auto;">
+          <table class="coverage-table">
+            <thead>
+              <tr>
+                <th>Depth</th>
+                <th>Coverage per Cu Yd</th>
+                <th>Bags (2 cu ft) per 100 sq ft</th>
+                <th>Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1 inch</td>
+                <td>324 sq ft</td>
+                <td>4 bags</td>
+                <td>Light top-up only</td>
+              </tr>
+              <tr>
+                <td>2 inches</td>
+                <td>162 sq ft</td>
+                <td>8 bags</td>
+                <td>Annual refresh</td>
+              </tr>
+              <tr class="recommended">
+                <td><strong>3 inches ✓</strong></td>
+                <td><strong>108 sq ft</strong></td>
+                <td><strong>12-13 bags</strong></td>
+                <td><strong>Recommended standard</strong></td>
+              </tr>
+              <tr>
+                <td>4 inches</td>
+                <td>81 sq ft</td>
+                <td>17 bags</td>
+                <td>New beds, heavy weeds</td>
+              </tr>
+              <tr>
+                <td>6 inches</td>
+                <td>54 sq ft</td>
+                <td>25 bags</td>
+                <td>Playgrounds, pathways</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="education-block">
+        <h2 class="font-heading">💰 Cost-Saving Tips</h2>
+        <div class="tips-grid">
+          <div class="tips-section">
+            <h3>Buying Smart</h3>
+            <ul>
+              <li>• Buy off-season (fall) for 20-30% discounts</li>
+              <li>• Purchase bulk if you need 3+ cubic yards</li>
+              <li>• Check for volume discounts at 5+ cu yd</li>
+              <li>• Compare Home Depot, Lowe's, and local nurseries</li>
+              <li>• Look for end-of-season clearance sales</li>
+            </ul>
+          </div>
+          <div class="tips-section">
+            <h3>Reduce Quantity Needed</h3>
+            <ul>
+              <li>• Use 2" depth for refresh vs 3" for new beds</li>
+              <li>• Account for existing mulch depth</li>
+              <li>• Use landscape fabric as base layer</li>
+              <li>• Edge beds properly to prevent migration</li>
+              <li>• Contact local arborists for free wood chips</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="education-block">
+        <h2 class="font-heading">⚠️ Common Mulching Mistakes</h2>
+        <div class="mistakes-grid">
+          <div class="mistake-card">
+            <h3>🌋 Volcano Mulching</h3>
+            <p>Piling mulch against tree trunks causes rot, pest problems, and tree death. Keep 3-6" gap.</p>
+          </div>
+          <div class="mistake-card">
+            <h3>📏 Too Deep</h3>
+            <p>Over 4" prevents water and air from reaching soil. Stick to 2-4" for most applications.</p>
+          </div>
+          <div class="mistake-card">
+            <h3>💧 Too Shallow</h3>
+            <p>Under 2" won't suppress weeds or retain moisture effectively. Minimum 2" recommended.</p>
+          </div>
+          <div class="mistake-card">
+            <h3>🛒 Buying Too Much</h3>
+            <p>Measure carefully and use our calculator. Extra mulch wastes money and storage space.</p>
+          </div>
+          <div class="mistake-card">
+            <h3>🌿 Wrong Type</h3>
+            <p>Some mulches harm certain plants. Research compatibility before purchasing.</p>
+          </div>
+          <div class="mistake-card">
+            <h3>🥕 Dyed Near Edibles</h3>
+            <p>Avoid dyed or rubber mulch near vegetable gardens. Use natural organic options instead.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Calculators -->
+  <section class="related-section">
+    <div class="container">
+      <h2 class="section-title font-heading">Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/" class="related-card">
+          <div class="icon">🧱</div>
+          <h3 class="font-heading">Concrete Calculator</h3>
+          <p>Calculate cubic yards of concrete for slabs, footings, and columns</p>
+        </a>
+        <a href="/" class="related-card">
+          <div class="icon">🪨</div>
+          <h3 class="font-heading">Gravel Calculator</h3>
+          <p>Estimate gravel, stone, and aggregate for driveways and paths</p>
+        </a>
+        <a href="/" class="related-card">
+          <div class="icon">🎨</div>
+          <h3 class="font-heading">Paint Calculator</h3>
+          <p>Calculate gallons of paint needed for interior and exterior</p>
+        </a>
+        <a href="/" class="related-card">
+          <div class="icon">🌱</div>
+          <h3 class="font-heading">Soil Calculator</h3>
+          <p>Determine topsoil and garden soil for raised beds and lawns</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <div class="footer-logo-icon font-heading">CCT</div>
+            <span class="footer-logo-text font-heading">contractorcalctools</span>
+          </div>
+          <p class="footer-desc">Free professional calculators for contractors and homeowners. Accurate estimates for all your construction and landscaping projects.</p>
+        </div>
+        <div>
+          <h3 class="font-heading">Calculators</h3>
+          <ul>
+            <li><a href="mulch-calculator.html">Mulch Calculator</a></li>
+            <li><a href="concrete-calculator.html">Concrete Calculator</a></li>
+            <li><a href="topsoil-calculator.html">Topsoil Calculator</a></li>
+            <li><a href="paint-calculator.html">Paint Calculator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-heading">Company</h3>
+          <ul>
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+            <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="../terms-of-service.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © <span id="currentYear"></span> contractorcalctools. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== DATA =====
+    const PRESETS = [
+      { id: 'small-garden', name: 'Small Garden Bed', icon: '🌸', description: 'Typical flower bed', shape: 'rectangle', dimensions: { length: 6, width: 4 }, suggestedDepth: 3, suggestedMulchType: 'natural' },
+      { id: 'medium-garden', name: 'Medium Garden Bed', icon: '🌺', description: 'Standard landscaping bed', shape: 'rectangle', dimensions: { length: 10, width: 6 }, suggestedDepth: 3, suggestedMulchType: 'natural' },
+      { id: 'large-garden', name: 'Large Garden Bed', icon: '🌻', description: 'Extended border bed', shape: 'rectangle', dimensions: { length: 20, width: 8 }, suggestedDepth: 3, suggestedMulchType: 'natural' },
+      { id: 'tree-small', name: 'Tree Ring (Small)', icon: '🌳', description: 'Young tree mulch ring', shape: 'circleBorder', dimensions: { outerDiameter: 4, innerDiameter: 0.5 }, suggestedDepth: 3, suggestedMulchType: 'cedar' },
+      { id: 'tree-medium', name: 'Tree Ring (Medium)', icon: '🌲', description: 'Mature tree ring', shape: 'circleBorder', dimensions: { outerDiameter: 6, innerDiameter: 1 }, suggestedDepth: 3, suggestedMulchType: 'cedar' },
+      { id: 'tree-large', name: 'Tree Ring (Large)', icon: '🌴', description: 'Large shade tree', shape: 'circleBorder', dimensions: { outerDiameter: 10, innerDiameter: 1.5 }, suggestedDepth: 3, suggestedMulchType: 'cedar' },
+      { id: 'pathway-short', name: 'Pathway (Short)', icon: '🚶', description: 'Garden walkway', shape: 'rectangle', dimensions: { length: 10, width: 3 }, suggestedDepth: 3, suggestedMulchType: 'brown' },
+      { id: 'pathway-long', name: 'Pathway (Long)', icon: '🛤️', description: 'Extended pathway', shape: 'rectangle', dimensions: { length: 25, width: 3 }, suggestedDepth: 3, suggestedMulchType: 'brown' },
+      { id: 'playground', name: 'Playground Area', icon: '🎪', description: 'Kids play zone', shape: 'rectangle', dimensions: { length: 15, width: 12 }, suggestedDepth: 6, suggestedMulchType: 'rubber' },
+      { id: 'foundation', name: 'Foundation Bed', icon: '🏠', description: 'House perimeter', shape: 'rectangle', dimensions: { length: 30, width: 4 }, suggestedDepth: 3, suggestedMulchType: 'brown' }
+    ];
+
+    const MULCH_TYPES = [
+      { id: 'natural', name: 'Natural Hardwood', colorEmoji: '🟤', lifespan: '1-2 years', maintenance: 'Medium', ecoFriendly: 'yes', bulkMin: 30, bulkMax: 45, bagMin: 3.50, bagMax: 4.50, weightPerCuYd: 600, description: 'Classic, natural look that enriches soil' },
+      { id: 'black', name: 'Dyed Black', colorEmoji: '⚫', lifespan: '1-2 years', maintenance: 'Medium', ecoFriendly: 'check', bulkMin: 35, bulkMax: 50, bagMin: 4.00, bagMax: 5.50, weightPerCuYd: 600, description: 'Bold contrast, modern appearance' },
+      { id: 'brown', name: 'Dyed Brown', colorEmoji: '🟤', lifespan: '1-2 years', maintenance: 'Medium', ecoFriendly: 'check', bulkMin: 35, bulkMax: 50, bagMin: 4.00, bagMax: 5.50, weightPerCuYd: 600, description: 'Rich color that complements landscapes' },
+      { id: 'red', name: 'Dyed Red', colorEmoji: '🔴', lifespan: '1-2 years', maintenance: 'Medium', ecoFriendly: 'check', bulkMin: 35, bulkMax: 50, bagMin: 4.00, bagMax: 5.50, weightPerCuYd: 600, description: 'Vibrant accent for bold designs' },
+      { id: 'cedar', name: 'Cedar Mulch', colorEmoji: '🟠', lifespan: '2-3 years', maintenance: 'Low', ecoFriendly: 'yes', bulkMin: 45, bulkMax: 60, bagMin: 5.00, bagMax: 7.00, weightPerCuYd: 500, description: 'Natural insect repellent, aromatic' },
+      { id: 'pine', name: 'Pine Bark', colorEmoji: '🟤', lifespan: '1-2 years', maintenance: 'Medium', ecoFriendly: 'yes', bulkMin: 35, bulkMax: 50, bagMin: 4.00, bagMax: 5.50, weightPerCuYd: 550, description: 'Slightly acidic, great for acid-loving plants' },
+      { id: 'cypress', name: 'Cypress Mulch', colorEmoji: '🟡', lifespan: '2-3 years', maintenance: 'Low', ecoFriendly: 'concern', bulkMin: 40, bulkMax: 55, bagMin: 4.50, bagMax: 6.00, weightPerCuYd: 575, description: 'Durable, but sustainability concerns' },
+      { id: 'straw', name: 'Straw Mulch', colorEmoji: '🟡', lifespan: '6-12 months', maintenance: 'High', ecoFriendly: 'yes', bulkMin: 25, bulkMax: 35, bagMin: 3.00, bagMax: 4.00, weightPerCuYd: 150, description: 'Great for vegetable gardens' },
+      { id: 'cocoa', name: 'Cocoa Hull Mulch', colorEmoji: '🟤', lifespan: '1 year', maintenance: 'Medium', ecoFriendly: 'yes', bulkMin: 50, bulkMax: 70, bagMin: 6.00, bagMax: 8.00, weightPerCuYd: 400, description: 'Chocolate aroma, toxic to dogs' },
+      { id: 'rubber', name: 'Rubber Mulch', colorEmoji: '⚫', lifespan: '10+ years', maintenance: 'Very Low', ecoFriendly: 'no', bulkMin: 80, bulkMax: 150, bagMin: 8.00, bagMax: 12.00, weightPerCuYd: 1200, description: 'Long-lasting, ideal for playgrounds' },
+      { id: 'stone', name: 'Decorative Stone', colorEmoji: '⚪', lifespan: 'Permanent', maintenance: 'Very Low', ecoFriendly: 'check', bulkMin: 50, bulkMax: 100, bagMin: 5.00, bagMax: 10.00, weightPerCuYd: 2700, description: 'Permanent, no nutrients added' }
+    ];
+
+    const SHAPES = [
+      { id: 'rectangle', name: 'Rectangle', icon: '⬛' },
+      { id: 'circle', name: 'Circle', icon: '⭕' },
+      { id: 'triangle', name: 'Triangle', icon: '🔺' },
+      { id: 'trapezoid', name: 'Trapezoid', icon: '⏢' },
+      { id: 'rectangleBorder', name: 'Rect Border', icon: '⬜' },
+      { id: 'circleBorder', name: 'Circle Ring', icon: '🔘' },
+      { id: 'lShape', name: 'L-Shape', icon: '📐' },
+      { id: 'irregular', name: 'Irregular', icon: '🌊' },
+      { id: 'custom', name: 'Custom', icon: '✏️' }
+    ];
+
+    const DEPTH_OPTIONS = [
+      { value: 1, label: '1"', description: 'Light refresh' },
+      { value: 2, label: '2"', description: 'Standard refresh' },
+      { value: 3, label: '3"', description: 'Recommended', recommended: true },
+      { value: 4, label: '4"', description: 'New beds' },
+      { value: 6, label: '6"', description: 'Playgrounds' }
+    ];
+
+    const REGIONAL_MULTIPLIERS = {
+      northeast: 1.10,
+      southeast: 1.00,
+      midwest: 0.95,
+      southwest: 1.00,
+      westcoast: 1.15,
+      pacificnw: 1.10
+    };
+
+    const DELIVERY_COSTS = {
+      pickup: { min: 0, max: 0 },
+      local: { min: 50, max: 75 },
+      extended: { min: 75, max: 125 },
+      longdistance: { min: 125, max: 200 }
+    };
+
+    const FAQ_DATA = [
+      { question: "How much mulch do I need for a 10×10 area?", answer: "For a 100 sq ft area at the recommended 3-inch depth, you need approximately 0.93 cubic yards (25 cubic feet) of mulch. This equals about 13 bags of 2 cu ft mulch. We recommend adding 10% extra for settling and edges, bringing the total to about 14-15 bags." },
+      { question: "How many bags of mulch are in a cubic yard?", answer: "The number of bags depends on bag size: 1 cubic yard equals 27 bags of 1 cu ft size, 18 bags of 1.5 cu ft size, 13.5 bags of 2 cu ft size (the most common), or 9 bags of 3 cu ft size." },
+      { question: "How long does mulch last?", answer: "Most organic mulches last 1-2 years before needing replacement. Cedar and cypress can last 2-3 years due to natural decay resistance. Rubber mulch can last 10+ years but doesn't add nutrients to soil. Plan to refresh organic mulch annually for best appearance." },
+      { question: "Is bulk or bagged mulch cheaper?", answer: "Bulk mulch is typically 40-50% cheaper for quantities over 3 cubic yards. Below 2 cubic yards, bags may be more economical when factoring in delivery costs ($50-100). Consider your vehicle capacity and physical ability to spread bulk mulch." },
+      { question: "How much does mulch cost per cubic yard?", answer: "Mulch costs vary by type and region: Natural hardwood ($30-45/cu yd), dyed mulch ($35-50/cu yd), cedar ($45-60/cu yd), rubber ($80-150/cu yd). Add $50-100 for delivery. Prices are typically 10-15% higher on the coasts and in urban areas." },
+      { question: "How deep should mulch be around trees?", answer: "Apply 2-4 inches of mulch around trees, extending to the drip line if possible, but keep it 3-6 inches away from the trunk. Never pile mulch against the tree trunk (called \"volcano mulching\") as this can cause bark rot, pest problems, root girdling, and tree death." },
+      { question: "What's the best mulch for vegetable gardens?", answer: "For vegetable gardens, use straw, shredded leaves, grass clippings, or untreated wood chips. Avoid dyed mulch, rubber mulch, or chemically treated products near edibles. Organic mulches break down and improve soil quality over time." },
+      { question: "When is the best time to apply mulch?", answer: "Early spring (after soil warms but before weeds emerge) and early fall (to insulate for winter) are ideal. Avoid mulching in winter when ground is frozen or in peak summer heat. Apply in morning or evening on cool, calm days." }
+    ];
+
+    // ===== STATE =====
+    let state = {
+      selectedPreset: null,
+      selectedShape: 'rectangle',
+      dimensions: { length: 10, width: 10 },
+      selectedDepth: 3,
+      customDepth: 3,
+      isCustomDepth: false,
+      mulchType: 'natural',
+      region: 'southeast',
+      deliveryDistance: 'pickup',
+      wasteFactor: 10,
+      existingDepth: 0,
+      numberOfBeds: 1,
+      overbuyProtection: true,
+      showComparison: false,
+      result: null
+    };
+
+    // ===== UTILITY FUNCTIONS =====
+    function formatNumber(num, decimals = 2) {
+      return num.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+
+    function formatCurrency(num) {
+      return num.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    function getSlopeFactor(grade) {
+      const factors = { flat: 1.0, gentle: 1.05, moderate: 1.10, steep: 1.15 };
+      return factors[grade] || 1.0;
+    }
+
+    function getCurrentSeason() {
+      const month = new Date().getMonth();
+      if (month >= 2 && month <= 4) return { season: 'Spring', recommendation: 'Ideal time to apply mulch', isIdeal: true };
+      if (month >= 5 && month <= 7) return { season: 'Summer', recommendation: 'Water thoroughly before and after mulching', isIdeal: false };
+      if (month >= 8 && month <= 10) return { season: 'Fall', recommendation: 'Good time for winter insulation', isIdeal: true };
+      return { season: 'Winter', recommendation: 'Wait until spring in most regions', isIdeal: false };
+    }
+
+    function getEcoLabel(eco) {
+      switch (eco) {
+        case 'yes': return '<span class="eco-badge">✅ Eco-friendly</span>';
+        case 'check': return '<span class="warning-badge">⚠️ Check source</span>';
+        case 'concern': return '<span class="warning-badge">⚠️ Sustainability</span>';
+        case 'no': return '<span style="color: var(--destructive); font-size: 0.75rem;">❌ Not eco</span>';
+        default: return '';
+      }
+    }
+
+    // ===== CALCULATION FUNCTIONS =====
+    function calculateArea(shape, dimensions) {
+      switch (shape) {
+        case 'rectangle':
+          return (dimensions.length || 0) * (dimensions.width || 0);
+        case 'circle':
+          return Math.PI * Math.pow((dimensions.diameter || 0) / 2, 2);
+        case 'triangle':
+          return ((dimensions.base || 0) * (dimensions.height || 0)) / 2;
+        case 'trapezoid':
+          return (((dimensions.sideA || 0) + (dimensions.sideB || 0)) / 2) * (dimensions.height || 0);
+        case 'rectangleBorder': {
+          const outerArea = (dimensions.outerLength || 0) * (dimensions.outerWidth || 0);
+          const innerLength = (dimensions.outerLength || 0) - 2 * (dimensions.borderWidth || 0);
+          const innerWidth = (dimensions.outerWidth || 0) - 2 * (dimensions.borderWidth || 0);
+          return outerArea - Math.max(0, innerLength * innerWidth);
+        }
+        case 'circleBorder': {
+          const outerCircleArea = Math.PI * Math.pow((dimensions.outerDiameter || 0) / 2, 2);
+          const innerCircleArea = Math.PI * Math.pow((dimensions.innerDiameter || 0) / 2, 2);
+          return outerCircleArea - innerCircleArea;
+        }
+        case 'lShape': {
+          const totalArea = (dimensions.totalLength || 0) * (dimensions.totalWidth || 0);
+          const cutoutArea = (dimensions.cutoutLength || 0) * (dimensions.cutoutWidth || 0);
+          return totalArea - cutoutArea;
+        }
+        case 'irregular':
+          return (dimensions.area || 0) * getSlopeFactor(dimensions.slopeGrade || 'flat');
+        case 'custom':
+          return dimensions.area || 0;
+        default:
+          return 0;
+      }
+    }
+
+    function calculatePerimeter(shape, dimensions) {
+      switch (shape) {
+        case 'rectangle':
+          return 2 * ((dimensions.length || 0) + (dimensions.width || 0));
+        case 'circle':
+          return Math.PI * (dimensions.diameter || 0);
+        case 'triangle': {
+          const side = Math.sqrt(Math.pow((dimensions.base || 0) / 2, 2) + Math.pow(dimensions.height || 0, 2));
+          return (dimensions.base || 0) + 2 * side;
+        }
+        case 'circleBorder':
+          return Math.PI * (dimensions.outerDiameter || 0);
+        case 'rectangleBorder':
+          return 2 * ((dimensions.outerLength || 0) + (dimensions.outerWidth || 0));
+        case 'custom':
+        case 'irregular':
+          return Math.sqrt(dimensions.area || 0) * 4;
+        default:
+          return 0;
+      }
+    }
+
+    function calculateMulch() {
+      const depth = state.isCustomDepth ? state.customDepth : state.selectedDepth;
+      const areaSqFt = calculateArea(state.selectedShape, state.dimensions);
+      const perimeterFt = calculatePerimeter(state.selectedShape, state.dimensions);
+      
+      const effectiveDepth = Math.max(0, depth - state.existingDepth);
+      const depthFeet = effectiveDepth / 12;
+      const volumeCuFt = areaSqFt * depthFeet;
+      const volumeWithWaste = volumeCuFt * (1 + state.wasteFactor / 100);
+      const totalVolume = volumeWithWaste * state.numberOfBeds;
+      const cubicYards = totalVolume / 27;
+      
+      const mulchInfo = MULCH_TYPES.find(m => m.id === state.mulchType);
+      const regionalMultiplier = REGIONAL_MULTIPLIERS[state.region];
+      const deliveryCost = DELIVERY_COSTS[state.deliveryDistance];
+      
+      const bags1_5CuFt = Math.ceil(totalVolume / 1.5);
+      const bags2CuFt = Math.ceil(totalVolume / 2);
+      const bags3CuFt = Math.ceil(totalVolume / 3);
+      
+      const weightLbs = cubicYards * mulchInfo.weightPerCuYd;
+      
+      const bulkCostMin = cubicYards * mulchInfo.bulkMin * regionalMultiplier;
+      const bulkCostMax = cubicYards * mulchInfo.bulkMax * regionalMultiplier;
+      const bagCostMin = bags2CuFt * mulchInfo.bagMin * regionalMultiplier;
+      const bagCostMax = bags2CuFt * mulchInfo.bagMax * regionalMultiplier;
+      
+      const totalBulkMin = bulkCostMin + deliveryCost.min;
+      const totalBulkMax = bulkCostMax + deliveryCost.max;
+      const totalBagMin = bagCostMin;
+      const totalBagMax = bagCostMax;
+      
+      const depthComparison = [2, 3, 4].map(d => {
+        const dFeet = d / 12;
+        const vol = areaSqFt * dFeet * (1 + state.wasteFactor / 100) * state.numberOfBeds;
+        const cy = vol / 27;
+        const bags = Math.ceil(vol / 2);
+        return {
+          depth: d,
+          cubicYards: cy,
+          bags2CuFt: bags,
+          costMin: cy * mulchInfo.bulkMin * regionalMultiplier,
+          costMax: cy * mulchInfo.bulkMax * regionalMultiplier
+        };
+      });
+      
+      const warnings = [];
+      if (state.wasteFactor > 15) {
+        warnings.push({ type: 'warning', message: 'High waste factor (>15%) may result in excess mulch. Consider reducing unless area is very uneven.' });
+      }
+      if (state.overbuyProtection && cubicYards > 10 && areaSqFt < 500) {
+        warnings.push({ type: 'alert', message: 'Volume seems high for this area size. Please verify your measurements.' });
+      }
+      
+      let recommendation = '';
+      let savings = 0;
+      let savingsOption = 'bulk';
+      
+      if (cubicYards >= 3) {
+        const avgBulk = (totalBulkMin + totalBulkMax) / 2;
+        const avgBag = (totalBagMin + totalBagMax) / 2;
+        savings = avgBag - avgBulk;
+        if (savings > 0) {
+          recommendation = `Bulk delivery recommended. Save approximately ${formatCurrency(savings)} compared to bags.`;
+        } else {
+          recommendation = 'Bagged mulch may be more economical for your quantity.';
+          savings = avgBulk - avgBag;
+          savingsOption = 'bags';
+        }
+      } else if (cubicYards >= 1) {
+        recommendation = 'For 1-3 cubic yards, compare local bulk pickup vs. bagged prices.';
+      } else {
+        recommendation = 'For smaller quantities, bagged mulch is usually most convenient.';
+        savingsOption = 'bags';
+      }
+      
+      state.result = {
+        areaSqFt,
+        areaSqM: areaSqFt * 0.0929,
+        perimeterFt,
+        perimeterM: perimeterFt * 0.3048,
+        volumeCuFt: totalVolume,
+        volumeCuYd: cubicYards,
+        volumeCuM: totalVolume * 0.0283168,
+        bags1_5CuFt,
+        bags2CuFt,
+        bags3CuFt,
+        weightLbs,
+        weightKg: weightLbs * 0.453592,
+        weightTons: weightLbs / 2000,
+        bulkCostMin,
+        bulkCostMax,
+        bagCostMin,
+        bagCostMax,
+        deliveryCostMin: deliveryCost.min,
+        deliveryCostMax: deliveryCost.max,
+        totalBulkMin,
+        totalBulkMax,
+        totalBagMin,
+        totalBagMax,
+        depthComparison,
+        warnings,
+        recommendation,
+        savings: Math.abs(savings),
+        savingsOption,
+        depth,
+        mulchInfo
+      };
+      
+      renderResults();
+    }
+
+    // ===== RENDER FUNCTIONS =====
+    function renderPresets() {
+      const container = document.getElementById('presetGrid');
+      container.innerHTML = PRESETS.map(preset => `
+        <button class="preset-card ${state.selectedPreset === preset.id ? 'active' : ''}" data-preset="${preset.id}">
+          <div class="icon">${preset.icon}</div>
+          <div class="name">${preset.name}</div>
+          <div class="desc">${preset.description}</div>
+        </button>
+      `).join('');
+    }
+
+    function renderShapes() {
+      const container = document.getElementById('shapeGrid');
+      container.innerHTML = SHAPES.map(shape => `
+        <button class="shape-btn ${state.selectedShape === shape.id ? 'active' : ''}" data-shape="${shape.id}">
+          <div class="icon">${shape.icon}</div>
+          <div class="name">${shape.name}</div>
+        </button>
+      `).join('');
+    }
+
+    function renderDimensionInputs() {
+      const container = document.getElementById('dimensionInputs');
+      let html = '';
+      
+      const createInput = (key, label, placeholder, unit = 'ft') => `
+        <div class="form-group">
+          <label class="form-label">${label}</label>
+          <div class="input-wrapper">
+            <input type="number" class="form-input dimension-input" data-key="${key}" 
+                   step="0.1" min="0.1" placeholder="${placeholder}" 
+                   value="${state.dimensions[key] || ''}">
+            <span class="input-unit">${unit}</span>
+          </div>
+        </div>
+      `;
+      
+      switch (state.selectedShape) {
+        case 'rectangle':
+          html = `<div class="input-grid input-grid-2">
+            ${createInput('length', 'Length', '20')}
+            ${createInput('width', 'Width', '10')}
+          </div>`;
+          break;
+        case 'circle':
+          html = createInput('diameter', 'Diameter', '15');
+          break;
+        case 'triangle':
+          html = `<div class="input-grid input-grid-2">
+            ${createInput('base', 'Base', '12')}
+            ${createInput('height', 'Height', '8')}
+          </div>`;
+          break;
+        case 'trapezoid':
+          html = `<div class="input-grid input-grid-3">
+            ${createInput('sideA', 'Parallel Side A', '10')}
+            ${createInput('sideB', 'Parallel Side B', '6')}
+            ${createInput('height', 'Height', '8')}
+          </div>`;
+          break;
+        case 'rectangleBorder':
+          html = `<div class="input-grid input-grid-3">
+            ${createInput('outerLength', 'Outer Length', '20')}
+            ${createInput('outerWidth', 'Outer Width', '15')}
+            ${createInput('borderWidth', 'Border Width', '2')}
+          </div>`;
+          break;
+        case 'circleBorder':
+          html = `<div class="input-grid input-grid-2">
+            ${createInput('outerDiameter', 'Outer Diameter', '10')}
+            ${createInput('innerDiameter', 'Inner Diameter', '2')}
+          </div>
+          <p style="font-size: 0.75rem; color: var(--muted-foreground); margin-top: 8px;">💡 Keep inner diameter 6-12 inches from tree trunk</p>`;
+          break;
+        case 'lShape':
+          html = `<div class="input-grid input-grid-2">
+            ${createInput('totalLength', 'Total Length', '15')}
+            ${createInput('totalWidth', 'Total Width', '10')}
+            ${createInput('cutoutLength', 'Cutout Length', '8')}
+            ${createInput('cutoutWidth', 'Cutout Width', '5')}
+          </div>`;
+          break;
+        case 'irregular':
+          html = `<div class="input-grid input-grid-2">
+            <div class="form-group">
+              <label class="form-label">Estimated Area</label>
+              <div class="input-wrapper">
+                <input type="number" class="form-input dimension-input" data-key="area" 
+                       step="1" min="1" placeholder="150" value="${state.dimensions.area || ''}">
+                <span class="input-unit">sq ft</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Slope Grade</label>
+              <select class="form-select" id="slopeGradeSelect">
+                <option value="flat" ${state.dimensions.slopeGrade === 'flat' ? 'selected' : ''}>Flat (0-5%)</option>
+                <option value="gentle" ${state.dimensions.slopeGrade === 'gentle' ? 'selected' : ''}>Gentle (5-10%)</option>
+                <option value="moderate" ${state.dimensions.slopeGrade === 'moderate' ? 'selected' : ''}>Moderate (10-20%)</option>
+                <option value="steep" ${state.dimensions.slopeGrade === 'steep' ? 'selected' : ''}>Steep (20%+)</option>
+              </select>
+            </div>
+          </div>`;
+          break;
+        case 'custom':
+          html = `
+            <div class="form-group">
+              <label class="form-label">Total Area</label>
+              <div class="input-wrapper">
+                <input type="number" class="form-input dimension-input" data-key="area" 
+                       step="1" min="1" placeholder="200" value="${state.dimensions.area || ''}">
+                <span class="input-unit">sq ft</span>
+              </div>
+            </div>`;
+          break;
+      }
+      
+      container.innerHTML = html;
+    }
+
+    function renderDepthSelector() {
+      const container = document.getElementById('depthGrid');
+      const depth = state.isCustomDepth ? state.customDepth : state.selectedDepth;
+      
+      let html = DEPTH_OPTIONS.map(option => `
+        <button class="depth-btn ${!state.isCustomDepth && state.selectedDepth === option.value ? 'active' : ''}" data-depth="${option.value}">
+          ${option.recommended ? '<span class="recommended">✓</span>' : ''}
+          <div class="value">${option.label}</div>
+          <div class="desc">${option.description}</div>
+        </button>
+      `).join('');
+      
+      html += `
+        <button class="depth-btn ${state.isCustomDepth ? 'active' : ''}" id="customDepthBtn">
+          <div class="value">✏️</div>
+          <div class="desc">Custom</div>
+        </button>
+      `;
+      
+      container.innerHTML = html;
+      
+      document.getElementById('coverageNote').textContent = 
+        depth > 0 ? `1 cu yd covers ${Math.round(324 / depth)} sq ft` : '1 cu yd covers — sq ft';
+      
+      const customWrapper = document.getElementById('customDepthWrapper');
+      if (state.isCustomDepth) {
+        customWrapper.classList.remove('hidden');
+      } else {
+        customWrapper.classList.add('hidden');
+      }
+    }
+
+    function renderMulchTypeSelector() {
+      const select = document.getElementById('mulchTypeSelect');
+      select.innerHTML = MULCH_TYPES.map(mulch => `
+        <option value="${mulch.id}" ${state.mulchType === mulch.id ? 'selected' : ''}>
+          ${mulch.colorEmoji} ${mulch.name} (${mulch.lifespan})
+        </option>
+      `).join('');
+      
+      renderMulchInfo();
+    }
+
+    function renderMulchInfo() {
+      const mulch = MULCH_TYPES.find(m => m.id === state.mulchType);
+      const container = document.getElementById('mulchInfoCard');
+      
+      container.innerHTML = `
+        <div class="mulch-info-header">
+          <div>
+            <div class="mulch-info-name">${mulch.name}</div>
+            <div class="mulch-info-desc">${mulch.description}</div>
+          </div>
+          ${getEcoLabel(mulch.ecoFriendly)}
+        </div>
+        <dl class="mulch-info-grid">
+          <div>
+            <dt>Lifespan</dt>
+            <dd>${mulch.lifespan}</dd>
+          </div>
+          <div>
+            <dt>Maintenance</dt>
+            <dd>${mulch.maintenance}</dd>
+          </div>
+          <div>
+            <dt>Bulk Price</dt>
+            <dd>$${mulch.bulkMin}-$${mulch.bulkMax}/yd³</dd>
+          </div>
+        </dl>
+      `;
+    }
+
+    function renderComparisonTable() {
+      const container = document.getElementById('comparisonTable');
+      
+      if (!state.showComparison) {
+        container.classList.add('hidden');
+        return;
+      }
+      
+      container.classList.remove('hidden');
+      container.innerHTML = `
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Lifespan</th>
+              <th>Maintenance</th>
+              <th>Bulk $/yd³</th>
+              <th>Eco</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${MULCH_TYPES.map(mulch => `
+              <tr class="${mulch.id === state.mulchType ? 'selected' : ''}">
+                <td>
+                  <button class="type-select-btn" data-type="${mulch.id}">
+                    ${mulch.colorEmoji} ${mulch.name}
+                  </button>
+                </td>
+                <td>${mulch.lifespan}</td>
+                <td>${mulch.maintenance}</td>
+                <td>$${mulch.bulkMin}-$${mulch.bulkMax}</td>
+                <td>${getEcoLabel(mulch.ecoFriendly)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderResults() {
+      const placeholder = document.getElementById('resultsPlaceholder');
+      const content = document.getElementById('resultsContent');
+      const r = state.result;
+      
+      if (!r) {
+        placeholder.classList.remove('hidden');
+        content.classList.add('hidden');
+        return;
+      }
+      
+      placeholder.classList.add('hidden');
+      content.classList.remove('hidden');
+      
+      const season = getCurrentSeason();
+      const depth = state.isCustomDepth ? state.customDepth : state.selectedDepth;
+      
+      let warningsHtml = '';
+      if (r.warnings.length > 0) {
+        warningsHtml = r.warnings.map(w => `
+          <div class="alert ${w.type === 'alert' ? 'alert-error' : 'alert-warning'}">
+            <svg class="alert-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span class="alert-text">${w.message}</span>
+          </div>
+        `).join('');
+      }
+      
+      content.innerHTML = `
+        <!-- Primary Result -->
+        <div class="result-card">
+          <p class="result-label">Mulch Needed</p>
+          <p class="result-value font-heading">${formatNumber(r.volumeCuYd)} <span>Cubic Yards</span></p>
+          <div class="result-conversions">
+            <span>${formatNumber(r.volumeCuFt, 0)} cu ft</span>
+            <span>•</span>
+            <span>${formatNumber(r.volumeCuM)} m³</span>
+          </div>
+          <div class="result-mulch-info">
+            <span class="icon">${r.mulchInfo.colorEmoji}</span>
+            <div>
+              <div class="name">${r.mulchInfo.name}</div>
+              <div class="lifespan">Lifespan: ${r.mulchInfo.lifespan}</div>
+            </div>
+          </div>
+        </div>
+        
+        ${warningsHtml}
+        
+        <!-- Depth Comparison -->
+        <div class="info-card">
+          <div class="info-card-title">📊 Depth Comparison</div>
+          <table class="depth-comparison-table">
+            <thead>
+              <tr>
+                <th>Depth</th>
+                <th>Cu Yds</th>
+                <th>Bags (2cf)</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${r.depthComparison.map(item => `
+                <tr class="${item.depth === depth ? 'selected' : ''}">
+                  <td>${item.depth}" ${item.depth === depth ? '✓' : ''}</td>
+                  <td>${formatNumber(item.cubicYards)}</td>
+                  <td>${item.bags2CuFt} bags</td>
+                  <td>${formatCurrency(item.costMin)}-${formatCurrency(item.costMax)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Calculation Breakdown -->
+        <div class="info-card">
+          <div class="info-card-title">Calculation Breakdown</div>
+          <dl class="breakdown-table">
+            <dt>Total Area</dt>
+            <dd>${formatNumber(r.areaSqFt, 0)} sq ft</dd>
+            <dt>Mulch Depth</dt>
+            <dd>${depth} inches</dd>
+            <dt>Total Volume</dt>
+            <dd>${formatNumber(r.volumeCuYd)} cu yd</dd>
+            <dt>Weight</dt>
+            <dd>${formatNumber(r.weightLbs, 0)} lbs (${formatNumber(r.weightTons)} tons)</dd>
+          </dl>
+        </div>
+        
+        <!-- Cost Comparison -->
+        <div class="info-card">
+          <div class="info-card-title">💰 Cost Comparison</div>
+          <div class="cost-grid">
+            <div class="cost-card">
+              <div class="cost-card-header">🛒 Bagged Mulch</div>
+              <dl>
+                <div class="cost-row"><dt>1.5 cu ft bags</dt><dd>${r.bags1_5CuFt} bags</dd></div>
+                <div class="cost-row"><dt>2 cu ft bags</dt><dd>${r.bags2CuFt} bags</dd></div>
+                <div class="cost-row"><dt>3 cu ft bags</dt><dd>${r.bags3CuFt} bags</dd></div>
+                <div class="cost-row cost-total">
+                  <dt>Estimated Total</dt>
+                  <dd>${formatCurrency(r.totalBagMin)} - ${formatCurrency(r.totalBagMax)}</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-header">🚛 Bulk Mulch</div>
+              <dl>
+                <div class="cost-row"><dt>Cubic Yards</dt><dd>${formatNumber(r.volumeCuYd)} cu yd</dd></div>
+                <div class="cost-row"><dt>Material Cost</dt><dd>${formatCurrency(r.bulkCostMin)} - ${formatCurrency(r.bulkCostMax)}</dd></div>
+                <div class="cost-row"><dt>Delivery</dt><dd>${r.deliveryCostMin === 0 ? 'Free' : formatCurrency(r.deliveryCostMin) + ' - ' + formatCurrency(r.deliveryCostMax)}</dd></div>
+                <div class="cost-row cost-total">
+                  <dt>Estimated Total</dt>
+                  <dd>${formatCurrency(r.totalBulkMin)} - ${formatCurrency(r.totalBulkMax)}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recommendation -->
+        <div class="recommendation recommendation-${r.savingsOption}">
+          <div class="recommendation-icon">
+            ${r.savings > 0 ? '📉' : '✓'}
+          </div>
+          <div>
+            <div class="recommendation-title">💡 Recommendation</div>
+            <p class="recommendation-text">${r.recommendation}</p>
+            ${r.savings > 0 ? `<p class="recommendation-savings">Potential Savings: ${formatCurrency(r.savings)}</p>` : ''}
+          </div>
+        </div>
+        
+        <!-- Seasonal Tip -->
+        <div class="season-alert ${season.isIdeal ? 'season-ideal' : 'season-caution'}">
+          <span class="season-icon">${season.isIdeal ? '✅' : '⚠️'}</span>
+          <div>
+            <div class="season-title">Current Season: ${season.season}</div>
+            <p class="season-text">${season.recommendation}</p>
+          </div>
+        </div>
+        
+        <!-- Shopping List -->
+        <div class="info-card">
+          <div class="info-card-title">📋 Shopping List</div>
+          <ul class="shopping-list">
+            <li class="shopping-item">
+              <input type="checkbox" class="shopping-checkbox">
+              <div>
+                <div class="shopping-name">${r.mulchInfo.name} Mulch</div>
+                <div class="shopping-detail">${formatNumber(r.volumeCuYd)} cu yd bulk OR ${r.bags2CuFt} bags (2 cu ft)</div>
+              </div>
+            </li>
+            <li class="shopping-item">
+              <input type="checkbox" class="shopping-checkbox">
+              <div>
+                <div class="shopping-name">Landscape Fabric (Optional)</div>
+                <div class="shopping-detail">${formatNumber(r.areaSqFt, 0)} sq ft</div>
+              </div>
+            </li>
+            <li class="shopping-item">
+              <input type="checkbox" class="shopping-checkbox">
+              <div>
+                <div class="shopping-name">Garden Edging (Optional)</div>
+                <div class="shopping-detail">${formatNumber(r.perimeterFt, 0)} linear feet</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons no-print">
+          <button class="action-btn" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print
+          </button>
+          <button class="action-btn" onclick="copyResults()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+          </button>
+        </div>
+      `;
+    }
+
+    function renderFAQ() {
+      const container = document.getElementById('faqList');
+      container.innerHTML = FAQ_DATA.map((item, index) => `
+        <div class="faq-item" data-index="${index}">
+          <button class="faq-question">
+            <span>${item.question}</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">${item.answer}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ===== HELPER FUNCTIONS =====
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function copyResults() {
+      const r = state.result;
+      if (!r) return;
+      
+      const depth = state.isCustomDepth ? state.customDepth : state.selectedDepth;
+      const text = `
+Mulch Calculator Results
+========================
+Volume Needed: ${formatNumber(r.volumeCuYd)} cubic yards (${formatNumber(r.volumeCuFt, 0)} cu ft)
+Bags (2 cu ft): ${r.bags2CuFt} bags
+Area: ${formatNumber(r.areaSqFt, 0)} sq ft
+Depth: ${depth} inches
+Mulch Type: ${r.mulchInfo.name}
+Bulk Cost: ${formatCurrency(r.totalBulkMin)} - ${formatCurrency(r.totalBulkMax)}
+Bag Cost: ${formatCurrency(r.totalBagMin)} - ${formatCurrency(r.totalBagMax)}
+Recommendation: ${r.recommendation}
+      `.trim();
+      
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Results copied to clipboard!');
+      });
+    }
+
+    // ===== EVENT HANDLERS =====
+    function setupEventListeners() {
+      // Presets
+      document.getElementById('presetGrid').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-preset]');
+        if (!btn) return;
+        
+        const presetId = btn.dataset.preset;
+        const preset = PRESETS.find(p => p.id === presetId);
+        if (preset) {
+          state.selectedPreset = presetId;
+          state.selectedShape = preset.shape;
+          state.dimensions = { ...preset.dimensions };
+          state.selectedDepth = preset.suggestedDepth;
+          state.isCustomDepth = false;
+          state.mulchType = preset.suggestedMulchType;
+          
+          renderPresets();
+          renderShapes();
+          renderDimensionInputs();
+          renderDepthSelector();
+          renderMulchTypeSelector();
+        }
+      });
+      
+      // Shapes
+      document.getElementById('shapeGrid').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-shape]');
+        if (!btn) return;
+        
+        state.selectedShape = btn.dataset.shape;
+        state.selectedPreset = null;
+        state.dimensions = {};
+        
+        renderPresets();
+        renderShapes();
+        renderDimensionInputs();
+      });
+      
+      // Dimension Inputs
+      document.getElementById('dimensionInputs').addEventListener('input', (e) => {
+        if (e.target.classList.contains('dimension-input')) {
+          const key = e.target.dataset.key;
+          state.dimensions[key] = parseFloat(e.target.value) || 0;
+        }
+      });
+      
+      document.getElementById('dimensionInputs').addEventListener('change', (e) => {
+        if (e.target.id === 'slopeGradeSelect') {
+          state.dimensions.slopeGrade = e.target.value;
+        }
+      });
+      
+      // Depth Selector
+      document.getElementById('depthGrid').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-depth]');
+        if (btn) {
+          state.selectedDepth = parseInt(btn.dataset.depth);
+          state.isCustomDepth = false;
+          renderDepthSelector();
+          return;
+        }
+        
+        if (e.target.closest('#customDepthBtn')) {
+          state.isCustomDepth = true;
+          renderDepthSelector();
+        }
+      });
+      
+      document.getElementById('customDepthInput').addEventListener('input', (e) => {
+        state.customDepth = parseFloat(e.target.value) || 0;
+        document.getElementById('coverageNote').textContent = 
+          state.customDepth > 0 ? `1 cu yd covers ${Math.round(324 / state.customDepth)} sq ft` : '1 cu yd covers — sq ft';
+      });
+      
+      // Mulch Type
+      document.getElementById('mulchTypeSelect').addEventListener('change', (e) => {
+        state.mulchType = e.target.value;
+        renderMulchInfo();
+        renderComparisonTable();
+      });
+      
+      // Compare Toggle
+      document.getElementById('compareToggle').addEventListener('click', () => {
+        state.showComparison = !state.showComparison;
+        const chevron = document.getElementById('compareChevron');
+        chevron.style.transform = state.showComparison ? 'rotate(180deg)' : 'rotate(0)';
+        renderComparisonTable();
+      });
+      
+      // Comparison Table Type Selection
+      document.getElementById('comparisonTable').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-type]');
+        if (btn) {
+          state.mulchType = btn.dataset.type;
+          document.getElementById('mulchTypeSelect').value = state.mulchType;
+          renderMulchInfo();
+          renderComparisonTable();
+        }
+      });
+      
+      // Advanced Options
+      document.getElementById('regionSelect').addEventListener('change', (e) => {
+        state.region = e.target.value;
+        const multiplier = REGIONAL_MULTIPLIERS[state.region];
+        document.getElementById('regionNote').textContent = 
+          `Price adjustment: ${((multiplier - 1) * 100).toFixed(0)}%`;
+      });
+      
+      document.getElementById('deliverySelect').addEventListener('change', (e) => {
+        state.deliveryDistance = e.target.value;
+      });
+      
+      document.getElementById('numberOfBeds').addEventListener('input', (e) => {
+        state.numberOfBeds = parseInt(e.target.value) || 1;
+      });
+      
+      document.getElementById('existingDepth').addEventListener('input', (e) => {
+        state.existingDepth = parseFloat(e.target.value) || 0;
+      });
+      
+      document.getElementById('wasteFactor').addEventListener('input', (e) => {
+        state.wasteFactor = parseInt(e.target.value);
+        document.getElementById('wasteValue').textContent = state.wasteFactor;
+      });
+      
+      document.getElementById('overbuySwitch').addEventListener('click', function() {
+        state.overbuyProtection = !state.overbuyProtection;
+        this.classList.toggle('active', state.overbuyProtection);
+      });
+      
+      // Calculate Button
+      document.getElementById('calculateBtn').addEventListener('click', calculateMulch);
+      
+      // FAQ
+      document.getElementById('faqList').addEventListener('click', (e) => {
+        const item = e.target.closest('.faq-item');
+        if (item) {
+          item.classList.toggle('open');
+        }
+      });
+    }
+
+    // ===== INITIALIZATION =====
+    function init() {
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+      renderPresets();
+      renderShapes();
+      renderDimensionInputs();
+      renderDepthSelector();
+      renderMulchTypeSelector();
+      renderComparisonTable();
+      renderFAQ();
+      
+      setupEventListeners();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

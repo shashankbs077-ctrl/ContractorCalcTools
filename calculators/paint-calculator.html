@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paint Calculator - Free Gallons & Coverage Estimator | contractorcalctools</title>
+  <meta name="description" content="Free paint calculator. Calculate gallons of paint needed for walls, ceilings, and trim. Includes primer, supplies list, and cost estimates for any room.">
+  <meta name="keywords" content="paint calculator, how much paint do I need, wall paint calculator, room paint calculator, paint coverage calculator">
+  <link rel="canonical" href="https://www.contractorcalctools.com/calculators/paint-calculator.html">
+  <meta property="og:title" content="Paint Calculator - Free Gallons & Coverage Estimator">
+  <meta property="og:description" content="Calculate exactly how much paint you need. Get complete shopping lists and cost breakdowns.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Paint Calculator - Free Gallons & Coverage Estimator">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Paint Calculator",
+    "description": "Calculate gallons of paint needed for walls, ceilings, and trim",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.contractorcalctools.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://www.contractorcalctools.com/calculators"},
+      {"@type": "ListItem", "position": 3, "name": "Paint Calculator"}
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --primary: #1e3a5f;
+      --primary-light: #2a4a73;
+      --secondary: #f7941d;
+      --secondary-light: #f9a94a;
+      --background: #ffffff;
+      --background-alt: #f8f9fa;
+      --foreground: #333333;
+      --foreground-muted: #666666;
+      --border: #dee2e6;
+      --success: #28a745;
+      --destructive: #dc3545;
+      --radius: 0.5rem;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    
+    .logo-icon {
+      font-size: 1.5rem;
+    }
+    
+    .nav-desktop {
+      display: none;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    .nav-link {
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: var(--secondary);
+    }
+    
+    .nav-link.active {
+      font-weight: 500;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+      padding: 0.5rem;
+      color: white;
+    }
+    
+    .mobile-menu-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .nav-mobile {
+      display: none;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .nav-mobile.open {
+      display: block;
+    }
+    
+    .nav-mobile a {
+      display: block;
+      padding: 0.5rem 0;
+      transition: color 0.2s;
+    }
+    
+    .nav-mobile a:hover {
+      color: var(--secondary);
+    }
+    
+    @media (min-width: 768px) {
+      .nav-desktop {
+        display: flex;
+      }
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+    
+    /* Breadcrumb */
+    .breadcrumb {
+      padding: 0.75rem 0;
+    }
+    
+    .breadcrumb-list {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--foreground-muted);
+      list-style: none;
+    }
+    
+    .breadcrumb-link {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: color 0.2s;
+    }
+    
+    .breadcrumb-link:hover {
+      color: var(--primary);
+    }
+    
+    .breadcrumb-separator {
+      color: var(--border);
+    }
+    
+    .breadcrumb-current {
+      color: var(--foreground);
+      font-weight: 500;
+    }
+    
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 2.5rem 0 3.5rem;
+      text-align: center;
+    }
+    
+    .page-header-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .page-header h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .page-header-subtitle {
+      font-size: 1.125rem;
+      opacity: 0.9;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+      .page-header {
+        padding: 3.5rem 0 4rem;
+      }
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      .page-header-subtitle {
+        font-size: 1.25rem;
+      }
+    }
+    
+    /* Feature Cards */
+    .feature-cards {
+      margin-top: 2rem;
+    }
+    
+    .feature-cards-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    @media (min-width: 768px) {
+      .feature-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .feature-card {
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      text-align: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    .feature-card-blue {
+      background: #e8f0f8;
+      border: 1px solid rgba(30, 58, 95, 0.2);
+    }
+    
+    .feature-card-orange {
+      background: #fef5e7;
+      border: 1px solid rgba(247, 148, 29, 0.2);
+    }
+    
+    .feature-card-green {
+      background: #e8f5eb;
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+    
+    .feature-card-icon {
+      font-size: 1.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .feature-card h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .feature-card p {
+      font-size: 0.875rem;
+      color: var(--foreground-muted);
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Ad Placeholder */
+    .ad-placeholder {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: var(--background-alt);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--foreground-muted);
+      font-size: 0.875rem;
+    }
+    
+    /* Section Card */
+    .section-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    
+    /* Calculator Section */
+    .calculator-section {
+      padding: 2rem 0;
+    }
+    
+    .calculator-grid {
+      display: grid;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 1024px) {
+      .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .calculator-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Form Styles */
+    .form-section {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .form-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .form-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+    }
+    
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+    
+    .form-row {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    .form-row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .form-row-3 {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    @media (max-width: 640px) {
+      .form-row-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: var(--background-alt);
+      color: var(--foreground-muted);
+    }
+    
+    .tab-btn:hover {
+      background: #e9ecef;
+    }
+    
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Preset Cards */
+    .presets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    
+    @media (min-width: 640px) {
+      .presets-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+    
+    .preset-card {
+      padding: 0.75rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .preset-card:hover {
+      border-color: rgba(30, 58, 95, 0.5);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .preset-card.selected {
+      border-color: var(--primary);
+      background: rgba(30, 58, 95, 0.05);
+    }
+    
+    .preset-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .preset-card-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    /* Checkboxes */
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    
+    .checkbox-item input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    
+    .checkbox-item label {
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    
+    /* Room Input */
+    .room-item {
+      background: var(--background-alt);
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+    }
+    
+    .room-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    
+    .room-name {
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+    
+    .room-delete-btn {
+      color: var(--destructive);
+      font-size: 0.875rem;
+      padding: 0.25rem;
+    }
+    
+    .room-delete-btn:hover {
+      text-decoration: underline;
+    }
+    
+    .add-room-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--background-alt);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--foreground-muted);
+      font-size: 0.875rem;
+      width: 100%;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .add-room-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    /* Range Slider */
+    .range-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .range-slider {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--border);
+      outline: none;
+    }
+    
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+    
+    .range-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: none;
+    }
+    
+    .range-value {
+      min-width: 45px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: var(--secondary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary-light);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-1px);
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-secondary {
+      background: var(--background-alt);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    
+    .btn-secondary:hover {
+      background: #e9ecef;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    /* Results */
+    .results-placeholder {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    
+    .results-placeholder-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    
+    .results-placeholder h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .results-placeholder p {
+      color: var(--foreground-muted);
+    }
+    
+    .results-container {
+      display: none;
+    }
+    
+    .results-container.show {
+      display: block;
+    }
+    
+    .result-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .result-card-label {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+    
+    .result-card-value {
+      font-size: 3rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .result-card-unit {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .result-card-subtitle {
+      font-size: 0.875rem;
+      opacity: 0.85;
+      margin-top: 0.5rem;
+    }
+    
+    .results-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .results-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    /* Tables */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    
+    .results-table th,
+    .results-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .results-table th {
+      background: var(--background-alt);
+      font-weight: 600;
+    }
+    
+    .results-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .results-table .text-right {
+      text-align: right;
+    }
+    
+    .results-table .total-row {
+      font-weight: 700;
+      background: var(--background-alt);
+    }
+    
+    /* Cost Summary */
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .cost-row:last-child {
+      border-bottom: none;
+    }
+    
+    .cost-row.total {
+      font-weight: 700;
+      font-size: 1.125rem;
+      border-top: 2px solid var(--primary);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+    }
+    
+    .cost-label {
+      color: var(--foreground-muted);
+    }
+    
+    .cost-value {
+      font-weight: 500;
+    }
+    
+    .savings-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success);
+      border-radius: var(--radius);
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    
+    /* Shopping List */
+    .shopping-category {
+      margin-bottom: 1.5rem;
+    }
+    
+    .shopping-category-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    
+    .shopping-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    
+    .shopping-item:last-child {
+      border-bottom: none;
+    }
+    
+    .shopping-item-name {
+      flex: 1;
+    }
+    
+    .shopping-item-qty {
+      min-width: 80px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .shopping-item-price {
+      min-width: 80px;
+      text-align: right;
+      color: var(--foreground-muted);
+    }
+    
+    /* Tips & Alerts */
+    .tip-list {
+      list-style: none;
+    }
+    
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(247, 148, 29, 0.1);
+      border-radius: var(--radius);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .tip-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    
+    .alert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(220, 53, 69, 0.1);
+      border-radius: var(--radius);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    
+    /* Educational Content */
+    .educational-section {
+      padding: 3rem 0;
+      background: var(--background-alt);
+    }
+    
+    .educational-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .educational-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .educational-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    
+    .educational-card h3 {
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .educational-card ul,
+    .educational-card ol {
+      padding-left: 1.25rem;
+      font-size: 0.875rem;
+      color: var(--foreground-muted);
+    }
+    
+    .educational-card li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .educational-table {
+      width: 100%;
+      font-size: 0.75rem;
+      border-collapse: collapse;
+    }
+    
+    .educational-table th,
+    .educational-table td {
+      padding: 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .educational-table th {
+      background: var(--background-alt);
+      font-weight: 600;
+    }
+    
+    /* FAQ Section */
+    .faq-section {
+      padding: 3rem 0;
+    }
+    
+    .faq-title {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .faq-title {
+        font-size: 1.875rem;
+      }
+    }
+    
+    .faq-container {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+    
+    .faq-question {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--background-alt);
+      transition: background 0.2s;
+    }
+    
+    .faq-question:hover {
+      background: #e9ecef;
+    }
+    
+    .faq-chevron {
+      transition: transform 0.2s;
+    }
+    
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+      display: none;
+      padding: 1rem 1.25rem;
+      color: var(--foreground-muted);
+      line-height: 1.7;
+      font-size: 0.9375rem;
+    }
+    
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    
+    /* Related Calculators */
+    .related-section {
+      padding: 3rem 0;
+      background: var(--background-alt);
+    }
+    
+    .related-title {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .related-title {
+        font-size: 1.875rem;
+      }
+    }
+    
+    .related-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .related-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .related-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .related-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(30, 58, 95, 0.3);
+    }
+    
+    .related-card-icon {
+      font-size: 1.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .related-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .related-card p {
+      font-size: 0.875rem;
+      color: var(--foreground-muted);
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--primary);
+      color: white;
+      padding: 2.5rem 0;
+    }
+    
+    .footer-grid {
+      display: grid;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-desc {
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+    
+    .footer h4 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer-links a {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    
+    .footer-links a:hover {
+      opacity: 1;
+      color: var(--secondary);
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      text-align: center;
+      font-size: 0.875rem;
+      opacity: 0.7;
+    }
+    
+    /* Print Styles */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+      }
+      
+      .section-card {
+        break-inside: avoid;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+      }
+      
+      .result-card {
+        background: #1e3a5f !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      
+      .header, .breadcrumb, .page-header, .feature-cards,
+      .ad-placeholder, .footer, .related-section,
+      .action-buttons, .btn-group {
+        display: none !important;
+      }
+    }
+    
+    /* Sticky Results */
+    @media (min-width: 1024px) {
+      .results-sticky {
+        position: sticky;
+        top: 80px;
+      }
+    }
+    
+    /* Info Box */
+    .info-box {
+      padding: 1rem;
+      background: rgba(30, 58, 95, 0.05);
+      border: 1px solid rgba(30, 58, 95, 0.2);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    
+    .info-box-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    /* Helper Classes */
+    .text-muted {
+      color: var(--foreground-muted);
+    }
+    
+    .text-primary {
+      color: var(--primary);
+    }
+    
+    .text-success {
+      color: var(--success);
+    }
+    
+    .text-sm {
+      font-size: 0.875rem;
+    }
+    
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-3 { margin-top: 0.75rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header no-print">
+    <div class="container">
+      <div class="header-inner">
+        <a href="../index.html" class="logo">
+          <span class="logo-icon">🔧</span>
+          <span>contractorcalctools</span>
+        </a>
+        <nav class="nav-desktop">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../sitemap.html" class="nav-link active">Sitemap</a>
+          <a href="../about.html" class="nav-link">About</a>
+          <a href="../contact.html" class="nav-link">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+          <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <nav id="mobile-nav" class="nav-mobile">
+        <a href="../index.html">Home</a>
+        <a href="../sitemap.html">Sitemap</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb no-print" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        <li><a href="../index.html" class="breadcrumb-link"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a></li>
+        <li class="breadcrumb-separator"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
+        <li class="breadcrumb-current">Paint Calculator</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header no-print">
+    <div class="container">
+      <div class="page-header-icon">🎨</div>
+      <h1>Paint Calculator</h1>
+      <p class="page-header-subtitle">Calculate exactly how much paint you need for your project. Get accurate estimates for walls, ceilings, trim, and complete cost breakdowns.</p>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <section class="feature-cards no-print">
+    <div class="container">
+      <div class="feature-cards-grid">
+        <div class="feature-card feature-card-blue">
+          <div class="feature-card-icon">📋</div>
+          <h3>Complete Material Lists</h3>
+          <p>Complete shopping lists with quantities for every material you'll need for your project.</p>
+        </div>
+        <div class="feature-card feature-card-orange">
+          <div class="feature-card-icon">🖨️</div>
+          <h3>Print & Save</h3>
+          <p>Print your estimates, download as PDF, or save for future reference.</p>
+        </div>
+        <div class="feature-card feature-card-green">
+          <div class="feature-card-icon">💰</div>
+          <h3>Detailed Cost Breakdown</h3>
+          <p>Get paint, primer, labor, and tool costs with local pricing estimates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Placeholder -->
+  <div class="container no-print">
+    <div class="ad-placeholder">Ad Unit Placeholder</div>
+  </div>
+
+  <!-- Calculator Section -->
+  <section class="calculator-section">
+    <div class="container">
+      <div class="calculator-grid">
+        <!-- Calculator Form -->
+        <div>
+          <h2 class="calculator-title no-print">Calculate Your Paint Needs</h2>
+          <div class="section-card">
+            <!-- Calculation Method -->
+            <div class="form-section">
+              <h3 class="form-section-title">Calculation Method</h3>
+              <div class="tabs">
+                <button class="tab-btn active" data-method="room-dimensions" onclick="setMethod('room-dimensions')">By Room Dimensions</button>
+                <button class="tab-btn" data-method="wall-area" onclick="setMethod('wall-area')">By Wall Area</button>
+                <button class="tab-btn" data-method="multiple-rooms" onclick="setMethod('multiple-rooms')">Multiple Rooms</button>
+              </div>
+
+              <!-- Room Dimensions Tab -->
+              <div id="tab-room-dimensions" class="tab-content active">
+                <div class="room-item">
+                  <div class="form-row form-row-3">
+                    <div class="form-group">
+                      <label class="form-label">Length (ft)</label>
+                      <input type="number" class="form-input" id="room-length" value="12" min="1" step="0.5">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Width (ft)</label>
+                      <input type="number" class="form-input" id="room-width" value="10" min="1" step="0.5">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Height (ft)</label>
+                      <input type="number" class="form-input" id="room-height" value="8" min="1" step="0.5">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Wall Area Tab -->
+              <div id="tab-wall-area" class="tab-content">
+                <div class="form-group">
+                  <label class="form-label">Total Wall Area (sq ft)</label>
+                  <input type="number" class="form-input" id="direct-wall-area" value="400" min="1">
+                </div>
+              </div>
+
+              <!-- Multiple Rooms Tab -->
+              <div id="tab-multiple-rooms" class="tab-content">
+                <div id="rooms-container"></div>
+                <button class="add-room-btn" onclick="addRoom()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  Add Another Room
+                </button>
+              </div>
+            </div>
+
+            <!-- Area Presets -->
+            <div class="form-section">
+              <h3 class="form-section-title">Area Preset</h3>
+              <div class="presets-grid">
+                <div class="preset-card" data-preset="full-room" onclick="setPreset('full-room')">
+                  <div class="preset-card-icon">🏠</div>
+                  <div class="preset-card-label">Full Room</div>
+                </div>
+                <div class="preset-card selected" data-preset="walls-only" onclick="setPreset('walls-only')">
+                  <div class="preset-card-icon">🧱</div>
+                  <div class="preset-card-label">Walls Only</div>
+                </div>
+                <div class="preset-card" data-preset="ceiling-only" onclick="setPreset('ceiling-only')">
+                  <div class="preset-card-icon">⬆️</div>
+                  <div class="preset-card-label">Ceiling Only</div>
+                </div>
+                <div class="preset-card" data-preset="trim-doors" onclick="setPreset('trim-doors')">
+                  <div class="preset-card-icon">🚪</div>
+                  <div class="preset-card-label">Trim & Doors</div>
+                </div>
+                <div class="preset-card" data-preset="accent-wall" onclick="setPreset('accent-wall')">
+                  <div class="preset-card-icon">🎯</div>
+                  <div class="preset-card-label">Accent Wall</div>
+                </div>
+                <div class="preset-card" data-preset="exterior" onclick="setPreset('exterior')">
+                  <div class="preset-card-icon">🏡</div>
+                  <div class="preset-card-label">Exterior</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Areas to Paint -->
+            <div class="form-section">
+              <h3 class="form-section-title">Areas to Paint</h3>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="area-walls" checked>
+                  <label for="area-walls">Walls</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="area-ceiling">
+                  <label for="area-ceiling">Ceiling</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="area-trim">
+                  <label for="area-trim">Trim/Baseboards</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="area-doors">
+                  <label for="area-doors">Doors</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="area-windows">
+                  <label for="area-windows">Window Frames</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="area-crown">
+                  <label for="area-crown">Crown Molding</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Doors & Windows -->
+            <div class="form-section">
+              <h3 class="form-section-title">Doors to Subtract</h3>
+              <div class="form-row form-row-3">
+                <div class="form-group">
+                  <label class="form-label">Standard (3'×7')</label>
+                  <input type="number" class="form-input" id="standard-doors" value="1" min="0" max="10">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Double/Patio (6'×7')</label>
+                  <input type="number" class="form-input" id="double-doors" value="0" min="0" max="5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Closet (6'×8')</label>
+                  <input type="number" class="form-input" id="closet-doors" value="0" min="0" max="10">
+                </div>
+              </div>
+
+              <h3 class="form-section-title mt-4">Windows to Subtract</h3>
+              <div class="form-row form-row-3">
+                <div class="form-group">
+                  <label class="form-label">Small (2'×3')</label>
+                  <input type="number" class="form-input" id="small-windows" value="0" min="0" max="10">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Standard (3'×4')</label>
+                  <input type="number" class="form-input" id="standard-windows" value="2" min="0" max="10">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Large (4'×5')</label>
+                  <input type="number" class="form-input" id="large-windows" value="0" min="0" max="10">
+                </div>
+              </div>
+              <div class="form-row form-row-2">
+                <div class="form-group">
+                  <label class="form-label">Picture (5'×6')</label>
+                  <input type="number" class="form-input" id="picture-windows" value="0" min="0" max="5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Custom Obstruction (sq ft)</label>
+                  <input type="number" class="form-input" id="custom-obstructions" value="0" min="0">
+                </div>
+              </div>
+            </div>
+
+            <!-- Paint Selection -->
+            <div class="form-section">
+              <h3 class="form-section-title">Paint Type</h3>
+              <div class="form-group">
+                <select class="form-select" id="paint-type">
+                  <option value="interior-latex">Interior Latex (350-400 sq ft/gal)</option>
+                  <option value="interior-acrylic">Interior Acrylic (350-400 sq ft/gal)</option>
+                  <option value="exterior-latex">Exterior Latex (250-350 sq ft/gal)</option>
+                  <option value="exterior-acrylic">Exterior Acrylic (300-400 sq ft/gal)</option>
+                  <option value="oil-based">Oil-Based/Alkyd (350-400 sq ft/gal)</option>
+                  <option value="specialty">Specialty Paint (Varies)</option>
+                </select>
+              </div>
+
+              <h3 class="form-section-title mt-4">Paint Quality</h3>
+              <div class="form-group">
+                <select class="form-select" id="paint-quality">
+                  <option value="economy">Economy (Store Brand) - $20-30/gal</option>
+                  <option value="standard" selected>Standard (Behr, Valspar) - $35-45/gal</option>
+                  <option value="premium">Premium (Benjamin Moore, SW) - $50-65/gal</option>
+                  <option value="designer">Designer (Farrow & Ball) - $70-100/gal</option>
+                </select>
+              </div>
+
+              <h3 class="form-section-title mt-4">Paint Finish</h3>
+              <div class="form-group">
+                <select class="form-select" id="paint-finish">
+                  <option value="flat">Flat/Matte - Best for ceilings, hides imperfections</option>
+                  <option value="eggshell" selected>Eggshell - Living rooms, bedrooms</option>
+                  <option value="satin">Satin - Family rooms, hallways</option>
+                  <option value="semi-gloss">Semi-Gloss - Kitchens, baths, trim</option>
+                  <option value="high-gloss">High-Gloss - Doors, cabinets</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Surface Type -->
+            <div class="form-section">
+              <h3 class="form-section-title">Surface Type</h3>
+              <div class="form-group">
+                <select class="form-select" id="surface-type">
+                  <option value="previously-painted-smooth" selected>Previously Painted (Smooth) - 350 sq ft/gal</option>
+                  <option value="previously-painted-light">Previously Painted (Light Texture) - 315 sq ft/gal</option>
+                  <option value="new-drywall">New Drywall - 300 sq ft/gal</option>
+                  <option value="textured-light">Light Texture (Orange Peel) - 280 sq ft/gal</option>
+                  <option value="textured-heavy">Heavy Texture (Knockdown) - 245 sq ft/gal</option>
+                  <option value="bare-wood">Bare Wood - 300 sq ft/gal</option>
+                  <option value="stucco">Stucco - 210 sq ft/gal</option>
+                  <option value="brick">Brick - 175 sq ft/gal</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Coats & Primer -->
+            <div class="form-section">
+              <h3 class="form-section-title">Number of Coats</h3>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input type="radio" name="coats" id="coats-1" value="1">
+                  <label for="coats-1">1 Coat (touch-up, same color)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="radio" name="coats" id="coats-2" value="2" checked>
+                  <label for="coats-2">2 Coats (standard - recommended)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="radio" name="coats" id="coats-3" value="3">
+                  <label for="coats-3">3 Coats (dark to light, bold change)</label>
+                </div>
+              </div>
+
+              <h3 class="form-section-title mt-4">Color Change</h3>
+              <div class="form-row form-row-2">
+                <div class="form-group">
+                  <label class="form-label">Current Wall Color</label>
+                  <select class="form-select" id="current-color">
+                    <option value="light" selected>Light</option>
+                    <option value="medium">Medium</option>
+                    <option value="dark">Dark</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">New Paint Color</label>
+                  <select class="form-select" id="new-color">
+                    <option value="light" selected>Light</option>
+                    <option value="medium">Medium</option>
+                    <option value="dark">Dark</option>
+                  </select>
+                </div>
+              </div>
+
+              <h3 class="form-section-title mt-4">Primer</h3>
+              <div class="form-group">
+                <select class="form-select" id="primer-type">
+                  <option value="none" selected>No Primer Needed</option>
+                  <option value="standard">Standard Primer - $25-35/gal</option>
+                  <option value="high-hide">High-Hide Primer - $35-45/gal</option>
+                  <option value="stain-blocking">Stain-Blocking Primer - $40-50/gal</option>
+                  <option value="bonding">Bonding Primer - $45-55/gal</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Waste Factor -->
+            <div class="form-section">
+              <h3 class="form-section-title">Waste Factor</h3>
+              <div class="range-container">
+                <input type="range" class="range-slider" id="waste-factor" min="5" max="20" value="10">
+                <span class="range-value" id="waste-value">10%</span>
+              </div>
+              <p class="text-sm text-muted mt-2">5%: Touch-up • 10%: Standard • 15%: Complex • 20%: Textured</p>
+            </div>
+
+            <!-- Application Method -->
+            <div class="form-section">
+              <h3 class="form-section-title">Application Method</h3>
+              <div class="form-group">
+                <select class="form-select" id="application-method">
+                  <option value="brush-only">Brush Only (trim, detail work)</option>
+                  <option value="roller">Roller (walls, ceilings)</option>
+                  <option value="brush-roller" selected>Brush & Roller Combo (standard DIY)</option>
+                  <option value="spray">Spray (large areas, exterior)</option>
+                  <option value="hvlp">HVLP Sprayer (cabinets, fine finish)</option>
+                </select>
+              </div>
+
+              <h3 class="form-section-title mt-4">Climate/Season</h3>
+              <div class="form-group">
+                <select class="form-select" id="climate">
+                  <option value="spring" selected>Spring (50-70°F) - Ideal</option>
+                  <option value="summer">Summer (70-85°F) - Good</option>
+                  <option value="fall">Fall (50-70°F) - Ideal</option>
+                  <option value="winter">Winter (<50°F) - Interior only</option>
+                  <option value="humid">High Humidity (>85% RH) - Extended dry time</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Additional Options -->
+            <div class="form-section">
+              <h3 class="form-section-title">Additional Options</h3>
+              <div class="checkbox-group" style="flex-direction: column; gap: 0.75rem;">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="low-voc">
+                  <label for="low-voc">Low-VOC Paint Only (+5% cost)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="zero-voc">
+                  <label for="zero-voc">Zero-VOC Paint Only (+15% cost)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="include-touchup">
+                  <label for="include-touchup">Include touch-up paint supply (+1 quart)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="show-professional" checked>
+                  <label for="show-professional">Show professional cost comparison</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-group no-print">
+              <button class="btn btn-primary" onclick="calculate()">
+                🧮 Calculate Paint Needed
+              </button>
+              <button class="btn btn-secondary" onclick="clearForm()">
+                ↺ Clear
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div id="results-panel">
+          <div class="results-sticky">
+            <h2 class="calculator-title">Your Results</h2>
+            
+            <!-- Placeholder -->
+            <div id="results-placeholder" class="section-card results-placeholder">
+              <div class="results-placeholder-icon">🎨</div>
+              <h3>Ready to Calculate</h3>
+              <p>Enter your room dimensions and paint preferences, then click "Calculate Paint Needed" to see your results.</p>
+            </div>
+
+            <!-- Actual Results -->
+            <div id="results-container" class="results-container">
+              <!-- Primary Result -->
+              <div class="result-card">
+                <div class="result-card-label">Paint Needed</div>
+                <div class="result-card-value"><span id="result-gallons">0</span> <span class="result-card-unit">Gallons</span></div>
+                <div class="result-card-subtitle" id="result-subtitle">for walls - 2 coats</div>
+              </div>
+
+              <div class="section-card">
+                <!-- Calculation Breakdown -->
+                <div class="results-section">
+                  <h3 class="results-section-title">📐 Calculation Breakdown</h3>
+                  <table class="results-table">
+                    <tbody id="breakdown-table"></tbody>
+                  </table>
+                </div>
+
+                <!-- Paint Requirements -->
+                <div class="results-section">
+                  <h3 class="results-section-title">🎨 Paint Requirements</h3>
+                  <table class="results-table">
+                    <thead>
+                      <tr>
+                        <th>Surface</th>
+                        <th>Area</th>
+                        <th>Coats</th>
+                        <th>Gallons</th>
+                        <th class="text-right">Est. Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody id="requirements-table"></tbody>
+                  </table>
+                </div>
+
+                <!-- Shopping List -->
+                <div class="results-section">
+                  <h3 class="results-section-title">📋 Complete Shopping List</h3>
+                  <div id="shopping-list"></div>
+                </div>
+
+                <!-- Cost Summary -->
+                <div class="results-section">
+                  <h3 class="results-section-title">💰 Cost Summary</h3>
+                  <div id="cost-summary"></div>
+                </div>
+
+                <!-- Professional Comparison -->
+                <div class="results-section" id="professional-section">
+                  <h3 class="results-section-title">👷 Professional Comparison</h3>
+                  <div id="professional-comparison"></div>
+                </div>
+
+                <!-- Project Schedule -->
+                <div class="results-section">
+                  <h3 class="results-section-title">📅 Project Schedule</h3>
+                  <table class="results-table">
+                    <thead>
+                      <tr>
+                        <th>Task</th>
+                        <th class="text-right">Est. Time</th>
+                      </tr>
+                    </thead>
+                    <tbody id="schedule-table"></tbody>
+                  </table>
+                </div>
+
+                <!-- Tips -->
+                <div class="results-section" id="tips-section">
+                  <h3 class="results-section-title">💡 Cost-Saving Tips</h3>
+                  <ul class="tip-list" id="tips-list"></ul>
+                </div>
+
+                <!-- Alerts -->
+                <div class="results-section" id="alerts-section" style="display: none;">
+                  <h3 class="results-section-title">⚠️ Alerts</h3>
+                  <div id="alerts-list"></div>
+                </div>
+
+                <!-- Maintenance Schedule -->
+                <div class="results-section">
+                  <h3 class="results-section-title">🔧 Maintenance Schedule</h3>
+                  <table class="results-table">
+                    <tbody id="maintenance-table"></tbody>
+                  </table>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons no-print">
+                  <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print</button>
+                  <button class="btn btn-outline btn-sm" onclick="copyList()">📋 Copy List</button>
+                  <button class="btn btn-outline btn-sm" onclick="saveEstimate()">💾 Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Content -->
+  <section class="educational-section no-print">
+    <div class="container">
+      <h2 class="calculator-title" style="text-align: center; margin-bottom: 2rem;">Paint Guide & Tips</h2>
+      <div class="educational-grid">
+        <div class="educational-card">
+          <h3>📖 How to Use This Calculator</h3>
+          <ol>
+            <li>Enter your room dimensions or total wall area</li>
+            <li>Subtract doors and windows for accurate coverage</li>
+            <li>Select paint quality, finish, and surface type</li>
+            <li>Choose number of coats based on color change</li>
+            <li>Add primer if needed for best results</li>
+            <li>Review complete materials list and cost breakdown</li>
+          </ol>
+        </div>
+
+        <div class="educational-card">
+          <h3>🎨 Paint Finish Guide</h3>
+          <table class="educational-table">
+            <thead>
+              <tr><th>Finish</th><th>Durability</th><th>Best For</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Flat/Matte</td><td>Low</td><td>Ceilings, low-traffic</td></tr>
+              <tr><td>Eggshell</td><td>Medium</td><td>Living rooms, bedrooms</td></tr>
+              <tr><td>Satin</td><td>Med-High</td><td>Family rooms, hallways</td></tr>
+              <tr><td>Semi-Gloss</td><td>High</td><td>Kitchens, baths, trim</td></tr>
+              <tr><td>High-Gloss</td><td>Highest</td><td>Doors, cabinets</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="educational-card">
+          <h3>🪣 When to Use Primer</h3>
+          <p class="mb-2"><strong>Always use primer when:</strong></p>
+          <ul>
+            <li>Painting over dark colors with light colors</li>
+            <li>Covering stains (water, smoke, marker)</li>
+            <li>Painting new drywall or bare wood</li>
+            <li>Painting glossy surfaces</li>
+            <li>Making significant color change</li>
+          </ul>
+        </div>
+
+        <div class="educational-card">
+          <h3>✅ Pro Painting Tips</h3>
+          <ul>
+            <li>Cut in first, then roll for best blend</li>
+            <li>Use a paint grid instead of tray for faster loading</li>
+            <li>Keep a wet edge to avoid lap marks</li>
+            <li>Don't press too hard on roller</li>
+            <li>Remove tape while paint is slightly tacky</li>
+            <li>Keep room between 50-85°F for proper drying</li>
+          </ul>
+        </div>
+
+        <div class="educational-card">
+          <h3>❌ Common Mistakes to Avoid</h3>
+          <ul>
+            <li>Skipping surface prep (causes peeling)</li>
+            <li>Not using primer when needed</li>
+            <li>Painting in extreme temperatures</li>
+            <li>Removing tape after paint fully dries</li>
+            <li>Overloading brush or roller (causes drips)</li>
+            <li>Not maintaining a wet edge (causes lap marks)</li>
+          </ul>
+        </div>
+
+        <div class="educational-card">
+          <h3>🧪 Paint Type Comparison</h3>
+          <table class="educational-table">
+            <thead>
+              <tr><th>Type</th><th>Dry Time</th><th>Cleanup</th><th>Best Use</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Latex</td><td>1-2 hrs</td><td>Water</td><td>Interior walls</td></tr>
+              <tr><td>Acrylic</td><td>1-2 hrs</td><td>Water</td><td>Interior/Exterior</td></tr>
+              <tr><td>Oil-Based</td><td>6-8 hrs</td><td>Solvent</td><td>Trim, cabinets</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section no-print">
+    <div class="container">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      <div class="faq-container">
+        <div class="faq-item open">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How much paint does 1 gallon cover?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">One gallon of paint typically covers 350-400 square feet on smooth, previously painted surfaces. Coverage decreases to 250-300 square feet on textured walls, new drywall, or porous surfaces. Premium paints often cover up to 400 square feet per gallon.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Do I really need 2 coats of paint?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">For most projects, yes. Two coats ensure even coverage, true color representation, and better durability. One coat may suffice for touch-ups or painting the same color. Dark-to-light color changes often require 3 coats or primer plus 2 coats.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How much paint do I need for a 12×12 room?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">A 12×12 room with 8-foot ceilings has approximately 384 square feet of wall space. After subtracting a door and two windows (~45 sq ft), you have about 339 square feet. You'll need approximately 2 gallons for 2 coats with standard coverage.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Is expensive paint worth it?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Premium paints typically offer better coverage (often needing fewer coats), richer colors, easier application, and longer durability. They often save money long-term by lasting 10-15 years versus 5-7 years for economy paint. For high-traffic areas, premium paint is recommended.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Should I use the same paint for walls and ceilings?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Ceiling paint is specifically formulated to be thicker (less dripping), have a flat finish (hides imperfections), and be more splatter-resistant. While you can use wall paint on ceilings, dedicated ceiling paint makes the job easier and often looks better.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>What's the difference between latex and acrylic paint?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Both are water-based, but acrylic paint contains more acrylic polymers, making it more durable, flexible, and resistant to fading and cracking. Acrylic is better for high-traffic areas and exteriors. Latex is more affordable and works well for most interior walls.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How do I know if I need primer?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Use primer when painting over dark colors, covering stains, painting new drywall, painting bare wood, covering high-gloss surfaces, or making a dramatic color change. If you're repainting a similar color on a clean surface in good condition, primer may not be necessary.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>What paint finish is best for bathrooms and kitchens?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Semi-gloss or satin finishes are best for bathrooms and kitchens due to their moisture resistance and easy cleaning. These finishes can withstand humidity, splashes, and frequent wiping. Avoid flat paint in these areas as it absorbs moisture and stains easily.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How long should I wait between coats?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">For latex and acrylic paints, wait 2-4 hours between coats (until dry to touch). Oil-based paints require 24 hours between coats. Check the paint can label for specific recommendations. High humidity or low temperatures may extend drying times.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How do I calculate paint for textured walls?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Textured walls require 20-40% more paint than smooth surfaces. Light orange peel texture adds about 20%, while heavy knockdown or popcorn texture can require 40% more paint. Our calculator adjusts coverage automatically based on your surface selection.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>What's the best time of year to paint?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Spring and fall offer ideal painting conditions with moderate temperatures (50-70°F) and lower humidity. Avoid painting in extreme heat (above 85°F) or cold (below 50°F). Winter interior painting is fine if you maintain room temperature above 65°F.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How long does interior paint last?</span>
+            <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">Interior paint typically lasts 5-10 years depending on quality, finish, and traffic level. Premium paints and higher sheen finishes last longer. Kitchens, bathrooms, and hallways may need repainting every 3-5 years, while bedrooms can last 7-10 years.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Calculators -->
+  <section class="related-section no-print">
+    <div class="container">
+      <h2 class="related-title">Related Calculators</h2>
+      <div class="related-grid">
+        <a href="drywall-calculator.html" class="related-card">
+          <div class="related-card-icon">📐</div>
+          <h3>Drywall Calculator</h3>
+          <p>Calculate sheets, compound, and tape</p>
+        </a>
+        <a href="flooring-calculator.html" class="related-card">
+          <div class="related-card-icon">🪵</div>
+          <h3>Flooring Calculator</h3>
+          <p>Estimate flooring materials and cost</p>
+        </a>
+        <a href="wallpaper-calculator.html" class="related-card">
+          <div class="related-card-icon">🎨</div>
+          <h3>Wallpaper Calculator</h3>
+          <p>Calculate wallpaper rolls needed</p>
+        </a>
+        <a href="kitchen-remodel-calculator.html" class="related-card">
+          <div class="related-card-icon">🍳</div>
+          <h3>Kitchen Remodel</h3>
+          <p>Estimate kitchen renovation costs</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer no-print">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <span>🔧</span>
+            <span>contractorcalctools</span>
+          </div>
+          <p class="footer-desc">Free contractor calculator tools for homeowners and professionals. Accurate estimates for all your projects.</p>
+        </div>
+        <div>
+          <h4>Calculators</h4>
+          <ul class="footer-links">
+            <li><a href="paint-calculator.html">Paint Calculator</a></li>
+            <li><a href="drywall-calculator.html">Drywall Calculator</a></li>
+            <li><a href="flooring-calculator.html">Flooring Calculator</a></li>
+            <li><a href="roofing-calculator.html">Roofing Calculator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul class="footer-links">
+            <li><a href="../sitemap.html">Sitemap</a></li>
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul class="footer-links">
+            <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="../terms-of-service.html">Terms of Service</a></li>
+            <li><a href="../disclaimer.html">Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 contractorcalctools. All rights reserved.</p>
+        <p style="margin-top: 0.25rem;">Estimates are for planning purposes only. Always consult with professionals for accurate quotes.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Data
+    const coverageRates = {
+      'previously-painted-smooth': 350,
+      'previously-painted-light': 315,
+      'new-drywall': 300,
+      'textured-light': 280,
+      'textured-heavy': 245,
+      'bare-wood': 300,
+      'stucco': 210,
+      'brick': 175
+    };
+
+    const sheenModifiers = {
+      'flat': 1.0,
+      'eggshell': 0.98,
+      'satin': 0.95,
+      'semi-gloss': 0.93,
+      'high-gloss': 0.90
+    };
+
+    const qualityPricing = {
+      'economy': { min: 20, max: 30, avg: 25, coverage: 300 },
+      'standard': { min: 35, max: 45, avg: 40, coverage: 350 },
+      'premium': { min: 50, max: 65, avg: 57, coverage: 400 },
+      'designer': { min: 70, max: 100, avg: 85, coverage: 400 }
+    };
+
+    const primerPricing = {
+      'none': { min: 0, max: 0, avg: 0 },
+      'standard': { min: 25, max: 35, avg: 30 },
+      'high-hide': { min: 35, max: 45, avg: 40 },
+      'stain-blocking': { min: 40, max: 50, avg: 45 },
+      'bonding': { min: 45, max: 55, avg: 50 }
+    };
+
+    const openingAreas = {
+      standardDoor: 21,
+      doubleDoor: 42,
+      closetDoor: 48,
+      smallWindow: 6,
+      standardWindow: 12,
+      largeWindow: 20,
+      pictureWindow: 30
+    };
+
+    const paintLifespan = {
+      'flat': { min: 5, max: 7 },
+      'eggshell': { min: 7, max: 10 },
+      'satin': { min: 8, max: 12 },
+      'semi-gloss': { min: 10, max: 15 },
+      'high-gloss': { min: 12, max: 15 }
+    };
+
+    // State
+    let state = {
+      method: 'room-dimensions',
+      rooms: [{ id: 1, name: 'Room 1', length: 12, width: 10, height: 8 }],
+      roomCounter: 1
+    };
+
+    // Helper Functions
+    function formatCurrency(value) {
+      return '$' + value.toFixed(0);
+    }
+
+    function formatNumber(value) {
+      return value.toLocaleString();
+    }
+
+    // Mobile Menu
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mobile-nav');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      nav.classList.toggle('open');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    }
+
+    // Calculation Method Tabs
+    function setMethod(method) {
+      state.method = method;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.method === method);
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.toggle('active', content.id === 'tab-' + method);
+      });
+      
+      if (method === 'multiple-rooms' && state.rooms.length === 0) {
+        addRoom();
+      }
+      renderRooms();
+    }
+
+    // Area Presets
+    function setPreset(preset) {
+      document.querySelectorAll('.preset-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.preset === preset);
+      });
+
+      const areas = {
+        'full-room': { walls: true, ceiling: true, trim: true, doors: false, windows: false, crown: false },
+        'walls-only': { walls: true, ceiling: false, trim: false, doors: false, windows: false, crown: false },
+        'ceiling-only': { walls: false, ceiling: true, trim: false, doors: false, windows: false, crown: false },
+        'trim-doors': { walls: false, ceiling: false, trim: true, doors: true, windows: true, crown: true },
+        'accent-wall': { walls: true, ceiling: false, trim: false, doors: false, windows: false, crown: false },
+        'exterior': { walls: true, ceiling: false, trim: true, doors: true, windows: true, crown: false }
+      };
+
+      const selection = areas[preset];
+      document.getElementById('area-walls').checked = selection.walls;
+      document.getElementById('area-ceiling').checked = selection.ceiling;
+      document.getElementById('area-trim').checked = selection.trim;
+      document.getElementById('area-doors').checked = selection.doors;
+      document.getElementById('area-windows').checked = selection.windows;
+      document.getElementById('area-crown').checked = selection.crown;
+    }
+
+    // Room Management
+    function addRoom() {
+      state.roomCounter++;
+      state.rooms.push({
+        id: state.roomCounter,
+        name: 'Room ' + state.roomCounter,
+        length: 12,
+        width: 10,
+        height: 8
+      });
+      renderRooms();
+    }
+
+    function removeRoom(id) {
+      state.rooms = state.rooms.filter(r => r.id !== id);
+      if (state.rooms.length === 0) {
+        addRoom();
+      }
+      renderRooms();
+    }
+
+    function updateRoom(id, field, value) {
+      const room = state.rooms.find(r => r.id === id);
+      if (room) {
+        room[field] = parseFloat(value) || 0;
+      }
+    }
+
+    function renderRooms() {
+      const container = document.getElementById('rooms-container');
+      container.innerHTML = state.rooms.map(room => `
+        <div class="room-item">
+          <div class="room-header">
+            <span class="room-name">${room.name}</span>
+            ${state.rooms.length > 1 ? `<button class="room-delete-btn" onclick="removeRoom(${room.id})">Remove</button>` : ''}
+          </div>
+          <div class="form-row form-row-3">
+            <div class="form-group">
+              <label class="form-label">Length (ft)</label>
+              <input type="number" class="form-input" value="${room.length}" min="1" step="0.5" onchange="updateRoom(${room.id}, 'length', this.value)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Width (ft)</label>
+              <input type="number" class="form-input" value="${room.width}" min="1" step="0.5" onchange="updateRoom(${room.id}, 'width', this.value)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Height (ft)</label>
+              <input type="number" class="form-input" value="${room.height}" min="1" step="0.5" onchange="updateRoom(${room.id}, 'height', this.value)">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Waste Factor Slider
+    document.getElementById('waste-factor').addEventListener('input', function() {
+      document.getElementById('waste-value').textContent = this.value + '%';
+    });
+
+    // FAQ Toggle
+    function toggleFAQ(button) {
+      const item = button.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // Get form values
+    function getFormValues() {
+      const method = state.method;
+      let length = 12, width = 10, height = 8;
+
+      if (method === 'room-dimensions') {
+        length = parseFloat(document.getElementById('room-length').value) || 12;
+        width = parseFloat(document.getElementById('room-width').value) || 10;
+        height = parseFloat(document.getElementById('room-height').value) || 8;
+      } else if (method === 'multiple-rooms') {
+        // Calculate combined dimensions
+        let totalWallArea = 0;
+        let totalCeilingArea = 0;
+        let avgHeight = 8;
+        
+        state.rooms.forEach(room => {
+          const perimeter = 2 * (room.length + room.width);
+          totalWallArea += perimeter * room.height;
+          totalCeilingArea += room.length * room.width;
+        });
+        
+        // Convert back to approximate dimensions
+        avgHeight = state.rooms[0]?.height || 8;
+        const avgPerimeter = totalWallArea / avgHeight;
+        length = avgPerimeter / 4;
+        width = avgPerimeter / 4;
+        height = avgHeight;
+      }
+
+      return {
+        method,
+        length,
+        width,
+        height,
+        directWallArea: parseFloat(document.getElementById('direct-wall-area').value) || 400,
+        rooms: state.rooms,
+        areas: {
+          walls: document.getElementById('area-walls').checked,
+          ceiling: document.getElementById('area-ceiling').checked,
+          trim: document.getElementById('area-trim').checked,
+          doors: document.getElementById('area-doors').checked,
+          windows: document.getElementById('area-windows').checked,
+          crown: document.getElementById('area-crown').checked
+        },
+        openings: {
+          standardDoors: parseInt(document.getElementById('standard-doors').value) || 0,
+          doubleDoors: parseInt(document.getElementById('double-doors').value) || 0,
+          closetDoors: parseInt(document.getElementById('closet-doors').value) || 0,
+          smallWindows: parseInt(document.getElementById('small-windows').value) || 0,
+          standardWindows: parseInt(document.getElementById('standard-windows').value) || 0,
+          largeWindows: parseInt(document.getElementById('large-windows').value) || 0,
+          pictureWindows: parseInt(document.getElementById('picture-windows').value) || 0,
+          customObstructions: parseFloat(document.getElementById('custom-obstructions').value) || 0
+        },
+        paintType: document.getElementById('paint-type').value,
+        paintQuality: document.getElementById('paint-quality').value,
+        paintFinish: document.getElementById('paint-finish').value,
+        surfaceType: document.getElementById('surface-type').value,
+        numberOfCoats: parseInt(document.querySelector('input[name="coats"]:checked')?.value) || 2,
+        currentColor: document.getElementById('current-color').value,
+        newColor: document.getElementById('new-color').value,
+        primerType: document.getElementById('primer-type').value,
+        wasteFactor: parseInt(document.getElementById('waste-factor').value) || 10,
+        applicationMethod: document.getElementById('application-method').value,
+        climate: document.getElementById('climate').value,
+        lowVOC: document.getElementById('low-voc').checked,
+        zeroVOC: document.getElementById('zero-voc').checked,
+        includeTouchup: document.getElementById('include-touchup').checked,
+        showProfessional: document.getElementById('show-professional').checked
+      };
+    }
+
+    // Main Calculation
+    function calculate() {
+      const inputs = getFormValues();
+      
+      // Calculate wall area
+      let wallPerimeter, totalWallArea, ceilingArea;
+      
+      if (inputs.method === 'wall-area') {
+        totalWallArea = inputs.directWallArea;
+        wallPerimeter = Math.sqrt(inputs.directWallArea) * 2;
+        ceilingArea = inputs.directWallArea / 4;
+      } else if (inputs.method === 'multiple-rooms') {
+        totalWallArea = 0;
+        ceilingArea = 0;
+        wallPerimeter = 0;
+        
+        inputs.rooms.forEach(room => {
+          const perimeter = 2 * (room.length + room.width);
+          totalWallArea += perimeter * room.height;
+          ceilingArea += room.length * room.width;
+          wallPerimeter += perimeter;
+        });
+      } else {
+        wallPerimeter = 2 * (inputs.length + inputs.width);
+        totalWallArea = wallPerimeter * inputs.height;
+        ceilingArea = inputs.length * inputs.width;
+      }
+
+      // Calculate opening areas
+      const totalDoorArea = 
+        (inputs.openings.standardDoors * openingAreas.standardDoor) +
+        (inputs.openings.doubleDoors * openingAreas.doubleDoor) +
+        (inputs.openings.closetDoors * openingAreas.closetDoor);
+
+      const totalWindowArea = 
+        (inputs.openings.smallWindows * openingAreas.smallWindow) +
+        (inputs.openings.standardWindows * openingAreas.standardWindow) +
+        (inputs.openings.largeWindows * openingAreas.largeWindow) +
+        (inputs.openings.pictureWindows * openingAreas.pictureWindow);
+
+      const netWallArea = Math.max(0, totalWallArea - totalDoorArea - totalWindowArea - inputs.openings.customObstructions);
+
+      // Calculate trim area
+      const baseboardLength = wallPerimeter - (inputs.openings.standardDoors * 3) - 
+        (inputs.openings.doubleDoors * 6) - (inputs.openings.closetDoors * 6);
+      const doorFrameLength = (inputs.openings.standardDoors * 17) + 
+        (inputs.openings.doubleDoors * 20) + (inputs.openings.closetDoors * 20);
+      const windowFrameLength = (inputs.openings.smallWindows * 10) + 
+        (inputs.openings.standardWindows * 14) + (inputs.openings.largeWindows * 18) + 
+        (inputs.openings.pictureWindows * 22);
+      const crownMoldingLength = inputs.areas.crown ? wallPerimeter : 0;
+
+      const trimSqFt = (baseboardLength * 0.5) + (doorFrameLength * 0.3) + 
+        (windowFrameLength * 0.3) + (crownMoldingLength * 0.25);
+
+      // Door paint area
+      const totalDoors = inputs.openings.standardDoors + inputs.openings.doubleDoors + inputs.openings.closetDoors;
+      const doorPaintArea = (inputs.openings.standardDoors * 21 * 2) + 
+        (inputs.openings.doubleDoors * 42 * 2) + (inputs.openings.closetDoors * 48 * 2);
+
+      // Total paintable area
+      let totalPaintableArea = 0;
+      if (inputs.areas.walls) totalPaintableArea += netWallArea;
+      if (inputs.areas.ceiling) totalPaintableArea += ceilingArea;
+      if (inputs.areas.trim) totalPaintableArea += trimSqFt;
+      if (inputs.areas.doors) totalPaintableArea += doorPaintArea;
+
+      // Coverage calculation
+      const baseCoverage = coverageRates[inputs.surfaceType] || 350;
+      const adjustedCoverage = baseCoverage * (sheenModifiers[inputs.paintFinish] || 1);
+      const qualityCoverage = qualityPricing[inputs.paintQuality]?.coverage || 350;
+      const finalCoverage = Math.min(adjustedCoverage, qualityCoverage);
+
+      // Paint calculation
+      const areaWithCoats = totalPaintableArea * inputs.numberOfCoats;
+      const areaWithWaste = areaWithCoats * (1 + inputs.wasteFactor / 100);
+      const gallonsNeeded = areaWithWaste / finalCoverage;
+      const gallonsRounded = Math.ceil(gallonsNeeded);
+
+      // Primer calculation
+      let primerGallons = 0;
+      if (inputs.primerType !== 'none') {
+        primerGallons = Math.ceil(totalPaintableArea / 300);
+      }
+
+      // Separate calculations for ceiling and trim
+      let ceilingGallons = 0;
+      let trimGallons = 0;
+      
+      if (inputs.areas.ceiling) {
+        ceilingGallons = Math.ceil((ceilingArea * inputs.numberOfCoats * (1 + inputs.wasteFactor / 100)) / 400);
+      }
+      
+      if (inputs.areas.trim) {
+        trimGallons = Math.ceil((trimSqFt * inputs.numberOfCoats * (1 + inputs.wasteFactor / 100)) / 150);
+      }
+
+      // Cost calculations
+      const paintPrice = qualityPricing[inputs.paintQuality]?.avg || 40;
+      let wallGallons = Math.ceil((netWallArea * inputs.numberOfCoats * (1 + inputs.wasteFactor / 100)) / finalCoverage);
+      
+      // Apply VOC premiums
+      let vocMultiplier = 1;
+      if (inputs.zeroVOC) vocMultiplier = 1.15;
+      else if (inputs.lowVOC) vocMultiplier = 1.05;
+
+      const wallPaintCost = wallGallons * paintPrice * vocMultiplier;
+      const ceilingPaintCost = ceilingGallons * 35;
+      const trimPaintCost = trimGallons * 45;
+      const primerCost = primerGallons * (primerPricing[inputs.primerType]?.avg || 0);
+      
+      // Touch-up paint
+      const touchupCost = inputs.includeTouchup ? 15 : 0;
+
+      // Supplies calculation
+      const supplies = [
+        { name: '9" Roller Frame', qty: 1, price: 8 },
+        { name: '9" Roller Covers (3-pack)', qty: Math.ceil(gallonsRounded / 2), price: 12 },
+        { name: 'Extension Pole (4-8 ft)', qty: 1, price: 20 },
+        { name: '2" Angled Brush', qty: 2, price: 8 },
+        { name: '3" Angled Brush', qty: 1, price: 12 },
+        { name: 'Paint Tray', qty: 2, price: 5 },
+        { name: 'Tray Liners (10-pack)', qty: 1, price: 8 },
+        { name: "Painter's Tape 1.5\" (60yd)", qty: Math.ceil(wallPerimeter / 60), price: 7 },
+        { name: 'Drop Cloth 9×12 ft', qty: 2, price: 15 },
+        { name: 'Plastic Drop Cloth', qty: 1, price: 8 },
+        { name: 'Sandpaper Variety Pack', qty: 1, price: 8 },
+        { name: 'Spackling Paste', qty: 1, price: 6 },
+        { name: 'Putty Knife Set', qty: 1, price: 5 },
+        { name: 'Caulk', qty: inputs.areas.trim ? 2 : 1, price: 5 },
+        { name: 'Caulk Gun', qty: 1, price: 8 },
+        { name: 'Shop Towels/Rags', qty: 1, price: 10 }
+      ];
+
+      if (inputs.areas.trim) {
+        supplies.push({ name: '4" Mini Roller Frame', qty: 1, price: 6 });
+        supplies.push({ name: '4" Mini Roller Covers', qty: 1, price: 8 });
+      }
+
+      const suppliesCost = supplies.reduce((sum, item) => sum + (item.qty * item.price), 0);
+
+      // Total costs
+      const materialsCost = wallPaintCost + ceilingPaintCost + trimPaintCost + primerCost + touchupCost;
+      const bulkDiscount = gallonsRounded >= 5 ? materialsCost * 0.05 : 0;
+      const totalDIYCost = materialsCost - bulkDiscount + suppliesCost;
+
+      // Professional costs
+      const laborRateMin = 1.50;
+      const laborRateMax = 3.50;
+      const laborCostMin = totalPaintableArea * laborRateMin;
+      const laborCostMax = totalPaintableArea * laborRateMax;
+      const professionalMin = materialsCost + laborCostMin;
+      const professionalMax = materialsCost + laborCostMax;
+
+      // Time estimates
+      const prepTime = totalPaintableArea * 0.01;
+      const primingTime = primerGallons > 0 ? totalPaintableArea * 0.006 : 0;
+      const paintingTime = totalPaintableArea * 0.008 * inputs.numberOfCoats;
+      const cleanupTime = 1;
+      const totalProjectTime = prepTime + primingTime + paintingTime + cleanupTime;
+
+      // Lifespan
+      const lifespan = paintLifespan[inputs.paintFinish] || { min: 7, max: 10 };
+
+      // Cost-saving tips
+      const tips = [];
+      if (inputs.paintQuality === 'premium' && totalPaintableArea < 200) {
+        tips.push('For small areas, standard quality paint may be more cost-effective');
+      }
+      if (inputs.numberOfCoats === 3 && inputs.primerType === 'none') {
+        tips.push('Using primer + 2 coats may be cheaper than 3 coats of paint');
+      }
+      if (gallonsRounded >= 5) {
+        tips.push('Ask about contractor or bulk pricing for 5+ gallons');
+      }
+      tips.push('Buy painter\'s tape in multi-packs for savings');
+      tips.push('Quality brushes can be cleaned and reused');
+      tips.push('Ask about mis-tinted paint at 50-75% off');
+
+      // Overbuy alerts
+      const alerts = [];
+      const overage = (gallonsRounded - gallonsNeeded) / gallonsNeeded * 100;
+      if (overage > 40 && gallonsNeeded < 1) {
+        alerts.push('Consider buying quarts instead of full gallons for small areas');
+      }
+      if (inputs.wasteFactor > 15 && inputs.surfaceType === 'previously-painted-smooth') {
+        alerts.push('Your waste factor may be higher than needed for smooth surfaces');
+      }
+
+      // Render results
+      renderResults({
+        wallGallons,
+        ceilingGallons,
+        trimGallons,
+        primerGallons,
+        totalGallons: gallonsRounded,
+        gallonsExact: gallonsNeeded,
+        
+        wallPerimeter,
+        totalWallArea,
+        netWallArea,
+        totalDoorArea,
+        totalWindowArea,
+        customObstructions: inputs.openings.customObstructions,
+        ceilingArea,
+        trimSqFt,
+        doorPaintArea,
+        totalPaintableArea,
+        
+        numberOfCoats: inputs.numberOfCoats,
+        wasteFactor: inputs.wasteFactor,
+        coverage: finalCoverage,
+        
+        wallPaintCost,
+        ceilingPaintCost,
+        trimPaintCost,
+        primerCost,
+        touchupCost,
+        materialsCost,
+        bulkDiscount,
+        suppliesCost,
+        totalDIYCost,
+        
+        laborCostMin,
+        laborCostMax,
+        professionalMin,
+        professionalMax,
+        savings: professionalMin - totalDIYCost,
+        
+        prepTime,
+        primingTime,
+        paintingTime,
+        cleanupTime,
+        totalProjectTime,
+        
+        supplies,
+        tips,
+        alerts,
+        lifespan,
+        
+        areas: inputs.areas,
+        showProfessional: inputs.showProfessional,
+        paintQuality: inputs.paintQuality,
+        paintFinish: inputs.paintFinish,
+        primerType: inputs.primerType
+      });
+    }
+
+    // Render Results
+    function renderResults(r) {
+      // Show results container
+      document.getElementById('results-placeholder').style.display = 'none';
+      document.getElementById('results-container').classList.add('show');
+
+      // Primary result
+      document.getElementById('result-gallons').textContent = r.totalGallons;
+      
+      let areas = [];
+      if (r.areas.walls) areas.push('walls');
+      if (r.areas.ceiling) areas.push('ceiling');
+      if (r.areas.trim) areas.push('trim');
+      if (r.areas.doors) areas.push('doors');
+      document.getElementById('result-subtitle').textContent = 
+        `for ${areas.join(', ')} - ${r.numberOfCoats} coat${r.numberOfCoats > 1 ? 's' : ''}`;
+
+      // Breakdown table
+      document.getElementById('breakdown-table').innerHTML = `
+        <tr><td>Room Perimeter</td><td class="text-right">${r.wallPerimeter.toFixed(0)} ft</td></tr>
+        <tr><td>Total Wall Area</td><td class="text-right">${formatNumber(r.totalWallArea.toFixed(0))} sq ft</td></tr>
+        <tr><td>Minus Doors</td><td class="text-right">-${r.totalDoorArea} sq ft</td></tr>
+        <tr><td>Minus Windows</td><td class="text-right">-${r.totalWindowArea} sq ft</td></tr>
+        ${r.customObstructions > 0 ? `<tr><td>Minus Obstructions</td><td class="text-right">-${r.customObstructions} sq ft</td></tr>` : ''}
+        <tr><td>Net Wall Area</td><td class="text-right">${formatNumber(r.netWallArea.toFixed(0))} sq ft</td></tr>
+        ${r.areas.ceiling ? `<tr><td>Ceiling Area</td><td class="text-right">${formatNumber(r.ceilingArea.toFixed(0))} sq ft</td></tr>` : ''}
+        ${r.areas.trim ? `<tr><td>Trim Area</td><td class="text-right">${r.trimSqFt.toFixed(0)} sq ft</td></tr>` : ''}
+        <tr><td><strong>Total Paintable</strong></td><td class="text-right"><strong>${formatNumber(r.totalPaintableArea.toFixed(0))} sq ft</strong></td></tr>
+        <tr><td>× Number of Coats</td><td class="text-right">×${r.numberOfCoats}</td></tr>
+        <tr><td>+ Waste Factor</td><td class="text-right">+${r.wasteFactor}%</td></tr>
+        <tr><td>Coverage Rate</td><td class="text-right">${r.coverage.toFixed(0)} sq ft/gal</td></tr>
+      `;
+
+      // Requirements table
+      let reqRows = '';
+      if (r.areas.walls) {
+        reqRows += `<tr><td>Walls</td><td>${formatNumber(r.netWallArea.toFixed(0))} sq ft</td><td>${r.numberOfCoats}</td><td>${r.wallGallons} gal</td><td class="text-right">${formatCurrency(r.wallPaintCost)}</td></tr>`;
+      }
+      if (r.areas.ceiling) {
+        reqRows += `<tr><td>Ceiling</td><td>${formatNumber(r.ceilingArea.toFixed(0))} sq ft</td><td>${r.numberOfCoats}</td><td>${r.ceilingGallons} gal</td><td class="text-right">${formatCurrency(r.ceilingPaintCost)}</td></tr>`;
+      }
+      if (r.areas.trim) {
+        reqRows += `<tr><td>Trim</td><td>${r.trimSqFt.toFixed(0)} sq ft</td><td>${r.numberOfCoats}</td><td>${r.trimGallons} gal</td><td class="text-right">${formatCurrency(r.trimPaintCost)}</td></tr>`;
+      }
+      if (r.primerGallons > 0) {
+        reqRows += `<tr><td>Primer</td><td>${formatNumber(r.totalPaintableArea.toFixed(0))} sq ft</td><td>1</td><td>${r.primerGallons} gal</td><td class="text-right">${formatCurrency(r.primerCost)}</td></tr>`;
+      }
+      reqRows += `<tr class="total-row"><td>TOTAL</td><td></td><td></td><td>${r.totalGallons + r.primerGallons} gal</td><td class="text-right">${formatCurrency(r.materialsCost)}</td></tr>`;
+      document.getElementById('requirements-table').innerHTML = reqRows;
+
+      // Shopping list
+      let shoppingHtml = `
+        <div class="shopping-category">
+          <div class="shopping-category-title">PAINT & PRIMER</div>
+      `;
+      
+      if (r.areas.walls) {
+        const qualityLabel = { economy: 'Economy', standard: 'Standard (Behr, Valspar)', premium: 'Premium (BM, SW)', designer: 'Designer' }[r.paintQuality];
+        shoppingHtml += `<div class="shopping-item"><span class="shopping-item-name">Wall Paint - ${qualityLabel}</span><span class="shopping-item-qty">${r.wallGallons} gal</span><span class="shopping-item-price">${formatCurrency(r.wallPaintCost)}</span></div>`;
+      }
+      if (r.areas.ceiling) {
+        shoppingHtml += `<div class="shopping-item"><span class="shopping-item-name">Ceiling Paint (Flat White)</span><span class="shopping-item-qty">${r.ceilingGallons} gal</span><span class="shopping-item-price">${formatCurrency(r.ceilingPaintCost)}</span></div>`;
+      }
+      if (r.areas.trim) {
+        shoppingHtml += `<div class="shopping-item"><span class="shopping-item-name">Trim Paint (Semi-Gloss)</span><span class="shopping-item-qty">${r.trimGallons} gal</span><span class="shopping-item-price">${formatCurrency(r.trimPaintCost)}</span></div>`;
+      }
+      if (r.primerGallons > 0) {
+        const primerLabel = { standard: 'Standard', 'high-hide': 'High-Hide', 'stain-blocking': 'Stain-Blocking', bonding: 'Bonding' }[r.primerType];
+        shoppingHtml += `<div class="shopping-item"><span class="shopping-item-name">${primerLabel} Primer</span><span class="shopping-item-qty">${r.primerGallons} gal</span><span class="shopping-item-price">${formatCurrency(r.primerCost)}</span></div>`;
+      }
+      if (r.touchupCost > 0) {
+        shoppingHtml += `<div class="shopping-item"><span class="shopping-item-name">Touch-up Paint</span><span class="shopping-item-qty">1 qt</span><span class="shopping-item-price">${formatCurrency(r.touchupCost)}</span></div>`;
+      }
+      shoppingHtml += '</div>';
+
+      shoppingHtml += `<div class="shopping-category"><div class="shopping-category-title">TOOLS & SUPPLIES</div>`;
+      r.supplies.forEach(item => {
+        shoppingHtml += `<div class="shopping-item"><span class="shopping-item-name">${item.name}</span><span class="shopping-item-qty">${item.qty}</span><span class="shopping-item-price">${formatCurrency(item.qty * item.price)}</span></div>`;
+      });
+      shoppingHtml += '</div>';
+
+      document.getElementById('shopping-list').innerHTML = shoppingHtml;
+
+      // Cost summary
+      let costHtml = `
+        <div class="cost-row"><span class="cost-label">Paint & Primer</span><span class="cost-value">${formatCurrency(r.materialsCost)}</span></div>
+        ${r.bulkDiscount > 0 ? `<div class="cost-row"><span class="cost-label">Bulk Discount (5%)</span><span class="cost-value text-success">-${formatCurrency(r.bulkDiscount)}</span></div>` : ''}
+        <div class="cost-row"><span class="cost-label">Tools & Supplies</span><span class="cost-value">${formatCurrency(r.suppliesCost)}</span></div>
+        <div class="cost-row total"><span>DIY TOTAL</span><span>${formatCurrency(r.totalDIYCost)}</span></div>
+      `;
+      document.getElementById('cost-summary').innerHTML = costHtml;
+
+      // Professional comparison
+      const profSection = document.getElementById('professional-section');
+      if (r.showProfessional) {
+        profSection.style.display = 'block';
+        document.getElementById('professional-comparison').innerHTML = `
+          <div class="cost-row"><span class="cost-label">Materials</span><span class="cost-value">${formatCurrency(r.materialsCost)}</span></div>
+          <div class="cost-row"><span class="cost-label">Labor (${formatNumber(r.totalPaintableArea.toFixed(0))} sq ft)</span><span class="cost-value">${formatCurrency(r.laborCostMin)} - ${formatCurrency(r.laborCostMax)}</span></div>
+          <div class="cost-row total"><span>PROFESSIONAL TOTAL</span><span>${formatCurrency(r.professionalMin)} - ${formatCurrency(r.professionalMax)}</span></div>
+          <div class="savings-badge">You Save: ${formatCurrency(r.savings)} - ${formatCurrency(r.professionalMax - r.totalDIYCost)} (DIY)</div>
+        `;
+      } else {
+        profSection.style.display = 'none';
+      }
+
+      // Schedule
+      document.getElementById('schedule-table').innerHTML = `
+        <tr><td>Surface Preparation</td><td class="text-right">${r.prepTime.toFixed(1)} hours</td></tr>
+        <tr><td>Taping & Masking</td><td class="text-right">0.5 - 1 hours</td></tr>
+        ${r.primingTime > 0 ? `<tr><td>Priming</td><td class="text-right">${r.primingTime.toFixed(1)} hours</td></tr>` : ''}
+        <tr><td>Painting (${r.numberOfCoats} coats)</td><td class="text-right">${r.paintingTime.toFixed(1)} hours</td></tr>
+        <tr><td>Dry Time Between Coats</td><td class="text-right">2-4 hours each</td></tr>
+        <tr><td>Cleanup & Touch-up</td><td class="text-right">${r.cleanupTime} hour</td></tr>
+        <tr class="total-row"><td>TOTAL PROJECT TIME</td><td class="text-right">${r.totalProjectTime.toFixed(1)} - ${(r.totalProjectTime * 1.5).toFixed(1)} hours</td></tr>
+      `;
+
+      // Tips
+      document.getElementById('tips-list').innerHTML = r.tips.map(tip => 
+        `<li class="tip-item"><span class="tip-icon">💡</span><span>${tip}</span></li>`
+      ).join('');
+
+      // Alerts
+      const alertsSection = document.getElementById('alerts-section');
+      if (r.alerts.length > 0) {
+        alertsSection.style.display = 'block';
+        document.getElementById('alerts-list').innerHTML = r.alerts.map(alert =>
+          `<div class="alert-item"><span class="tip-icon">⚠️</span><span>${alert}</span></div>`
+        ).join('');
+      } else {
+        alertsSection.style.display = 'none';
+      }
+
+      // Maintenance
+      document.getElementById('maintenance-table').innerHTML = `
+        <tr><td>Touch-up Inspection</td><td class="text-right">As needed</td></tr>
+        <tr><td>Deep Cleaning</td><td class="text-right">Every 6 months</td></tr>
+        <tr><td>Annual Inspection</td><td class="text-right">Yearly</td></tr>
+        <tr><td>Expected Repaint</td><td class="text-right">${r.lifespan.min}-${r.lifespan.max} years</td></tr>
+      `;
+
+      // Scroll to results
+      document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Clear Form
+    function clearForm() {
+      document.getElementById('room-length').value = 12;
+      document.getElementById('room-width').value = 10;
+      document.getElementById('room-height').value = 8;
+      document.getElementById('direct-wall-area').value = 400;
+      
+      state.rooms = [{ id: 1, name: 'Room 1', length: 12, width: 10, height: 8 }];
+      state.roomCounter = 1;
+      renderRooms();
+
+      setPreset('walls-only');
+      
+      document.getElementById('standard-doors').value = 1;
+      document.getElementById('double-doors').value = 0;
+      document.getElementById('closet-doors').value = 0;
+      document.getElementById('small-windows').value = 0;
+      document.getElementById('standard-windows').value = 2;
+      document.getElementById('large-windows').value = 0;
+      document.getElementById('picture-windows').value = 0;
+      document.getElementById('custom-obstructions').value = 0;
+
+      document.getElementById('paint-type').value = 'interior-latex';
+      document.getElementById('paint-quality').value = 'standard';
+      document.getElementById('paint-finish').value = 'eggshell';
+      document.getElementById('surface-type').value = 'previously-painted-smooth';
+      
+      document.getElementById('coats-2').checked = true;
+      document.getElementById('current-color').value = 'light';
+      document.getElementById('new-color').value = 'light';
+      document.getElementById('primer-type').value = 'none';
+
+      document.getElementById('waste-factor').value = 10;
+      document.getElementById('waste-value').textContent = '10%';
+
+      document.getElementById('application-method').value = 'brush-roller';
+      document.getElementById('climate').value = 'spring';
+
+      document.getElementById('low-voc').checked = false;
+      document.getElementById('zero-voc').checked = false;
+      document.getElementById('include-touchup').checked = false;
+      document.getElementById('show-professional').checked = true;
+
+      // Hide results
+      document.getElementById('results-placeholder').style.display = 'block';
+      document.getElementById('results-container').classList.remove('show');
+    }
+
+    // Copy Shopping List
+    function copyList() {
+      const shoppingList = document.getElementById('shopping-list');
+      let text = 'PAINT CALCULATOR - SHOPPING LIST\n\n';
+      
+      const categories = shoppingList.querySelectorAll('.shopping-category');
+      categories.forEach(cat => {
+        const title = cat.querySelector('.shopping-category-title').textContent;
+        text += title + '\n' + '-'.repeat(30) + '\n';
+        
+        const items = cat.querySelectorAll('.shopping-item');
+        items.forEach(item => {
+          const name = item.querySelector('.shopping-item-name').textContent;
+          const qty = item.querySelector('.shopping-item-qty').textContent;
+          const price = item.querySelector('.shopping-item-price').textContent;
+          text += `${name}: ${qty} - ${price}\n`;
+        });
+        text += '\n';
+      });
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Shopping list copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy. Please try again.');
+      });
+    }
+
+    // Save Estimate
+    function saveEstimate() {
+      const inputs = getFormValues();
+      const timestamp = new Date().toISOString();
+      
+      const save = {
+        timestamp,
+        inputs,
+        url: window.location.href
+      };
+
+      localStorage.setItem('paintCalculatorSave', JSON.stringify(save));
+      alert('Estimate saved! It will be available when you return to this page.');
+    }
+
+    // Load Saved Estimate
+    function loadSavedEstimate() {
+      const saved = localStorage.getItem('paintCalculatorSave');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          // Could restore form values here
+          console.log('Saved estimate found:', data.timestamp);
+        } catch (e) {
+          console.log('No valid saved data');
+        }
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      renderRooms();
+      loadSavedEstimate();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,3092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Remodel Cost Calculator - Free Renovation Estimator | contractorcalctools</title>
+    <meta name="description" content="Free kitchen remodel cost calculator. Estimate renovation costs for cabinets, countertops, appliances, flooring & labor. Get accurate budget ranges instantly.">
+    <meta name="keywords" content="kitchen remodel cost calculator, kitchen renovation cost, how much does kitchen remodel cost, kitchen cabinet cost, countertop cost calculator, kitchen remodel ROI">
+    <!-- Canonical URL removed to avoid SEO/duplicate content issues if hosted elsewhere. Set dynamically if needed. -->
+    <meta property="og:title" content="Kitchen Remodel Cost Calculator - Free Renovation Estimator | contractorcalctools">
+    <meta property="og:description" content="Free kitchen remodel cost calculator. Estimate renovation costs for cabinets, countertops, appliances, flooring & labor.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kitchen Remodel Cost Calculator | contractorcalctools">
+    <meta name="twitter:description" content="Free kitchen remodel cost calculator. Get accurate budget ranges instantly.">
+        <!-- Google Fonts removed for offline/CSP compatibility. Use system font stack below. -->
+        <style>
+            body, input, button, select, textarea {
+                font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+            }
+        </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Kitchen Remodel Cost Calculator",
+        "description": "Free kitchen remodel cost calculator for estimating renovation costs",
+        "url": "https://www.contractorcalctools.com/calculators/kitchen-remodel-calculator.html",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: 210 54% 24%;
+            --primary-foreground: 0 0% 100%;
+            --secondary: 32 94% 54%;
+            --secondary-foreground: 0 0% 100%;
+            --background: 0 0% 100%;
+            --foreground: 0 0% 20%;
+            --muted: 210 20% 96%;
+            --muted-foreground: 210 10% 45%;
+            --accent: 32 94% 95%;
+            --accent-foreground: 32 94% 35%;
+            --border: 210 20% 88%;
+            --card: 0 0% 100%;
+            --card-foreground: 0 0% 20%;
+            --success: 142 76% 36%;
+            --success-foreground: 0 0% 100%;
+            --alt-background: 210 20% 98%;
+            --radius: 0.75rem;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            border-bottom: 1px solid hsl(var(--border));
+            background-color: hsla(var(--background) / 0.95);
+            backdrop-filter: blur(8px);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(210 54% 32%));
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: var(--font-heading);
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+            line-height: 1.2;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            line-height: 1.2;
+        }
+
+        .nav {
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: hsl(var(--primary));
+        }
+
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 64px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 0;
+            background-color: hsl(var(--alt-background));
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb-list a {
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+        }
+
+        .breadcrumb-list a:hover {
+            color: hsl(var(--primary));
+        }
+
+        .breadcrumb-separator {
+            color: hsl(var(--muted-foreground));
+        }
+
+        .breadcrumb-current {
+            color: hsl(var(--foreground));
+            font-weight: 500;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(210 54% 32%));
+            color: hsl(var(--primary-foreground));
+            padding: 3rem 0;
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Feature Cards */
+        .features {
+            padding: 2rem 0;
+            background-color: hsl(var(--alt-background));
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .feature-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 10px 40px -10px hsla(var(--primary) / 0.15);
+            border-color: hsla(var(--primary) / 0.2);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: hsla(var(--primary) / 0.1);
+            border-radius: 8px;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: hsl(var(--foreground));
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            line-height: 1.5;
+        }
+
+        /* Calculator Layout */
+        .calculator-section {
+            padding: 2rem 0 4rem;
+        }
+
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .calculator-layout {
+                grid-template-columns: 1fr 380px;
+            }
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .section-header:hover {
+            background-color: hsla(var(--muted) / 0.5);
+        }
+
+        .section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: hsla(var(--primary) / 0.1);
+            border-radius: 8px;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+
+        .section-desc {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .section-toggle {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+            transition: transform 0.3s;
+        }
+
+        .section-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 0 1.5rem 1.5rem;
+            border-top: 1px solid hsl(var(--border));
+            display: none;
+        }
+
+        .section-content.open {
+            display: block;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .form-helper {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            margin-top: 0.25rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 0 3px hsla(var(--primary) / 0.1);
+        }
+
+        /* Size Selector Buttons */
+        .size-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .size-selector {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .size-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--background));
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-btn:hover {
+            border-color: hsl(var(--primary));
+        }
+
+        .size-btn.active {
+            border-color: hsl(var(--primary));
+            background: hsla(var(--primary) / 0.05);
+        }
+
+        .size-btn-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .size-btn-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+        }
+
+        .size-btn-range {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Radio Cards */
+        .radio-cards {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .radio-card {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 2px solid hsl(var(--border));
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-card:hover {
+            border-color: hsl(var(--primary));
+        }
+
+        .radio-card.active {
+            border-color: hsl(var(--primary));
+            background: hsla(var(--primary) / 0.05);
+        }
+
+        .radio-card input {
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            accent-color: hsl(var(--primary));
+        }
+
+        .radio-card-content h4 {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .radio-card-content p {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            line-height: 1.4;
+        }
+
+        .radio-card-cost {
+            margin-left: auto;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: hsl(var(--primary));
+            white-space: nowrap;
+        }
+
+        /* Material Grid */
+        .material-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .material-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .material-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--background));
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .material-btn:hover {
+            border-color: hsl(var(--primary));
+        }
+
+        .material-btn.active {
+            border-color: hsl(var(--primary));
+            background: hsla(var(--primary) / 0.05);
+        }
+
+        .material-btn-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .material-btn-price {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: hsla(var(--muted) / 0.5);
+        }
+
+        .checkbox-item.checked {
+            border-color: hsl(var(--primary));
+            background: hsla(var(--primary) / 0.05);
+        }
+
+        .checkbox-item input {
+            margin-right: 0.75rem;
+            accent-color: hsl(var(--primary));
+        }
+
+        .checkbox-item-label {
+            flex: 1;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+        }
+
+        .checkbox-item-cost {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Range Slider */
+        .range-container {
+            margin-top: 0.5rem;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .range-value {
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: hsl(var(--primary));
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: hsl(var(--muted));
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: hsl(var(--primary));
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* Select Dropdown */
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 0 3px hsla(var(--primary) / 0.1);
+        }
+
+        /* Live Preview Panel */
+        .live-preview {
+            position: sticky;
+            top: 80px;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(210 54% 32%));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            color: hsl(var(--primary-foreground));
+            box-shadow: 0 20px 40px -20px hsla(var(--primary) / 0.4);
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+        }
+
+        .preview-amount {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        @media (min-width: 768px) {
+            .preview-amount {
+                font-size: 2rem;
+            }
+        }
+
+        .preview-per-sqft {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .preview-breakdown {
+            padding-top: 1rem;
+            border-top: 1px solid hsla(var(--primary-foreground) / 0.2);
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+
+        .preview-row-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .preview-row-value {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, hsl(var(--secondary)), hsl(32 94% 45%));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px -10px hsla(var(--secondary) / 0.5);
+        }
+
+        .btn-secondary {
+            background: hsl(var(--muted));
+            color: hsl(var(--foreground));
+        }
+
+        .btn-secondary:hover {
+            background: hsl(var(--border));
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: hsl(var(--primary-foreground));
+            border: 1px solid hsla(var(--primary-foreground) / 0.3);
+        }
+
+        .btn-ghost:hover {
+            background: hsla(var(--primary-foreground) / 0.1);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .results-section.visible {
+            display: block;
+        }
+
+        .result-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(210 54% 32%));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .result-header.secondary {
+            background: linear-gradient(135deg, hsl(var(--secondary)), hsl(32 94% 45%));
+        }
+
+        .result-header h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-header p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .result-body {
+            padding: 1.5rem;
+        }
+
+        /* Cost Breakdown */
+        .cost-item {
+            margin-bottom: 1rem;
+        }
+
+        .cost-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .cost-item-label {
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+        }
+
+        .cost-item-value {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .cost-item-percent {
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .cost-bar {
+            height: 8px;
+            background: hsl(var(--muted));
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .cost-bar-fill {
+            height: 100%;
+            background: hsl(var(--primary));
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 2px solid hsl(var(--border));
+            margin-top: 1rem;
+        }
+
+        .cost-total-label {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: hsl(var(--foreground));
+        }
+
+        .cost-total-value {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: hsl(var(--primary));
+        }
+
+        /* Shopping List */
+        .shopping-category {
+            margin-bottom: 1.5rem;
+        }
+
+        .shopping-category h4 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            color: hsl(var(--foreground));
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+            margin-bottom: 0.75rem;
+        }
+
+        .shopping-table {
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .shopping-table th {
+            text-align: left;
+            font-weight: 500;
+            color: hsl(var(--muted-foreground));
+            padding: 0.5rem 0;
+        }
+
+        .shopping-table td {
+            padding: 0.5rem 0;
+            border-top: 1px solid hsla(var(--border) / 0.5);
+        }
+
+        .shopping-table .item-name {
+            font-weight: 500;
+            color: hsl(var(--foreground));
+        }
+
+        .shopping-table .item-cost {
+            color: hsl(var(--primary));
+            font-weight: 500;
+        }
+
+        .shopping-tip {
+            background: hsla(var(--accent) / 0.5);
+            border: 1px solid hsl(var(--accent));
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .shopping-tip h5 {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .shopping-tip ul {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            list-style: none;
+        }
+
+        .shopping-tip li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Timeline */
+        .timeline-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: hsla(var(--primary) / 0.1);
+            border-radius: var(--radius);
+            margin-top: 1rem;
+        }
+
+        .timeline-badge-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--primary));
+        }
+
+        .timeline-badge-value {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: hsl(var(--primary));
+        }
+
+        .timeline-table {
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .timeline-table th {
+            text-align: left;
+            font-weight: 500;
+            color: hsl(var(--muted-foreground));
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .timeline-table td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid hsla(var(--border) / 0.5);
+        }
+
+        .phase-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: hsla(var(--primary) / 0.1);
+            color: hsl(var(--primary));
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .phase-name {
+            font-weight: 500;
+            color: hsl(var(--foreground));
+        }
+
+        .phase-start {
+            color: hsl(var(--primary));
+            font-weight: 500;
+        }
+
+        .timeline-alert {
+            background: hsla(var(--secondary) / 0.1);
+            border: 1px solid hsla(var(--secondary) / 0.3);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .timeline-alert h5 {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-alert ul {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            list-style: none;
+        }
+
+        .timeline-alert li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* ROI Section */
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .roi-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .roi-stat {
+            text-align: center;
+            padding: 1rem;
+            background: hsla(var(--muted) / 0.5);
+            border-radius: var(--radius);
+        }
+
+        .roi-stat-label {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .roi-stat-value {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+        }
+
+        .roi-note {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: hsla(var(--success) / 0.1);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 3rem 0;
+            background: hsl(var(--alt-background));
+        }
+
+        .faq-title {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: hsl(var(--foreground));
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: hsl(var(--foreground));
+        }
+
+        .faq-question:hover {
+            background: hsla(var(--muted) / 0.5);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 1.5rem 1rem;
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* Related Calculators */
+        .related-section {
+            padding: 3rem 0;
+        }
+
+        .related-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: hsl(var(--foreground));
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .related-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .related-card {
+            display: block;
+            padding: 1.5rem;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .related-card:hover {
+            border-color: hsl(var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px hsla(var(--primary) / 0.15);
+        }
+
+        .related-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .related-card h4 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .related-card p {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Footer */
+        .footer {
+            background: hsl(var(--alt-background));
+            border-top: 1px solid hsl(var(--border));
+            padding: 3rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        .footer-brand p {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            max-width: 300px;
+            margin-top: 1rem;
+        }
+
+        .footer h4 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: hsl(var(--foreground));
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: hsl(var(--primary));
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid hsl(var(--border));
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .breadcrumb, .features, .btn-group, .faq-section, 
+            .related-section, .footer, .live-preview, .form-section,
+            .mobile-menu-btn, .no-print {
+                display: none !important;
+            }
+
+            body {
+                font-size: 12pt;
+                color: #000;
+            }
+
+            .results-section {
+                display: block !important;
+            }
+
+            .result-card {
+                break-inside: avoid;
+                border: 1px solid #ccc;
+            }
+
+            .result-header {
+                background: #1e3a5f !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        /* Utility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+    <div class="container header-inner">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">🔧</div>
+            <div class="logo-text">
+                <span class="logo-title">contractorcalctools</span>
+                <span class="logo-subtitle">Free Calculator Tools</span>
+            </div>
+        </a>
+        <nav class="nav">
+            <a href="../index.html">Home</a>
+            <a href="../sitemap.html">Sitemap</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+    </div>
+</header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <div class="container">
+                <ol class="breadcrumb-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li class="breadcrumb-separator">›</li>
+                    
+                    
+                    <li class="breadcrumb-current">Kitchen Remodel Calculator</li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="hero-icon">🍳</div>
+                <h1>Kitchen Remodel Cost Calculator</h1>
+                <p>Get accurate estimates for your kitchen renovation. Calculate costs for cabinets, countertops, appliances, flooring, and labor.</p>
+            </div>
+        </section>
+                <!-- Advertisement Section -->
+<div class="ad-section">
+  <span class="ad-placeholder">Ad Unit Placeholder</span>
+</div>
+
+<style>
+.ad-section {
+  width: 100%;
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+.ad-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  max-width: 1500px;
+  min-height: 120px;
+  background: #f8f9fa;
+  border: 1px dashed #d3d7db;
+  border-radius: 16px;
+  color: #7a7e85;
+  font-size: 1.25rem;
+  text-align: center;
+  font-family: inherit;
+}
+</style>
+
+        <!-- Feature Cards -->
+        <section class="features">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>Complete Material Lists</h3>
+                        <p>Complete shopping lists with quantities for every material you'll need for your project.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🖨️</div>
+                        <h3>Print & Save</h3>
+                        <p>Print your estimates, download as PDF, copy the list, share, save for future reference.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>ROI & Value Estimator</h3>
+                        <p>Calculate cost vs resale value and expected return on your kitchen investment.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📅</div>
+                        <h3>Project Timeline</h3>
+                        <p>Get realistic timeline estimates with phasing and scheduling recommendations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="calculator-section">
+            <div class="container">
+                <div class="calculator-layout">
+                    <!-- Form Column -->
+                    <div class="calculator-form">
+                        <!-- Section 1: Kitchen Size & Layout -->
+                        <div class="form-section" data-section="size">
+                            <div class="section-header" data-section-toggle="size">
+                                <div class="section-header-left">
+                                    <div class="section-icon">📐</div>
+                                    <div>
+                                        <div class="section-title">Kitchen Size & Layout</div>
+                                        <div class="section-desc">Dimensions and layout type</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle open" id="toggle-size">▼</span>
+                            </div>
+                            <div class="section-content open" id="content-size">
+                                <div class="form-group">
+                                    <label class="form-label">Quick Size Selector</label>
+                                    <div class="size-selector">
+                                        <button type="button" class="size-btn" data-size="small" data-size-value="60">
+                                            <span class="size-btn-icon">🏠</span>
+                                            <span class="size-btn-label">Small</span>
+                                            <span class="size-btn-range">&lt; 70 sq ft</span>
+                                        </button>
+                                        <button type="button" class="size-btn active" data-size="medium" data-size-value="120">
+                                            <span class="size-btn-icon">🏡</span>
+                                            <span class="size-btn-label">Medium</span>
+                                            <span class="size-btn-range">70-150 sq ft</span>
+                                        </button>
+                                        <button type="button" class="size-btn" data-size="large" data-size-value="200">
+                                            <span class="size-btn-icon">🏘️</span>
+                                            <span class="size-btn-label">Large</span>
+                                            <span class="size-btn-range">150-250 sq ft</span>
+                                        </button>
+                                        <button type="button" class="size-btn" data-size="veryLarge" data-size-value="300">
+                                            <span class="size-btn-icon">🏰</span>
+                                            <span class="size-btn-label">Very Large</span>
+                                            <span class="size-btn-range">&gt; 250 sq ft</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="kitchenSqFt">Kitchen Square Footage</label>
+                                    <input type="number" id="kitchenSqFt" class="form-input" value="120" min="50" max="500" onchange="updateState('kitchenSqFt', this.value)">
+                                    <p class="form-helper">Enter the total square footage of your kitchen</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Layout Type</label>
+                                    <div class="material-grid">
+                                        <button type="button" class="material-btn" data-layout="galley">
+                                            <span class="material-btn-name">Galley</span>
+                                            <span class="material-btn-price">Lowest Cost</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-layout="lShaped">
+                                            <span class="material-btn-name">L-Shaped</span>
+                                            <span class="material-btn-price">Low-Medium</span>
+                                        </button>
+                                        <button type="button" class="material-btn active" data-layout="uShaped">
+                                            <span class="material-btn-name">U-Shaped</span>
+                                            <span class="material-btn-price">Medium</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-layout="gShaped">
+                                            <span class="material-btn-name">G-Shaped</span>
+                                            <span class="material-btn-price">Medium-High</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-layout="island">
+                                            <span class="material-btn-name">Island</span>
+                                            <span class="material-btn-price">High</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-layout="openConcept">
+                                            <span class="material-btn-name">Open Concept</span>
+                                            <span class="material-btn-price">Highest</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Project Scope -->
+                        <div class="form-section" data-section="scope">
+                            <div class="section-header" data-section-toggle="scope">
+                                <div class="section-header-left">
+                                    <div class="section-icon">🎯</div>
+                                    <div>
+                                        <div class="section-title">Project Scope</div>
+                                        <div class="section-desc">Level of renovation</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle open" id="toggle-scope">▼</span>
+                            </div>
+                            <div class="section-content open" id="content-scope">
+                                <div class="form-group">
+                                    <div class="radio-cards">
+                                        <label class="radio-card" data-scope="minor">
+                                            <input type="radio" name="scope" value="minor" onchange="selectScope(event)">
+                                            <div class="radio-card-content">
+                                                <h4>Minor Refresh</h4>
+                                                <p>Repaint cabinets, new hardware, minor updates. Keep existing layout and appliances.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$5K - $20K</span>
+                                        </label>
+                                        <label class="radio-card active" data-scope="midRange">
+                                            <input type="radio" name="scope" value="midRange" checked onchange="selectScope(event)">
+                                            <div class="radio-card-content">
+                                                <h4>Mid-Range Remodel</h4>
+                                                <p>Reface or replace cabinet doors, new countertops, update some appliances, new backsplash.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$20K - $50K</span>
+                                        </label>
+                                        <label class="radio-card" data-scope="major">
+                                            <input type="radio" name="scope" value="major" onchange="selectScope(event)">
+                                            <div class="radio-card-content">
+                                                <h4>Major Remodel</h4>
+                                                <p>New cabinets, countertops, all appliances, flooring. Possible minor layout adjustments.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$40K - $80K</span>
+                                        </label>
+                                        <label class="radio-card" data-scope="complete">
+                                            <input type="radio" name="scope" value="complete" onchange="selectScope(event)">
+                                            <div class="radio-card-content">
+                                                <h4>Complete Gut Renovation</h4>
+                                                <p>Layout changes, structural modifications. Everything new, down to the studs.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$70K - $150K+</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Cabinets -->
+                        <div class="form-section" data-section="cabinets">
+                            <div class="section-header" data-section-toggle="cabinets">
+                                <div class="section-header-left">
+                                    <div class="section-icon">🗄️</div>
+                                    <div>
+                                        <div class="section-title">Cabinets</div>
+                                        <div class="section-desc">Type, style, and accessories</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle" id="toggle-cabinets">▼</span>
+                            </div>
+                            <div class="section-content" id="content-cabinets">
+                                <div class="form-group">
+                                    <label class="form-label" for="linearFeet">Linear Feet of Cabinets</label>
+                                    <input type="number" id="linearFeet" class="form-input" value="20" min="5" max="50" onchange="updateState('linearFeet', this.value)">
+                                    <p class="form-helper">Measure total length of all base and wall cabinets</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cabinet Type</label>
+                                    <div class="radio-cards">
+                                        <label class="radio-card" data-cabinet="stock">
+                                            <input type="radio" name="cabinetType" value="stock">
+                                            <div class="radio-card-content">
+                                                <h4>Stock Cabinets</h4>
+                                                <p>Basic quality, 1-2 week lead time. Best for budget projects.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$100-300/LF</span>
+                                        </label>
+                                        <label class="radio-card active" data-cabinet="semiCustom">
+                                            <input type="radio" name="cabinetType" value="semiCustom" checked>
+                                            <div class="radio-card-content">
+                                                <h4>Semi-Custom Cabinets</h4>
+                                                <p>Good quality, 4-8 week lead time. Best value for most remodels.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$200-650/LF</span>
+                                        </label>
+                                        <label class="radio-card" data-cabinet="custom">
+                                            <input type="radio" name="cabinetType" value="custom">
+                                            <div class="radio-card-content">
+                                                <h4>Custom Cabinets</h4>
+                                                <p>Premium quality, 8-16 week lead time. For luxury or unique spaces.</p>
+                                            </div>
+                                            <span class="radio-card-cost">$500-1,500/LF</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cabinet Accessories</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="softClose" onchange="toggleCheckbox(this, 'softClose')">
+                                            <span class="checkbox-item-label">Soft-close hinges & drawer slides</span>
+                                            <span class="checkbox-item-cost">+$200-500</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="pullOutOrganizers" onchange="toggleCheckbox(this, 'pullOutOrganizers')">
+                                            <span class="checkbox-item-label">Pull-out organizers</span>
+                                            <span class="checkbox-item-cost">+$300-800</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="lazySusan" onchange="toggleCheckbox(this, 'lazySusan')">
+                                            <span class="checkbox-item-label">Lazy Susan corner solutions</span>
+                                            <span class="checkbox-item-cost">+$200-400</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="underCabinetLighting" onchange="toggleCheckbox(this, 'underCabinetLighting')">
+                                            <span class="checkbox-item-label">Under-cabinet lighting</span>
+                                            <span class="checkbox-item-cost">+$400-1,200</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Countertops -->
+                        <div class="form-section" data-section="countertops">
+                            <div class="section-header" data-section-toggle="countertops">
+                                <div class="section-header-left">
+                                    <div class="section-icon">🪨</div>
+                                    <div>
+                                        <div class="section-title">Countertops</div>
+                                        <div class="section-desc">Material and edge profile</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle" id="toggle-countertops">▼</span>
+                            </div>
+                            <div class="section-content" id="content-countertops">
+                                <div class="form-group">
+                                    <label class="form-label" for="countertopSqFt">Square Feet of Countertops</label>
+                                    <input type="number" id="countertopSqFt" class="form-input" value="40" min="10" max="100" onchange="updateState('countertopSqFt', this.value)">
+                                    <p class="form-helper">Include all counter surfaces, island, and peninsula</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Countertop Material</label>
+                                    <div class="material-grid">
+                                        <button type="button" class="material-btn" data-countertop="laminate">
+                                            <span class="material-btn-name">Laminate</span>
+                                            <span class="material-btn-price">$15-40/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-countertop="butcherBlock">
+                                            <span class="material-btn-name">Butcher Block</span>
+                                            <span class="material-btn-price">$40-100/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-countertop="tile">
+                                            <span class="material-btn-name">Tile</span>
+                                            <span class="material-btn-price">$15-50/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn active" data-countertop="quartz">
+                                            <span class="material-btn-name">Quartz</span>
+                                            <span class="material-btn-price">$60-150/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-countertop="granite">
+                                            <span class="material-btn-name">Granite</span>
+                                            <span class="material-btn-price">$50-200/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-countertop="marble">
+                                            <span class="material-btn-name">Marble</span>
+                                            <span class="material-btn-price">$100-250/sq ft</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Edge Profile</label>
+                                    <select id="edgeProfile" class="form-select" onchange="updateState('edgeProfile', this.value)">
+                                        <option value="straight">Straight/Eased (Baseline)</option>
+                                        <option value="beveled">Beveled (+$5/LF)</option>
+                                        <option value="bullnose" selected>Bullnose (+$8/LF)</option>
+                                        <option value="ogee">Ogee (+$12/LF)</option>
+                                        <option value="waterfall">Waterfall (+$15/LF)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 5: Appliances -->
+                        <div class="form-section" data-section="appliances">
+                            <div class="section-header" data-section-toggle="appliances">
+                                <div class="section-header-left">
+                                    <div class="section-icon">🍳</div>
+                                    <div>
+                                        <div class="section-title">Appliances</div>
+                                        <div class="section-desc">Package and energy efficiency</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle" id="toggle-appliances">▼</span>
+                            </div>
+                            <div class="section-content" id="content-appliances">
+                                <div class="form-group">
+                                    <label class="form-label">Appliance Package</label>
+                                    <div class="radio-cards">
+                                        <label class="radio-card" data-appliance="keep">
+                                            <input type="radio" name="appliancePackage" value="keep">
+                                            <div class="radio-card-content">
+                                                <h4>Keep Existing</h4>
+                                                <p>No new appliances needed</p>
+                                            </div>
+                                            <span class="radio-card-cost">$0</span>
+                                        </label>
+                                        <label class="radio-card" data-appliance="basic">
+                                            <input type="radio" name="appliancePackage" value="basic">
+                                            <div class="radio-card-content">
+                                                <h4>Basic Package</h4>
+                                                <p>Frigidaire, GE - Standard efficiency</p>
+                                            </div>
+                                            <span class="radio-card-cost">$2K - $4K</span>
+                                        </label>
+                                        <label class="radio-card active" data-appliance="midRange">
+                                            <input type="radio" name="appliancePackage" value="midRange" checked>
+                                            <div class="radio-card-content">
+                                                <h4>Mid-Range Package</h4>
+                                                <p>KitchenAid, Bosch - Energy Star certified</p>
+                                            </div>
+                                            <span class="radio-card-cost">$5K - $10K</span>
+                                        </label>
+                                        <label class="radio-card" data-appliance="premium">
+                                            <input type="radio" name="appliancePackage" value="premium">
+                                            <div class="radio-card-content">
+                                                <h4>Premium Package</h4>
+                                                <p>GE Profile, Samsung - Energy Star+</p>
+                                            </div>
+                                            <span class="radio-card-cost">$15K - $30K</span>
+                                        </label>
+                                        <label class="radio-card" data-appliance="luxury">
+                                            <input type="radio" name="appliancePackage" value="luxury">
+                                            <div class="radio-card-content">
+                                                <h4>Luxury Package</h4>
+                                                <p>Sub-Zero, Wolf - Professional grade</p>
+                                            </div>
+                                            <span class="radio-card-cost">$30K - $75K</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item checked">
+                                            <input type="checkbox" id="energyStar" checked onchange="toggleCheckbox(this, 'energyStar')">
+                                            <span class="checkbox-item-label">ENERGY STAR certified (qualify for rebates)</span>
+                                            <span class="checkbox-item-cost">Save $100-300/yr</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 6: Flooring -->
+                        <div class="form-section" data-section="flooring">
+                            <div class="section-header" data-section-toggle="flooring">
+                                <div class="section-header-left">
+                                    <div class="section-icon">🪵</div>
+                                    <div>
+                                        <div class="section-title">Flooring</div>
+                                        <div class="section-desc">Material and installation</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle" id="toggle-flooring">▼</span>
+                            </div>
+                            <div class="section-content" id="content-flooring">
+                                <div class="form-group">
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item checked" onclick="toggleCheckbox(this, 'includeFlooring')">
+                                            <input type="checkbox" id="includeFlooring" checked onchange="toggleCheckbox(this, 'includeFlooring')">
+                                            <span class="checkbox-item-label">Include new flooring in estimate</span>
+                                            <span class="checkbox-item-cost"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Flooring Material</label>
+                                    <div class="material-grid">
+                                        <button type="button" class="material-btn" data-flooring="vinyl">
+                                            <span class="material-btn-name">Vinyl/LVP</span>
+                                            <span class="material-btn-price">$4-10/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-flooring="laminate">
+                                            <span class="material-btn-name">Laminate</span>
+                                            <span class="material-btn-price">$6-12/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn active" data-flooring="ceramicTile">
+                                            <span class="material-btn-name">Ceramic Tile</span>
+                                            <span class="material-btn-price">$8-15/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-flooring="porcelainTile">
+                                            <span class="material-btn-name">Porcelain Tile</span>
+                                            <span class="material-btn-price">$10-20/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-flooring="hardwood">
+                                            <span class="material-btn-name">Hardwood</span>
+                                            <span class="material-btn-price">$10-25/sq ft</span>
+                                        </button>
+                                        <button type="button" class="material-btn" data-flooring="engineered">
+                                            <span class="material-btn-name">Engineered Wood</span>
+                                            <span class="material-btn-price">$8-18/sq ft</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="removeFlooring" onchange="toggleCheckbox(this, 'removeFlooring')">
+                                            <span class="checkbox-item-label">Remove existing flooring</span>
+                                            <span class="checkbox-item-cost">+$1-3/sq ft</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="subfloorRepair" onchange="toggleCheckbox(this, 'subfloorRepair')">
+                                            <span class="checkbox-item-label">Subfloor repair if needed</span>
+                                            <span class="checkbox-item-cost">+$2-5/sq ft</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 7: Labor & Location -->
+                        <div class="form-section" data-section="labor">
+                            <div class="section-header" data-section-toggle="labor">
+                                <div class="section-header-left">
+                                    <div class="section-icon">👷</div>
+                                    <div>
+                                        <div class="section-title">Labor & Location</div>
+                                        <div class="section-desc">Regional pricing and contingency</div>
+                                    </div>
+                                </div>
+                                <span class="section-toggle" id="toggle-labor">▼</span>
+                            </div>
+                            <div class="section-content" id="content-labor">
+                                <div class="form-group">
+                                    <label class="form-label">Your Region</label>
+                                    <select id="region" class="form-select" onchange="updateState('region', this.value)">
+                                        <option value="midwest" selected>Midwest (Baseline)</option>
+                                        <option value="northeast">Northeast (+18%)</option>
+                                        <option value="westCoast">West Coast (+22%)</option>
+                                        <option value="southeast">Southeast (-8%)</option>
+                                        <option value="southwest">Southwest (-5%)</option>
+                                        <option value="hawaiiAlaska">Hawaii/Alaska (+35%)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Contingency Buffer</label>
+                                    <div class="range-container">
+                                        <div class="range-labels">
+                                            <span>Recommended: 10-15% for mid-range projects</span>
+                                            <span class="range-value" id="contingencyValue">10%</span>
+                                        </div>
+                                        <input type="range" id="contingency" class="range-slider" min="5" max="20" value="10" onchange="updateContingency(this.value)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item checked">
+                                            <input type="checkbox" id="hireContractor" checked onchange="toggleCheckbox(this, 'hireContractor')">
+                                            <span class="checkbox-item-label">Hire general contractor (manages all work)</span>
+                                            <span class="checkbox-item-cost">+20-35% labor</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" id="calculateBtn">
+                                🧮 Calculate Kitchen Remodel Cost
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="resetBtn">
+                                ↺ Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Preview Panel -->
+                    <div class="preview-column">
+                        <div class="live-preview">
+                            <div class="preview-header">
+                                <p class="preview-label">Estimated Kitchen Remodel Cost</p>
+                                <p class="preview-amount" id="previewTotal">$25,000 - $50,000</p>
+                                <p class="preview-per-sqft" id="previewPerSqFt">$208 - $417 per sq ft</p>
+                            </div>
+                            <div class="preview-breakdown">
+                                <div class="preview-row">
+                                    <span class="preview-row-label">Materials</span>
+                                    <span class="preview-row-value" id="previewMaterials">$15,000 - $30,000</span>
+                                </div>
+                                <div class="preview-row">
+                                    <span class="preview-row-label">Labor</span>
+                                    <span class="preview-row-value" id="previewLabor">$8,000 - $15,000</span>
+                                </div>
+                            </div>
+                            <div class="btn-group" style="margin-top: 1rem;">
+                                <!-- Print button removed from preview -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section" id="resultsSection">
+                    <!-- Cost Breakdown -->
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3>Cost Breakdown by Category</h3>
+                            <p>Detailed breakdown of your kitchen remodel estimate</p>
+                            <div class="breakdown-actions" style="margin: 0.5em 0 1em 0;">
+                                <button type="button" class="btn btn-ghost" id="printCostBreakdown">🖨️ Print</button>
+                            </div>
+                        </div>
+                        <div class="result-body" id="costBreakdown">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Shopping List -->
+                    <div class="result-card">
+                        <div class="result-header secondary">
+                            <h3>📋 Complete Shopping List</h3>
+                            <p>Complete shopping lists with quantities for every material you'll need</p>
+                            <div class="shopping-actions" style="margin: 0.5em 0 1em 0; display: flex; gap: 0.5em; flex-wrap: wrap;">
+                                <button type="button" class="btn btn-ghost" id="copyShoppingList">📋 Copy</button>
+                                <button type="button" class="btn btn-ghost" id="printShoppingList">🖨️ Print</button>
+                                <button type="button" class="btn btn-ghost" id="shareShoppingList">🔗 Share</button>
+                            </div>
+                        </div>
+                        <div class="result-body" id="shoppingList">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3>📅 Project Timeline</h3>
+                            <p>Realistic timeline estimates with phasing recommendations</p>
+                        </div>
+                        <div class="result-body" id="timeline">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- ROI -->
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3>💰 ROI & Value Estimate</h3>
+                            <p>Cost vs resale value analysis</p>
+                        </div>
+                        <div class="result-body" id="roiSection">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How much does the average kitchen remodel cost in 2026?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            The average mid-range kitchen remodel costs $25,000-$60,000 in 2026. Minor cosmetic updates start around $10,000-$20,000, while high-end renovations can exceed $100,000. Costs vary significantly by region, with West Coast projects averaging 22% higher than the national average.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">
+                            What is the biggest expense in a kitchen remodel?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Cabinets are typically the largest expense, accounting for 30-35% of the total budget. Labor is second at 20-35%. For a $50,000 remodel, expect to spend $15,000-$18,000 on cabinets and $10,000-$17,500 on labor. Countertops and appliances each represent 10-15% of costs.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How long does a kitchen remodel take?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            A minor refresh takes 2-4 weeks. A mid-range remodel takes 6-10 weeks. Major renovations with layout changes can take 3-6 months. Factor in 2-8 weeks for ordering custom cabinets and appliances before work begins. Always add 1-2 weeks buffer for unexpected issues.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Is a kitchen remodel worth the investment?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Kitchen remodels typically recoup 60-80% of costs at resale, making them one of the best home improvement investments. Minor remodels often see higher ROI percentages (80-90%) than major renovations (50-60%). Beyond ROI, a new kitchen improves daily living quality and energy efficiency.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Can I remodel my kitchen for $20,000?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes, a $20,000 budget covers a minor to moderate remodel. Focus on painting or refacing cabinets ($2,000-$6,000), new countertops ($3,000-$6,000), updated fixtures and hardware ($1,000-$2,000), and cosmetic improvements. Keep existing layout and consider keeping some appliances.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What is the best countertop material for the money?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Quartz offers the best value for most homeowners at $60-150/sq ft. It combines the look of natural stone with superior durability, requires no sealing, and comes with lengthy warranties. For budget projects, consider butcher block ($40-100/sq ft) or high-quality laminate ($25-40/sq ft).
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Should I buy stock, semi-custom, or custom cabinets?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Stock cabinets ($100-300/linear ft) work for budget projects with standard layouts. Semi-custom cabinets ($200-650/linear ft) offer the best value for most remodels with more options and quality. Custom cabinets ($500-1,500/linear ft) are worth it for unusual spaces or luxury finishes.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How much does it cost to move plumbing in a kitchen?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Minor sink relocation (under 3 feet) costs $500-1,500. Major relocation costs $1,500-4,000. Running new plumbing lines for an island or complete layout change costs $3,000-8,000 or more. Always get permits for plumbing work and factor in drywall repair costs.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Do I need permits for a kitchen remodel?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Permits are typically required for electrical work, plumbing changes, structural modifications, and gas line work. Cosmetic updates like painting, new countertops, and cabinet refacing usually don't need permits. Costs range from $100-$500 for residential kitchen permits.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What is the best time of year to remodel a kitchen?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Fall (September-November) offers the best balance of contractor availability and pricing. Winter provides the best prices but may have delays. Spring is popular with moderate prices. Summer is busiest with highest prices. For appliances, shop Black Friday through January for best deals.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How can I save money on a kitchen remodel?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Top money-saving strategies include: keeping existing layout (saves $3,000-15,000), refacing vs replacing cabinets (saves 50-60%), choosing mid-range materials, shopping appliance sales, doing demo yourself, and getting at least 3 contractor quotes. A 10-15% contingency helps avoid costly surprises.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What adds the most value to a kitchen remodel?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Highest ROI improvements include: cabinet upgrades or refacing, modern countertops (especially quartz), stainless steel appliances, updated lighting, and fresh paint. Islands add both function and value. Avoid over-customizing or choosing overly trendy finishes that may date quickly.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Calculators -->
+                <!-- Advertisement Section -->
+<div class="ad-section">
+  <span class="ad-placeholder">Ad Unit Placeholder</span>
+</div>
+
+<style>
+.ad-section {
+  width: 100%;
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+.ad-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  max-width: 1500px;
+  min-height: 120px;
+  background: #f8f9fa;
+  border: 1px dashed #d3d7db;
+  border-radius: 16px;
+  color: #7a7e85;
+  font-size: 1.25rem;
+  text-align: center;
+  font-family: inherit;
+}
+</style>
+        <section class="related-section">
+            <div class="container">
+                <h2 class="related-title">Related Calculators</h2>
+                <div class="related-grid">
+                    <a href="#" class="related-card">
+                        <div class="related-icon">🚿</div>
+                        <h4>Bathroom Remodel</h4>
+                        <p>Calculate bathroom renovation costs</p>
+                    </a>
+                    <a href="#" class="related-card">
+                        <div class="related-icon">🪵</div>
+                        <h4>Flooring Calculator</h4>
+                        <p>Estimate flooring materials and cost</p>
+                    </a>
+                    <a href="#" class="related-card">
+                        <div class="related-icon">🏗️</div>
+                        <h4>Home Addition</h4>
+                        <p>Calculate addition costs per sq ft</p>
+                    </a>
+                    <a href="#" class="related-card">
+                        <div class="related-icon">🗄️</div>
+                        <h4>Cabinet Calculator</h4>
+                        <p>Estimate cabinet costs by style</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">🔧</div>
+                    <div class="logo-text">
+                        <span class="logo-title">contractorcalctools</span>
+                    </div>
+                </a>
+                <p>Free contractor calculator tools for homeowners and professionals. Get accurate cost estimates for your next home improvement project.</p>
+            </div>
+            <div>
+                <h4>Calculators</h4>
+                <ul>
+                    <li><a href="kitchen-remodel-calculator.html">Kitchen Remodel</a></li>
+                    <li><a href="bathroom-remodel-calculator.html">Bathroom Remodel</a></li>
+                    <li><a href="flooring-calculator.html">Flooring Calculator</a></li>
+                    <li><a href="paint-calculator.html">Paint Calculator</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="../sitemap.html">Sitemap</a></li>
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="../terms-of-service.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 contractorcalctools. All rights reserved.</p>
+            <p>Cost estimates are for planning purposes only. Actual costs may vary.</p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        // State Management
+                // Event delegation for all UI actions (no inline onclick)
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Section toggles
+                    document.querySelectorAll('.section-header[data-section-toggle]').forEach(header => {
+                        header.addEventListener('click', function() {
+                            toggleSection(header.getAttribute('data-section-toggle'));
+                        });
+                    });
+                    // Size selector
+                    document.querySelectorAll('.size-btn[data-size]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            selectSize(btn.getAttribute('data-size'), Number(btn.getAttribute('data-size-value')));
+                        });
+                    });
+                    // Layout selector
+                    document.querySelectorAll('.material-btn[data-layout]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            selectLayout(btn.getAttribute('data-layout'));
+                        });
+                    });
+                    // Scope selector
+                    document.querySelectorAll('.radio-card[data-scope]').forEach(card => {
+                        card.addEventListener('click', function(e) {
+                            if (e.target.tagName !== 'INPUT') selectScope(card.getAttribute('data-scope'));
+                        });
+                    });
+                    // Cabinet type
+                    document.querySelectorAll('.radio-card[data-cabinet]').forEach(card => {
+                        card.addEventListener('click', function(e) {
+                            if (e.target.tagName !== 'INPUT') selectCabinetType(card.getAttribute('data-cabinet'));
+                        });
+                    });
+                    // Countertop selector
+                    document.querySelectorAll('.material-btn[data-countertop]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            selectCountertop(btn.getAttribute('data-countertop'));
+                        });
+                    });
+                    // Appliance selector
+                    document.querySelectorAll('.radio-card[data-appliance]').forEach(card => {
+                        card.addEventListener('click', function(e) {
+                            if (e.target.tagName !== 'INPUT') selectAppliance(card.getAttribute('data-appliance'));
+                        });
+                    });
+                    // Flooring selector
+                    document.querySelectorAll('.material-btn[data-flooring]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            selectFlooring(btn.getAttribute('data-flooring'));
+                        });
+                    });
+                    // Calculate and Reset buttons
+                    document.getElementById('calculateBtn').addEventListener('click', handleCalculateClick);
+                    document.getElementById('resetBtn').addEventListener('click', resetForm);
+                    // FAQ toggles
+                    document.querySelectorAll('.faq-question').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            toggleFaq(btn);
+                        });
+                    });
+                });
+        const state = {
+        includeBacksplash: true,
+            kitchenSqFt: 120,
+            layout: 'uShaped',
+            scope: 'midRange',
+            linearFeet: 20,
+            cabinetType: 'semiCustom',
+            softClose: false,
+            pullOutOrganizers: false,
+            lazySusan: false,
+            underCabinetLighting: false,
+            countertopSqFt: 40,
+            countertopMaterial: 'quartz',
+            edgeProfile: 'bullnose',
+            appliancePackage: 'midRange',
+            energyStar: true,
+            includeFlooring: true,
+            flooringMaterial: 'ceramicTile',
+            removeFlooring: false,
+            subfloorRepair: false,
+            region: 'midwest',
+            contingency: 10,
+            hireContractor: true
+        };
+
+        // Cost Constants
+        const CABINET_COSTS = {
+            stock: { min: 100, max: 300 },
+            semiCustom: { min: 200, max: 650 },
+            custom: { min: 500, max: 1500 }
+        };
+
+        const COUNTERTOP_COSTS = {
+            laminate: { min: 15, max: 40 },
+            butcherBlock: { min: 40, max: 100 },
+            tile: { min: 15, max: 50 },
+            quartz: { min: 60, max: 150 },
+            granite: { min: 50, max: 200 },
+            marble: { min: 100, max: 250 }
+        };
+
+        const EDGE_PROFILE_COSTS = {
+            straight: 0,
+            beveled: 5,
+            bullnose: 8,
+            ogee: 12,
+            waterfall: 15
+        };
+
+        const APPLIANCE_COSTS = {
+            keep: { min: 0, max: 0 },
+            basic: { min: 2000, max: 4000 },
+            midRange: { min: 5000, max: 10000 },
+            premium: { min: 15000, max: 30000 },
+            luxury: { min: 30000, max: 75000 }
+        };
+
+        const FLOORING_COSTS = {
+            vinyl: { min: 4, max: 10 },
+            laminate: { min: 6, max: 12 },
+            ceramicTile: { min: 8, max: 15 },
+            porcelainTile: { min: 10, max: 20 },
+            hardwood: { min: 10, max: 25 },
+            engineered: { min: 8, max: 18 }
+        };
+
+        const REGIONAL_MULTIPLIERS = {
+            northeast: 1.18,
+            westCoast: 1.22,
+            southeast: 0.92,
+            midwest: 1.00,
+            southwest: 0.95,
+            hawaiiAlaska: 1.35
+        };
+
+        const LABOR_MULTIPLIER = { min: 0.20, max: 0.35 };
+
+        // Utility Functions
+        function formatCurrency(amount) {
+            return '$' + Math.round(amount).toLocaleString();
+        }
+
+        function updateState(key, value) {
+            // Input sanitization for numeric fields
+            const numericLimits = {
+                kitchenSqFt: { min: 50, max: 500 },
+                linearFeet: { min: 5, max: 50 },
+                countertopSqFt: { min: 10, max: 100 },
+                contingency: { min: 5, max: 20 }
+            };
+            if (typeof value === 'string' && !isNaN(value)) {
+                let num = parseFloat(value);
+                if (numericLimits[key]) {
+                    const { min, max } = numericLimits[key];
+                    if (isNaN(num)) num = min;
+                    if (num < min) num = min;
+                    if (num > max) num = max;
+                }
+                state[key] = num;
+            } else {
+                state[key] = value;
+            }
+            // Also update the input field if user entered out-of-bounds value
+            if (numericLimits[key]) {
+                const input = document.getElementById(key);
+                if (input && input.value != state[key]) input.value = state[key];
+            }
+            updatePreview();
+        }
+
+        // UI Functions
+        function toggleSection(sectionId) {
+            const content = document.getElementById('content-' + sectionId);
+            const toggle = document.getElementById('toggle-' + sectionId);
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                toggle.classList.remove('open');
+            } else {
+                content.classList.add('open');
+                toggle.classList.add('open');
+            }
+        }
+
+        function selectSize(size, sqFt) {
+            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-size="${size}"]`).classList.add('active');
+            document.getElementById('kitchenSqFt').value = sqFt;
+            state.kitchenSqFt = sqFt;
+            updatePreview();
+        }
+
+        function selectLayout(layout) {
+            document.querySelectorAll('[data-layout]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-layout="${layout}"]`).classList.add('active');
+            state.layout = layout;
+            updatePreview();
+        }
+
+
+
+        function selectCabinetType(type) {
+            document.querySelectorAll('[data-cabinet]').forEach(card => card.classList.remove('active'));
+            document.querySelector(`[data-cabinet="${type}"]`).classList.add('active');
+            document.querySelector(`[data-cabinet="${type}"] input`).checked = true;
+            state.cabinetType = type;
+            updatePreview();
+        }
+
+        function selectCountertop(material) {
+            document.querySelectorAll('[data-countertop]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-countertop="${material}"]`).classList.add('active');
+            state.countertopMaterial = material;
+            updatePreview();
+        }
+
+        function selectAppliance(pkg) {
+            document.querySelectorAll('[data-appliance]').forEach(card => card.classList.remove('active'));
+            document.querySelector(`[data-appliance="${pkg}"]`).classList.add('active');
+            document.querySelector(`[data-appliance="${pkg}"] input`).checked = true;
+            state.appliancePackage = pkg;
+            updatePreview();
+        }
+
+        function selectFlooring(material) {
+            document.querySelectorAll('[data-flooring]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-flooring="${material}"]`).classList.add('active');
+            state.flooringMaterial = material;
+            updatePreview();
+        }
+
+        function toggleCheckbox(element, key) {
+            // element is now the input, not the label
+            const checkbox = element;
+            const label = checkbox.closest('.checkbox-item');
+            label.classList.toggle('checked', checkbox.checked);
+            state[key] = checkbox.checked;
+            updatePreview();
+        }
+
+        function updateContingency(value) {
+            document.getElementById('contingencyValue').textContent = value + '%';
+            state.contingency = parseInt(value);
+            updatePreview();
+        }
+
+        function toggleFaq(button) {
+            const item = button.parentElement;
+            item.classList.toggle('open');
+        }
+
+        // Calculation Functions
+        function calculateCosts() {
+            const costs = {};
+            // Cabinets
+            const cabinetCost = CABINET_COSTS[state.cabinetType];
+            costs.cabinets = {
+                min: state.linearFeet * cabinetCost.min,
+                max: state.linearFeet * cabinetCost.max
+            };
+            // Cabinet Accessories
+            let accessoriesMin = 0, accessoriesMax = 0;
+            if (state.softClose) { accessoriesMin += 200; accessoriesMax += 500; }
+            if (state.pullOutOrganizers) { accessoriesMin += 300; accessoriesMax += 800; }
+            if (state.lazySusan) { accessoriesMin += 200; accessoriesMax += 400; }
+            if (state.underCabinetLighting) { accessoriesMin += 400; accessoriesMax += 1200; }
+            costs.cabinets.min += accessoriesMin;
+            costs.cabinets.max += accessoriesMax;
+            // Countertops
+            const countertopCost = COUNTERTOP_COSTS[state.countertopMaterial];
+            const edgeCost = EDGE_PROFILE_COSTS[state.edgeProfile];
+            costs.countertops = {
+                min: state.countertopSqFt * countertopCost.min + state.linearFeet * edgeCost,
+                max: state.countertopSqFt * countertopCost.max + state.linearFeet * edgeCost
+            };
+            // Appliances
+            costs.appliances = { ...APPLIANCE_COSTS[state.appliancePackage] };
+            // Flooring
+            if (state.includeFlooring) {
+                const flooringCost = FLOORING_COSTS[state.flooringMaterial];
+                let floorMin = state.kitchenSqFt * flooringCost.min;
+                let floorMax = state.kitchenSqFt * flooringCost.max;
+                if (state.removeFlooring) { floorMin += state.kitchenSqFt * 1; floorMax += state.kitchenSqFt * 3; }
+                if (state.subfloorRepair) { floorMin += state.kitchenSqFt * 2; floorMax += state.kitchenSqFt * 5; }
+                costs.flooring = { min: floorMin, max: floorMax };
+            } else {
+                costs.flooring = { min: 0, max: 0 };
+            }
+            // Backsplash
+            if (state.includeBacksplash) {
+                const backsplashSqFt = state.linearFeet * 1.5;
+                costs.backsplash = {
+                    min: backsplashSqFt * 18,
+                    max: backsplashSqFt * 38
+                };
+            } else {
+                costs.backsplash = { min: 0, max: 0 };
+            }
+            // Plumbing
+            costs.plumbing = { min: 800, max: 2000 };
+            // Electrical
+            costs.electrical = { min: 500, max: 1500 };
+            // Demolition
+            costs.demolition = { min: 500, max: 1500 };
+            // Materials subtotal
+            const materialsMin = costs.cabinets.min + costs.countertops.min + costs.appliances.min + 
+                                 costs.flooring.min + costs.backsplash.min;
+            const materialsMax = costs.cabinets.max + costs.countertops.max + costs.appliances.max + 
+                                 costs.flooring.max + costs.backsplash.max;
+            // Labor base: all direct costs (materials, plumbing, electrical, demolition, permits)
+            const laborBaseMin = materialsMin + costs.plumbing.min + costs.electrical.min + costs.demolition.min + 200; // 200 = permits min
+            const laborBaseMax = materialsMax + costs.plumbing.max + costs.electrical.max + costs.demolition.max + 500; // 500 = permits max
+            if (state.hireContractor) {
+                costs.labor = {
+                    min: laborBaseMin * LABOR_MULTIPLIER.min,
+                    max: laborBaseMax * LABOR_MULTIPLIER.max
+                };
+            } else {
+                costs.labor = {
+                    min: laborBaseMin * 0.10,
+                    max: laborBaseMax * 0.15
+                };
+            }
+            // Permits
+            costs.permits = { min: 200, max: 500 };
+            // Subtotal
+            const subtotalMin = laborBaseMin + costs.labor.min;
+            const subtotalMax = laborBaseMax + costs.labor.max;
+            // Regional adjustment
+            const regionMultiplier = REGIONAL_MULTIPLIERS[state.region];
+            const adjustedMin = subtotalMin * regionMultiplier;
+            const adjustedMax = subtotalMax * regionMultiplier;
+            // Contingency
+            const contingencyRate = state.contingency / 100;
+            costs.contingency = {
+                min: adjustedMin * contingencyRate,
+                max: adjustedMax * contingencyRate
+            };
+            // Total
+            costs.total = {
+                min: adjustedMin + costs.contingency.min,
+                max: adjustedMax + costs.contingency.max
+            };
+            return costs;
+        }
+        function updatePreview() {
+            const costs = calculateCosts();
+
+            document.getElementById('previewTotal').textContent =
+                formatCurrency(costs.total.min) + ' - ' + formatCurrency(costs.total.max);
+
+            // Per-sq-ft should use adjusted subtotal before contingency
+            // Recompute adjustedMin/adjustedMax (from calculateCosts logic)
+            const allMaterialsMin = costs.cabinets.min + costs.countertops.min + costs.appliances.min +
+                costs.flooring.min + costs.backsplash.min + costs.plumbing.min +
+                costs.electrical.min + costs.demolition.min;
+            const allMaterialsMax = costs.cabinets.max + costs.countertops.max + costs.appliances.max +
+                costs.flooring.max + costs.backsplash.max + costs.plumbing.max +
+                costs.electrical.max + costs.demolition.max;
+            const subtotalMin = allMaterialsMin + costs.labor.min + costs.permits.min;
+            const subtotalMax = allMaterialsMax + costs.labor.max + costs.permits.max;
+            const regionMultiplier = REGIONAL_MULTIPLIERS[state.region];
+            const adjustedMin = subtotalMin * regionMultiplier;
+            const adjustedMax = subtotalMax * regionMultiplier;
+            const perSqFtMin = adjustedMin / state.kitchenSqFt;
+            const perSqFtMax = adjustedMax / state.kitchenSqFt;
+            document.getElementById('previewPerSqFt').textContent =
+                formatCurrency(perSqFtMin) + ' - ' + formatCurrency(perSqFtMax) + ' per sq ft';
+
+            const previewMaterialsMin = costs.cabinets.min + costs.countertops.min + costs.appliances.min +
+                costs.flooring.min + costs.backsplash.min;
+            const previewMaterialsMax = costs.cabinets.max + costs.countertops.max + costs.appliances.max +
+                costs.flooring.max + costs.backsplash.max;
+            document.getElementById('previewMaterials').textContent =
+                formatCurrency(previewMaterialsMin) + ' - ' + formatCurrency(previewMaterialsMax);
+
+            document.getElementById('previewLabor').textContent =
+                formatCurrency(costs.labor.min) + ' - ' + formatCurrency(costs.labor.max);
+        }
+
+        function displayResults(costs) {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.add('visible');
+            
+            // Cost Breakdown
+            const categories = [
+                { label: 'Cabinets', ...costs.cabinets },
+                { label: 'Countertops', ...costs.countertops },
+                { label: 'Appliances', ...costs.appliances },
+                { label: 'Flooring', ...costs.flooring },
+                { label: 'Backsplash', ...costs.backsplash },
+                { label: 'Plumbing', ...costs.plumbing },
+                { label: 'Electrical', ...costs.electrical },
+                { label: 'Demolition', ...costs.demolition },
+                { label: 'Labor', ...costs.labor },
+                { label: 'Permits', ...costs.permits },
+                { label: 'Contingency', ...costs.contingency }
+            ].filter(cat => cat.max > 0);
+            
+            let breakdownHtml = '';
+            categories.forEach(cat => {
+                const pct = Math.round((cat.max / costs.total.max) * 100);
+                breakdownHtml += `
+                    <div class="cost-item">
+                        <div class="cost-item-header">
+                            <span class="cost-item-label">${cat.label}</span>
+                            <span class="cost-item-value">
+                                ${formatCurrency(cat.min)} - ${formatCurrency(cat.max)}
+                                <span class="cost-item-percent">(${pct}%)</span>
+                            </span>
+                        </div>
+                        <div class="cost-bar">
+                            <div class="cost-bar-fill" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            breakdownHtml += `
+                <div class="cost-total">
+                    <span class="cost-total-label">Total Estimate</span>
+                    <span class="cost-total-value">${formatCurrency(costs.total.min)} - ${formatCurrency(costs.total.max)}</span>
+                </div>
+            `;
+            document.getElementById('costBreakdown').innerHTML = breakdownHtml;
+            // Cost Breakdown Print Button
+            setTimeout(() => {
+                const printBtn = document.getElementById('printCostBreakdown');
+                const breakdownEl = document.getElementById('costBreakdown');
+                if (printBtn && breakdownEl) {
+                    printBtn.onclick = function() {
+                        const printContents = breakdownEl.innerHTML;
+                        const win = window.open('', '', 'width=900,height=700');
+                        win.document.write('<html><head><title>Cost Breakdown</title>');
+                        win.document.write('<style>body{font-family:sans-serif;}table{border-collapse:collapse;width:100%;}th,td{border:1px solid #ccc;padding:6px;}h3{margin-top:1em;}</style>');
+                        win.document.write('</head><body>');
+                        win.document.write('<h2>Cost Breakdown by Category</h2>');
+                        win.document.write(printContents);
+                        win.document.write('</body></html>');
+                        win.document.close();
+                        win.focus();
+                        setTimeout(() => win.print(), 200);
+                    };
+                }
+            }, 0);
+
+                        // Shopping List
+                        const shoppingItems = generateShoppingList();
+                        let shoppingHtml = '';
+                        const grouped = {};
+                        shoppingItems.forEach(item => {
+                            if (!grouped[item.category]) grouped[item.category] = [];
+                            grouped[item.category].push(item);
+                        });
+
+                        Object.entries(grouped).forEach(([category, items]) => {
+                            shoppingHtml += `
+                                <div class="shopping-category">
+                                    <h4>${category}</h4>
+                                    <table class="shopping-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>Est. Cost</th>
+                                                <th>Where to Buy</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                            `;
+                            items.forEach(item => {
+                                shoppingHtml += `
+                                    <tr>
+                                        <td class="item-name">${item.item}</td>
+                                        <td>${item.quantity} ${item.unit}</td>
+                                        <td class="item-cost">${item.estimatedCost}</td>
+                                        <td>${item.whereToBuy}</td>
+                                    </tr>
+                                `;
+                            });
+                            shoppingHtml += '</tbody></table></div>';
+                        });
+
+                        shoppingHtml += `
+                            <div class="shopping-tip">
+                                <h5>💡 Buy-in-Bulk Recommendations</h5>
+                                <ul>
+                                    <li>• Order all tile + backsplash together for shipping discount</li>
+                                    <li>• Buy cabinet hardware in bulk from Amazon (save 20-30%)</li>
+                                    <li>• Purchase flooring with 10% extra for waste and future repairs</li>
+                                </ul>
+                            </div>
+                        `;
+                        document.getElementById('shoppingList').innerHTML = shoppingHtml;
+
+                        // Shopping List Actions: Copy, Print, Share
+                        setTimeout(() => {
+                            const shoppingListEl = document.getElementById('shoppingList');
+                            const copyBtn = document.getElementById('copyShoppingList');
+                            const printBtn = document.getElementById('printShoppingList');
+                            const shareBtn = document.getElementById('shareShoppingList');
+                            if (copyBtn) {
+                                copyBtn.onclick = function() {
+                                    // Copy as plain text
+                                    let text = '';
+                                    shoppingListEl.querySelectorAll('.shopping-category').forEach(cat => {
+                                        text += cat.querySelector('h4').textContent + '\n';
+                                        const rows = cat.querySelectorAll('tbody tr');
+                                        rows.forEach(row => {
+                                            const cells = row.querySelectorAll('td');
+                                            text += `- ${cells[0].textContent.trim()} | Qty: ${cells[1].textContent.trim()} | Est. Cost: ${cells[2].textContent.trim()} | Where: ${cells[3].textContent.trim()}\n`;
+                                        });
+                                        text += '\n';
+                                    });
+                                    navigator.clipboard.writeText(text).then(() => {
+                                        copyBtn.textContent = '✅ Copied!';
+                                        setTimeout(() => copyBtn.textContent = '📋 Copy', 1200);
+                                    });
+                                };
+                            }
+                            if (printBtn) {
+                                printBtn.onclick = function() {
+                                    // Print only the shopping list section
+                                    const printContents = shoppingListEl.innerHTML;
+                                    const win = window.open('', '', 'width=900,height=700');
+                                    win.document.write('<html><head><title>Shopping List</title>');
+                                    win.document.write('<style>body{font-family:sans-serif;}table{border-collapse:collapse;width:100%;}th,td{border:1px solid #ccc;padding:6px;}h4{margin-top:1em;}</style>');
+                                    win.document.write('</head><body>');
+                                    win.document.write('<h2>Complete Shopping List</h2>');
+                                    win.document.write(printContents);
+                                    win.document.write('</body></html>');
+                                    win.document.close();
+                                    win.focus();
+                                    setTimeout(() => win.print(), 200);
+                                };
+                            }
+                            if (shareBtn) {
+                                shareBtn.onclick = function() {
+                                    // Share as text or URL if supported
+                                    let text = 'My Kitchen Remodel Shopping List:\n';
+                                    shoppingListEl.querySelectorAll('.shopping-category').forEach(cat => {
+                                        text += cat.querySelector('h4').textContent + '\n';
+                                        const rows = cat.querySelectorAll('tbody tr');
+                                        rows.forEach(row => {
+                                            const cells = row.querySelectorAll('td');
+                                            text += `- ${cells[0].textContent.trim()} | Qty: ${cells[1].textContent.trim()} | Est. Cost: ${cells[2].textContent.trim()} | Where: ${cells[3].textContent.trim()}\n`;
+                                        });
+                                        text += '\n';
+                                    });
+                                    if (navigator.share) {
+                                        navigator.share({ title: 'Kitchen Remodel Shopping List', text });
+                                    } else {
+                                        navigator.clipboard.writeText(text).then(() => {
+                                            shareBtn.textContent = '✅ Copied!';
+                                            setTimeout(() => shareBtn.textContent = '🔗 Share', 1200);
+                                        });
+                                    }
+                                };
+                            }
+                        }, 0);
+            
+            // Timeline
+            const timeline = generateTimeline();
+            let timelineHtml = `
+                <div class="timeline-badge">
+                    <span class="timeline-badge-label">Estimated Duration:</span>
+                    <span class="timeline-badge-value">${timeline.totalWeeks}</span>
+                </div>
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Duration</th>
+                            <th>Start</th>
+                            <th>Dependencies</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            timeline.phases.forEach((phase, i) => {
+                timelineHtml += `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="phase-number">${i + 1}</div>
+                                <span class="phase-name">${phase.phase}</span>
+                            </div>
+                        </td>
+                        <td>${phase.duration}</td>
+                        <td class="phase-start">${phase.startWeek}</td>
+                        <td style="font-size: 0.75rem; color: hsl(var(--muted-foreground));">${phase.dependencies}</td>
+                    </tr>
+                `;
+            });
+            timelineHtml += `
+                    </tbody>
+                </table>
+                <div class="timeline-alert">
+                    <h5>⚠️ Lead Time Alerts</h5>
+                    <ul>
+                        <li>• <strong>Custom cabinets:</strong> 8-16 week lead time</li>
+                        <li>• <strong>Quartz countertops:</strong> 2-4 week lead time after template</li>
+                        <li>• <strong>Specialty appliances:</strong> Check availability before ordering</li>
+                    </ul>
+                </div>
+            `;
+            document.getElementById('timeline').innerHTML = timelineHtml;
+            
+            // ROI
+            const roi = calculateROI(costs);
+            let roiHtml = `
+                <div class="roi-grid">
+                    <div class="roi-stat">
+                        <div class="roi-stat-label">Total Investment</div>
+                        <div class="roi-stat-value">${formatCurrency(roi.totalInvestmentMin)} - ${formatCurrency(roi.totalInvestmentMax)}</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-label">Expected Value Increase</div>
+                        <div class="roi-stat-value">${formatCurrency(roi.valueIncreaseMin)} - ${formatCurrency(roi.valueIncreaseMax)}</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-label">ROI Percentage</div>
+                        <div class="roi-stat-value">${roi.roiPercentageMin}% - ${roi.roiPercentageMax}%</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-label">Cost Recouped at Sale</div>
+                        <div class="roi-stat-value">${formatCurrency(roi.costRecoupedMin)} - ${formatCurrency(roi.costRecoupedMax)}</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-label">Net Cost After Resale</div>
+                        <div class="roi-stat-value">${formatCurrency(roi.netCostMin)} - ${formatCurrency(roi.netCostMax)}</div>
+                    </div>
+                </div>
+                <div class="roi-note">
+                    ✅ Kitchen remodels consistently rank among top ROI home improvements, typically recouping 60-80% of costs at resale.
+                </div>
+            `;
+            document.getElementById('roiSection').innerHTML = roiHtml;
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateShoppingList() {
+            const items = [];
+            const cabinetNames = { stock: 'Stock', semiCustom: 'Semi-Custom', custom: 'Custom' };
+            const countertopNames = { laminate: 'Laminate', butcherBlock: 'Butcher Block', tile: 'Tile', quartz: 'Quartz', granite: 'Granite', marble: 'Marble' };
+            const flooringNames = { vinyl: 'Vinyl/LVP', laminate: 'Laminate', ceramicTile: 'Ceramic Tile', porcelainTile: 'Porcelain Tile', hardwood: 'Hardwood', engineered: 'Engineered Wood' };
+            
+            // Cabinets
+            items.push({
+                category: 'Cabinets & Hardware',
+                item: `${cabinetNames[state.cabinetType]} Cabinets`,
+                quantity: state.linearFeet,
+                unit: 'linear ft',
+                estimatedCost: `${formatCurrency(state.linearFeet * CABINET_COSTS[state.cabinetType].min)} - ${formatCurrency(state.linearFeet * CABINET_COSTS[state.cabinetType].max)}`,
+                whereToBuy: 'IKEA, Home Depot, Local'
+            });
+            
+            if (state.softClose) {
+                items.push({ category: 'Cabinets & Hardware', item: 'Soft-Close Hinges & Slides', quantity: 1, unit: 'set', estimatedCost: '$200 - $500', whereToBuy: 'Amazon, Home Depot' });
+            }
+            
+            // Countertops
+            items.push({
+                category: 'Countertops & Surfaces',
+                item: `${countertopNames[state.countertopMaterial]} Countertop`,
+                quantity: state.countertopSqFt,
+                unit: 'sq ft',
+                estimatedCost: `${formatCurrency(state.countertopSqFt * COUNTERTOP_COSTS[state.countertopMaterial].min)} - ${formatCurrency(state.countertopSqFt * COUNTERTOP_COSTS[state.countertopMaterial].max)}`,
+                whereToBuy: 'Fabricator, Home Depot'
+            });
+            
+            // Backsplash
+            const bsSqFt = Math.round(state.linearFeet * 1.5);
+            items.push({
+                category: 'Countertops & Surfaces',
+                item: 'Backsplash Tile',
+                quantity: bsSqFt,
+                unit: 'sq ft',
+                estimatedCost: `${formatCurrency(bsSqFt * 18)} - ${formatCurrency(bsSqFt * 38)}`,
+                whereToBuy: 'Tile shop, Home Depot'
+            });
+            
+            // Appliances
+            if (state.appliancePackage !== 'keep') {
+                items.push({
+                    category: 'Appliances',
+                    item: 'Appliance Package',
+                    quantity: 1,
+                    unit: 'set',
+                    estimatedCost: `${formatCurrency(APPLIANCE_COSTS[state.appliancePackage].min)} - ${formatCurrency(APPLIANCE_COSTS[state.appliancePackage].max)}`,
+                    whereToBuy: 'Best Buy, AJ Madison'
+                });
+            }
+            
+            // Flooring
+            if (state.includeFlooring) {
+                const flooringCost = FLOORING_COSTS[state.flooringMaterial];
+                items.push({
+                    category: 'Flooring',
+                    item: `${flooringNames[state.flooringMaterial]} Flooring`,
+                    quantity: Math.round(state.kitchenSqFt * 1.1),
+                    unit: 'sq ft',
+                    estimatedCost: `${formatCurrency(state.kitchenSqFt * flooringCost.min)} - ${formatCurrency(state.kitchenSqFt * flooringCost.max)}`,
+                    whereToBuy: 'Floor & Decor, Home Depot'
+                });
+            }
+            
+            // Plumbing
+            items.push({ category: 'Plumbing Fixtures', item: 'Kitchen Sink', quantity: 1, unit: 'unit', estimatedCost: '$200 - $600', whereToBuy: 'Ferguson, Home Depot' });
+            items.push({ category: 'Plumbing Fixtures', item: 'Kitchen Faucet', quantity: 1, unit: 'unit', estimatedCost: '$250 - $500', whereToBuy: 'Faucet.com, Home Depot' });
+            
+            return items;
+        }
+
+        function generateTimeline() {
+            const scopeWeeks = {
+                minor: { min: 2, max: 4 },
+                midRange: { min: 6, max: 10 },
+                major: { min: 10, max: 14 },
+                complete: { min: 14, max: 24 }
+            };
+            
+            const weeks = scopeWeeks[state.scope];
+            
+            const phases = [
+                { phase: 'Design & Planning', duration: '2-4 weeks', startWeek: 'Week 1', dependencies: '-' },
+                { phase: 'Permits & Approvals', duration: '1-4 weeks', startWeek: 'Week 3', dependencies: 'After design approval' },
+                { phase: 'Material Ordering', duration: '2-8 weeks', startWeek: 'Week 4', dependencies: 'After permits' },
+                { phase: 'Demolition', duration: '1-3 days', startWeek: 'Week ' + Math.round(weeks.min * 0.4), dependencies: 'After materials staged' },
+                { phase: 'Cabinet Installation', duration: '3-5 days', startWeek: 'Week ' + Math.round(weeks.min * 0.5), dependencies: 'After rough work' },
+                { phase: 'Countertop Installation', duration: '1-2 days', startWeek: 'Week ' + Math.round(weeks.min * 0.7), dependencies: 'After cabinets' },
+                { phase: 'Flooring', duration: '2-5 days', startWeek: 'Week ' + Math.round(weeks.min * 0.6), dependencies: 'After cabinets' },
+                { phase: 'Final Touches', duration: '3-5 days', startWeek: 'Week ' + Math.round(weeks.min * 0.9), dependencies: 'After all work' }
+            ];
+            
+            return {
+                phases,
+                totalWeeks: `${weeks.min}-${weeks.max} weeks`
+            };
+        }
+
+        function calculateROI(costs) {
+            const roiRates = {
+                minor: { min: 0.80, max: 0.90 },
+                midRange: { min: 0.70, max: 0.80 },
+                major: { min: 0.60, max: 0.70 },
+                complete: { min: 0.50, max: 0.60 }
+            };
+            
+            const rate = roiRates[state.scope];
+            
+            return {
+                totalInvestmentMin: costs.total.min,
+                totalInvestmentMax: costs.total.max,
+                valueIncreaseMin: Math.round(costs.total.min * rate.min),
+                valueIncreaseMax: Math.round(costs.total.max * rate.max),
+                roiPercentageMin: Math.round(rate.min * 100),
+                roiPercentageMax: Math.round(rate.max * 100),
+                costRecoupedMin: Math.round(costs.total.min * rate.min),
+                costRecoupedMax: Math.round(costs.total.max * rate.max),
+                netCostMin: Math.round(costs.total.min * (1 - rate.max)),
+                netCostMax: Math.round(costs.total.max * (1 - rate.min))
+            };
+        }
+
+        function resetForm() {
+                        document.getElementById('includeBacksplash').checked = true;
+                        document.getElementById('includeBacksplash').closest('.checkbox-item').classList.add('checked');
+            // Reset state to initial values
+            Object.assign(state, {
+                kitchenSqFt: 120,
+                layout: 'uShaped',
+                scope: 'midRange',
+                linearFeet: 20,
+                cabinetType: 'semiCustom',
+                softClose: false,
+                pullOutOrganizers: false,
+                lazySusan: false,
+                underCabinetLighting: false,
+                countertopSqFt: 40,
+                countertopMaterial: 'quartz',
+                edgeProfile: 'bullnose',
+                appliancePackage: 'midRange',
+                energyStar: true,
+                includeFlooring: true,
+                flooringMaterial: 'ceramicTile',
+                removeFlooring: false,
+                subfloorRepair: false,
+                region: 'midwest',
+                contingency: 10,
+                hireContractor: true
+            });
+
+            // Reset all form inputs
+            document.getElementById('kitchenSqFt').value = 120;
+            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-size="medium"]').classList.add('active');
+
+            document.querySelectorAll('[data-layout]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-layout="uShaped"]').classList.add('active');
+
+            document.querySelectorAll('[data-scope]').forEach(card => card.classList.remove('active'));
+            document.querySelector('[data-scope="midRange"]').classList.add('active');
+            document.querySelector('input[name="scope"][value="midRange"]').checked = true;
+
+            document.getElementById('linearFeet').value = 20;
+            document.querySelectorAll('[data-cabinet]').forEach(card => card.classList.remove('active'));
+            document.querySelector('[data-cabinet="semiCustom"]').classList.add('active');
+            document.getElementById('softClose').checked = false;
+            document.getElementById('pullOutOrganizers').checked = false;
+            document.getElementById('lazySusan').checked = false;
+            document.getElementById('underCabinetLighting').checked = false;
+
+            document.getElementById('countertopSqFt').value = 40;
+            document.querySelectorAll('[data-countertop]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-countertop="quartz"]').classList.add('active');
+            document.getElementById('edgeProfile').value = 'bullnose';
+
+            document.querySelectorAll('[data-appliance]').forEach(card => card.classList.remove('active'));
+            document.querySelector('[data-appliance="midRange"]').classList.add('active');
+            document.getElementById('energyStar').checked = true;
+
+            document.getElementById('includeFlooring').checked = true;
+            document.querySelectorAll('[data-flooring]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-flooring="ceramicTile"]').classList.add('active');
+            document.getElementById('removeFlooring').checked = false;
+            document.getElementById('subfloorRepair').checked = false;
+
+            document.getElementById('region').value = 'midwest';
+            document.getElementById('contingency').value = 10;
+            document.getElementById('contingencyValue').textContent = '10%';
+            document.getElementById('hireContractor').checked = true;
+
+            // Update checked/active classes for checkboxes
+            document.querySelectorAll('.checkbox-item').forEach(label => {
+                const input = label.querySelector('input[type="checkbox"]');
+                if (input) {
+                    label.classList.toggle('checked', input.checked);
+                }
+            });
+
+            // Update preview/results
+            updatePreview();
+            document.getElementById('resultsSection').classList.remove('visible');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+            // Initialize checkboxes visual state
+            document.querySelectorAll('.checkbox-item input:checked').forEach(input => {
+                input.closest('.checkbox-item').classList.add('checked');
+            });
+        });
+
+
+        // Calculate button handler
+        function handleCalculateClick() {
+            const costs = calculateCosts();
+            displayResults(costs);
+        }
+    </script>
+</body>
+</html>

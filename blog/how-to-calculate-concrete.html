@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How to Calculate How Much Concrete You Need – ContractorCalcTools</title>
+  <meta name="description" content="Learn the exact formula to calculate concrete for slabs, footings, and columns. Avoid over-ordering or running short on your next project."/>
+  <link rel="canonical" href="https://contractorcalctools.com/blog/how-to-calculate-concrete.html"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#1a2744}
+    nav{background:#fff;border-bottom:1px solid #eee;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-box{background:#f5a623;color:#fff;font-weight:700;font-size:13px;padding:5px 7px;border-radius:6px}
+    .logo-text{font-size:18px;font-weight:700;color:#1a2744}
+    .logo-text span{color:#f5a623}
+    .nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+    .nav-links a{text-decoration:none;color:#1a2744;font-size:14px}
+    .nav-links a:hover{color:#f5a623}
+    .btn-nav{background:#f5a623;color:#fff!important;padding:8px 18px;border-radius:50px;font-weight:600;font-size:14px}
+    .hero{background:#1a2744;color:#fff;padding:3rem 2rem;text-align:center}
+    .tag{display:inline-block;background:#f5a623;color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:50px;margin-bottom:1rem;text-transform:uppercase}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.3}
+    .hero .meta{color:#b0bbcc;font-size:14px;margin-top:0.5rem}
+    .article{max-width:780px;margin:3rem auto;padding:0 2rem}
+    .article h2{font-size:1.4rem;font-weight:700;color:#1a2744;margin:2rem 0 0.75rem}
+    .article p{font-size:1rem;color:#3a4a65;line-height:1.8;margin-bottom:1rem}
+    .article ul,.article ol{padding-left:1.5rem;margin-bottom:1rem}
+    .article li{font-size:1rem;color:#3a4a65;line-height:1.8;margin-bottom:0.4rem}
+    .article table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.9rem}
+    .article table th{background:#1a2744;color:#fff;padding:10px 14px;text-align:left}
+    .article table td{padding:10px 14px;border-bottom:1px solid #e8eaf0;color:#3a4a65}
+    .article table tr:nth-child(even) td{background:#f8f9fb}
+    .cta-box{background:#1a2744;color:#fff;border-radius:12px;padding:2rem;text-align:center;margin:2.5rem 0}
+    .cta-box h3{font-size:1.3rem;font-weight:700;margin-bottom:0.5rem}
+    .cta-box p{color:#b0bbcc;font-size:0.95rem;margin-bottom:1.2rem}
+    .cta-btn{display:inline-block;background:#f5a623;color:#fff;padding:12px 28px;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none}
+    .tip-box{background:#fff8ee;border-left:4px solid #f5a623;padding:1rem 1.2rem;border-radius:0 8px 8px 0;margin:1.5rem 0}
+    .tip-box strong{color:#f5a623}
+    footer{background:#1a2744;color:#b0bbcc;padding:2.5rem 2rem;margin-top:4rem}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between}
+    .footer-brand p{font-size:13px;margin-top:8px;max-width:220px;line-height:1.6}
+    .footer-col h4{color:#fff;font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+    .footer-col a{display:block;color:#b0bbcc;text-decoration:none;font-size:13px;margin-bottom:6px}
+    .footer-col a:hover{color:#f5a623}
+    .footer-bottom{max-width:1100px;margin:1.5rem auto 0;border-top:1px solid #2e3d5f;padding-top:1rem;font-size:12px;color:#7a8a9a;text-align:center}
+    @media(max-width:600px){.hero h1{font-size:1.5rem}.nav-links{display:none}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="logo"><div class="logo-box">CCT</div><span class="logo-text">Contractor<span>CalcTools</span></span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#calculators">Calculators ▾</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../blog.html">Blog</a></li>
+    <li><a href="../index.html" class="btn-nav">All Tools →</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="tag">Concrete</div>
+  <h1>How to Calculate How Much Concrete You Need</h1>
+  <div class="meta">5 min read · Concrete Projects</div>
+</section>
+<article class="article">
+  <p>One of the most common mistakes on a concrete project is ordering too little — or wasting money by ordering too much. Getting your concrete calculation right before you call the supplier saves time, money, and stress.</p>
+
+  <h2>The Basic Formula</h2>
+  <p>Concrete volume is measured in cubic yards (in the US) or cubic meters. The formula for a rectangular slab is:</p>
+  <p><strong>Volume = Length × Width × Thickness</strong></p>
+  <p>All measurements must be in the same unit. Convert inches to feet by dividing by 12. Then divide the total cubic feet by 27 to get cubic yards.</p>
+
+  <h2>Step-by-Step: Calculating a Concrete Slab</h2>
+  <ol>
+    <li>Measure the length and width of your slab in feet</li>
+    <li>Convert your thickness from inches to feet (e.g., 4 inches ÷ 12 = 0.333 ft)</li>
+    <li>Multiply: Length × Width × Thickness = Cubic Feet</li>
+    <li>Divide by 27 to convert to cubic yards</li>
+    <li>Add 10% extra for waste and spillage</li>
+  </ol>
+
+  <h2>Example Calculation</h2>
+  <p>You're pouring a driveway that is 20 ft long, 10 ft wide, and 4 inches thick:</p>
+  <ul>
+    <li>Thickness in feet: 4 ÷ 12 = 0.333 ft</li>
+    <li>Volume: 20 × 10 × 0.333 = 66.6 cubic feet</li>
+    <li>In cubic yards: 66.6 ÷ 27 = 2.47 cubic yards</li>
+    <li>With 10% waste: 2.47 × 1.10 = 2.72 cubic yards</li>
+  </ul>
+  <p>You'd order 3 cubic yards to be safe.</p>
+
+  <h2>Common Concrete Thicknesses</h2>
+  <table>
+    <tr><th>Project Type</th><th>Recommended Thickness</th></tr>
+    <tr><td>Sidewalk / Walkway</td><td>4 inches</td></tr>
+    <tr><td>Residential Driveway</td><td>4–6 inches</td></tr>
+    <tr><td>Garage Floor</td><td>4–6 inches</td></tr>
+    <tr><td>Patio</td><td>4 inches</td></tr>
+    <tr><td>Foundation Footing</td><td>8–12 inches</td></tr>
+    <tr><td>Commercial Driveway</td><td>6–8 inches</td></tr>
+  </table>
+
+  <h2>Calculating for Footings and Columns</h2>
+  <p>For round columns, use the formula: <strong>Volume = π × radius² × height</strong></p>
+  <p>For square or rectangular footings, use the same length × width × depth formula as slabs.</p>
+
+  <div class="tip-box"><strong>Pro Tip:</strong> Always order 5–10% more concrete than your calculation. Running out mid-pour is one of the most expensive mistakes you can make — you'll get cold joints and weak spots in the finished slab.</div>
+
+  <h2>How Many Bags of Concrete Do You Need?</h2>
+  <table>
+    <tr><th>Bag Size</th><th>Yield (cubic feet)</th></tr>
+    <tr><td>40 lb bag</td><td>0.30 cubic feet</td></tr>
+    <tr><td>60 lb bag</td><td>0.45 cubic feet</td></tr>
+    <tr><td>80 lb bag</td><td>0.60 cubic feet</td></tr>
+  </table>
+  <p>For small jobs under 1 cubic yard, bagged concrete is easier. For anything larger, order ready-mix concrete from a supplier — it's far more cost-effective.</p>
+
+  <h2>When to Use Ready-Mix vs Bagged Concrete</h2>
+  <ul>
+    <li><strong>Bagged concrete</strong> — Best for small repairs, fence posts, and projects under 0.5 cubic yards</li>
+    <li><strong>Ready-mix concrete</strong> — Best for driveways, slabs, foundations, anything over 1 cubic yard</li>
+  </ul>
+
+  <div class="cta-box">
+    <h3>Skip the Math — Use Our Free Calculator</h3>
+    <p>Enter your dimensions and get instant concrete volume in cubic yards, cubic feet, and number of bags needed.</p>
+    <a href="../calculators/concrete-calculator.html" class="cta-btn">Use Concrete Calculator →</a>
+  </div>
+
+  <h2>Final Tips Before You Pour</h2>
+  <ul>
+    <li>Check the weather — don't pour concrete if rain or freezing temperatures are expected</li>
+    <li>Prepare your subbase properly — compact the soil and add gravel if needed</li>
+    <li>Have everything ready before the truck arrives — ready-mix has a limited working time</li>
+    <li>Use expansion joints every 8–10 feet to prevent cracking</li>
+  </ul>
+</article>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo"><div class="logo-box">CCT</div><span class="logo-text" style="color:#fff;">Contractor<span>CalcTools</span></span></div>
+      <p>Free calculator tools for contractors and homeowners.</p>
+    </div>
+    <div class="footer-col"><h4>Calculators</h4><a href="../calculators/concrete-calculator.html">Concrete</a><a href="../calculators/roofing-calculator.html">Roofing</a><a href="../calculators/flooring-calculator.html">Flooring</a><a href="../calculators/paint-calculator.html">Paint</a></div>
+    <div class="footer-col"><h4>Resources</h4><a href="../blog.html">Blog</a><a href="../about.html">About Us</a><a href="../contact.html">Contact</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="../privacy-policy.html">Privacy Policy</a><a href="../terms-of-service.html">Terms of Service</a><a href="../disclaimer.html">Disclaimer</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 contractorcalctools. All rights reserved.</div>
+</footer>
+</body>
+</html>

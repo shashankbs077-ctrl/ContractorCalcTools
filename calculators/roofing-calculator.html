@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free roofing calculator - Calculate shingle bundles, roofing squares, and all materials needed for your project. Get accurate estimates with complete shopping lists.">
+    <title>Roofing Calculator - Calculate Shingles, Materials & Costs | contractorcalctools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+                :root {
+                        --primary: #1e3a5f;
+                        --primary-foreground: #ffffff;
+                        --secondary: #f59e0b;
+                        --secondary-foreground: #1a1a1a;
+                        --background: #f8fafc;
+                        --foreground: #1a1a1a;
+                        --card: #ffffff;
+                        --card-foreground: #1a1a1a;
+                        --muted: #f1f5f9;
+                        --muted-foreground: #64748b;
+                        --border: #e2e8f0;
+                        --success: #22c55e;
+                        --destructive: #ef4444;
+                        --alt-background: #f0f9ff;
+                        --radius: 8px;
+                        --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+                        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+                }
+
+                /* AD STYLES (single instance) */
+                .ad {
+                    margin: 24px 0;
+                    padding: 18px;
+                    text-align: center;
+                    background: #f7f7f7;
+                    border: 1px dashed #ccc;
+                    color: #666;
+                    font-size: 14px;
+                }
+
+                .ad::before {
+                    content: "Advertisement";
+                    display: block;
+                    font-size: 12px;
+                    color: #999;
+                    margin-bottom: 8px;
+                }
+
+                .ad-top {
+                    min-height: 90px;
+                }
+
+                .ad-middle {
+                    min-height: 250px;
+                }
+
+                .ad-content {
+                    min-height: 200px;
+                }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--background); color: var(--foreground); line-height: 1.6; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 700; line-height: 1.2; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        
+        /* Header */
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: var(--primary); box-shadow: var(--shadow-lg); }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary-foreground); }
+        .logo-icon { width: 32px; height: 32px; background: var(--secondary); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .logo-text { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.25rem; }
+        .nav { display: none; gap: 1.5rem; }
+        .nav a { color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
+        .nav a:hover { color: var(--primary-foreground); }
+        .menu-btn { display: flex; background: none; border: none; color: var(--primary-foreground); cursor: pointer; padding: 0.5rem; }
+        @media (min-width: 768px) { .nav { display: flex; } .menu-btn { display: none; } }
+        .mobile-nav { display: none; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.2); }
+        .mobile-nav.active { display: block; }
+        .mobile-nav a { display: block; padding: 0.5rem 0; color: rgba(255,255,255,0.8); text-decoration: none; }
+        
+        /* Page Header */
+        .page-header { background: linear-gradient(135deg, var(--primary), #2d4a6f); color: var(--primary-foreground); padding: 3rem 0; margin-top: 64px; }
+        .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; }
+        .breadcrumb a { color: inherit; text-decoration: none; }
+        .breadcrumb a:hover { color: var(--primary-foreground); }
+        .breadcrumb svg { width: 16px; height: 16px; }
+        .page-title { display: flex; align-items: center; gap: 1rem; }
+        .page-title-icon { font-size: 3rem; }
+        .page-title h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+        .page-title p { font-size: 1.125rem; color: rgba(255,255,255,0.8); margin-top: 0.5rem; }
+        
+        /* Calculator Section */
+        .calculator-section { background: var(--card); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+        .section-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        /* Tabs */
+        .tab-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .tab-btn { padding: 0.625rem 1rem; border-radius: var(--radius); border: 2px solid var(--border); background: var(--card); cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: all 0.2s; }
+        .tab-btn:hover { border-color: var(--secondary); }
+        .tab-btn.active { background: var(--secondary); border-color: var(--secondary); color: var(--secondary-foreground); }
+        
+        /* Inputs */
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.375rem; }
+        .input-wrapper { position: relative; }
+        .input-wrapper input { width: 100%; padding: 0.625rem 2.5rem 0.625rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
+        .input-wrapper input:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+        .input-suffix { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--muted-foreground); font-size: 0.875rem; pointer-events: none; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        @media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+        
+        /* Section Row */
+        .section-row { display: flex; align-items: flex-end; gap: 1rem; padding: 1rem; background: var(--muted); border-radius: var(--radius); margin-bottom: 0.75rem; }
+        .section-row .grid-2 { flex: 1; margin-bottom: 0; }
+        .section-row .input-group { margin-bottom: 0; }
+        .remove-btn { padding: 0.5rem; background: none; border: none; color: var(--destructive); cursor: pointer; border-radius: var(--radius); }
+        .remove-btn:hover { background: rgba(239,68,68,0.1); }
+        
+        /* Shape Cards */
+        .shape-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+        @media (min-width: 768px) { .shape-grid { grid-template-columns: repeat(5, 1fr); } }
+        .shape-card { padding: 1rem; border: 2px solid var(--border); border-radius: var(--radius); text-align: center; cursor: pointer; transition: all 0.2s; background: var(--card); }
+        .shape-card:hover { border-color: var(--secondary); }
+        .shape-card.active { border-color: var(--secondary); background: rgba(245,158,11,0.1); }
+        .shape-card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .shape-card-label { font-weight: 600; font-size: 0.875rem; }
+        .shape-card-desc { font-size: 0.75rem; color: var(--muted-foreground); }
+        .shape-card-mult { font-size: 0.75rem; color: var(--secondary); font-weight: 600; margin-top: 0.25rem; }
+        
+        /* Pitch Cards */
+        .pitch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+        @media (min-width: 768px) { .pitch-grid { grid-template-columns: repeat(5, 1fr); } }
+        .pitch-card { padding: 0.75rem; border: 2px solid var(--border); border-radius: var(--radius); text-align: center; cursor: pointer; transition: all 0.2s; background: var(--card); }
+        .pitch-card:hover { border-color: var(--secondary); }
+        .pitch-card.active { border-color: var(--secondary); background: rgba(245,158,11,0.1); }
+        .pitch-card-value { font-weight: 700; }
+        .pitch-card-cat { font-size: 0.75rem; color: var(--muted-foreground); }
+        .pitch-card-mult { font-size: 0.75rem; color: var(--secondary); }
+        
+        /* Select */
+        select { width: 100%; padding: 0.625rem 2rem 0.625rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 1rem; background: var(--card); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1.25rem; }
+        select:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+        
+        /* Material Info */
+        .material-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1rem; background: var(--muted); border-radius: var(--radius); margin-top: 1rem; font-size: 0.875rem; }
+        @media (min-width: 768px) { .material-info { grid-template-columns: repeat(4, 1fr); } }
+        .material-info-label { color: var(--muted-foreground); }
+        .material-info-value { font-weight: 600; }
+        
+        /* Radio Group */
+        .radio-group { display: flex; flex-direction: column; gap: 0.75rem; }
+        .radio-item { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
+        .radio-item input[type="radio"] { width: 18px; height: 18px; accent-color: var(--secondary); cursor: pointer; }
+        .radio-item label { cursor: pointer; }
+        .radio-item .hint { font-size: 0.875rem; color: var(--success); }
+        .radio-item .warn { font-size: 0.875rem; color: var(--muted-foreground); }
+        
+        /* Warning Box */
+        .warning-box { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.75rem; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: var(--radius); margin-top: 1rem; font-size: 0.875rem; }
+        .warning-box svg { flex-shrink: 0; color: var(--secondary); }
+        
+        /* Checkbox Grid */
+        .checkbox-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+        @media (min-width: 768px) { .checkbox-grid { grid-template-columns: repeat(2, 1fr); } }
+        .checkbox-item { display: flex; align-items: center; gap: 0.75rem; }
+        .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--secondary); cursor: pointer; }
+        .checkbox-item label { cursor: pointer; font-size: 0.9375rem; }
+        
+        /* Slider */
+        .slider-container { max-width: 400px; }
+        .slider { width: 100%; height: 8px; border-radius: 4px; background: var(--muted); appearance: none; cursor: pointer; }
+        .slider::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--secondary); cursor: pointer; }
+        .slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--secondary); cursor: pointer; border: none; }
+        .slider-hint { font-size: 0.875rem; color: var(--muted-foreground); margin-top: 0.5rem; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+        .btn-primary { background: var(--secondary); color: var(--secondary-foreground); }
+        .btn-primary:hover { background: #d97706; }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--foreground); }
+        .btn-outline:hover { background: var(--muted); border-color: var(--muted-foreground); }
+        .btn-lg { padding: 1rem 2rem; font-size: 1.125rem; }
+        .btn-full { width: 100%; }
+        .btn-group { display: flex; flex-direction: column; gap: 1rem; }
+        @media (min-width: 640px) { .btn-group { flex-direction: row; } .btn-group .btn-primary { flex: 1; } }
+        .btn-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.4); } 50% { box-shadow: 0 0 0 10px rgba(245,158,11,0); } }
+        
+        /* Results */
+        .result-card { background: linear-gradient(135deg, var(--primary), #2d4a6f); color: var(--primary-foreground); padding: 2rem; border-radius: var(--radius); text-align: center; box-shadow: var(--shadow-lg); }
+        .result-card-label { font-size: 1.125rem; opacity: 0.9; margin-bottom: 0.5rem; }
+        .result-card-value { font-size: clamp(3rem, 8vw, 4rem); font-weight: 700; font-family: 'Poppins', sans-serif; }
+        .result-card-sub { font-size: 1.25rem; opacity: 0.8; margin-top: 0.25rem; }
+        
+        /* Action Buttons */
+        .action-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .action-btns .btn { flex: 1; min-width: 140px; padding: 0.625rem 1rem; font-size: 0.875rem; }
+        
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--muted); font-weight: 600; font-size: 0.875rem; }
+        td { font-size: 0.9375rem; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        tr.highlight { background: var(--primary); color: var(--primary-foreground); }
+        tr.highlight td { border-bottom: none; font-weight: 700; }
+        .table-responsive { overflow-x: auto; }
+        @media (max-width: 768px) { .hide-mobile { display: none; } }
+        
+        /* Info Grid */
+        .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        @media (min-width: 768px) { .info-grid { grid-template-columns: repeat(3, 1fr); } }
+        .info-card { padding: 1rem; background: var(--muted); border-radius: var(--radius); }
+        .info-card-label { font-size: 0.875rem; color: var(--muted-foreground); }
+        .info-card-value { font-weight: 600; margin-top: 0.25rem; }
+        
+        /* Feature Cards */
+        .feature-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 768px) { .feature-grid { grid-template-columns: repeat(3, 1fr); } }
+        .feature-card { background: var(--card); padding: 1.5rem; border-radius: var(--radius); text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border); transition: all 0.2s; }
+        .feature-card:hover { border-color: var(--secondary); transform: translateY(-2px); }
+        .feature-card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .feature-card h3 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 0.875rem; color: var(--muted-foreground); }
+        
+        /* Educational Section */
+        .edu-section { background: var(--alt-background); padding: 3rem 0; }
+        .edu-grid { display: grid; gap: 1.5rem; }
+        @media (min-width: 768px) { .edu-grid { grid-template-columns: repeat(2, 1fr); } }
+        .edu-card { background: var(--card); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .edu-card ol, .edu-card ul { padding-left: 0; list-style: none; }
+        .edu-card li { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; color: var(--muted-foreground); }
+        .edu-card li span.num { font-weight: 700; color: var(--primary); min-width: 1.5rem; }
+        .edu-card li span.icon { color: var(--destructive); }
+        
+        /* Comparison Table */
+        .comparison-table { overflow-x: auto; margin-top: 2rem; }
+        .comparison-table table { min-width: 600px; background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+        .comparison-table th { background: var(--primary); color: var(--primary-foreground); }
+        .comparison-table tr:nth-child(even) { background: var(--muted); }
+        
+        /* FAQ */
+        .faq-section { padding: 3rem 0; }
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--card); border-radius: var(--radius); margin-bottom: 0.75rem; box-shadow: var(--shadow); overflow: hidden; }
+        .faq-question { width: 100%; padding: 1rem 1.25rem; background: none; border: none; text-align: left; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question:hover { background: var(--muted); }
+        .faq-question svg { transition: transform 0.2s; }
+        .faq-item.active .faq-question svg { transform: rotate(180deg); }
+        .faq-answer { padding: 0 1.25rem; max-height: 0; overflow: hidden; transition: all 0.3s; color: var(--muted-foreground); }
+        .faq-item.active .faq-answer { padding: 0 1.25rem 1rem; max-height: 500px; }
+        
+        /* Related Calculators */
+        .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        @media (min-width: 1024px) { .related-grid { grid-template-columns: repeat(4, 1fr); } }
+        .related-card { background: var(--card); padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid var(--border); text-decoration: none; color: inherit; transition: all 0.2s; }
+        .related-card:hover { border-color: var(--secondary); transform: translateY(-2px); }
+        .related-card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .related-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .related-card p { font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 0.75rem; }
+        .related-card-link { color: var(--secondary); font-size: 0.875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+        
+        /* Footer */
+        .footer { background: var(--primary); color: var(--primary-foreground); padding: 3rem 0; }
+        .footer-grid { display: grid; gap: 2rem; }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+        .footer-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .footer-desc { color: rgba(255,255,255,0.7); max-width: 400px; }
+        .footer h4 { margin-bottom: 1rem; }
+        .footer ul { list-style: none; }
+        .footer li { margin-bottom: 0.5rem; }
+        .footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .footer a:hover { color: var(--primary-foreground); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); margin-top: 2rem; padding-top: 2rem; text-align: center; color: rgba(255,255,255,0.6); font-size: 0.875rem; }
+        
+        /* Eco Box */
+        .eco-box { padding: 1rem; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: var(--radius); }
+        .eco-box-title { font-weight: 600; color: var(--success); margin-bottom: 0.5rem; }
+        .eco-box p { font-size: 0.875rem; color: var(--muted-foreground); }
+        
+        /* Solar Check */
+        .solar-check { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: var(--muted); border-radius: var(--radius); }
+        .solar-check svg { flex-shrink: 0; color: var(--success); }
+        .solar-check-title { font-weight: 600; margin-bottom: 0.25rem; }
+        .solar-check-desc { color: var(--muted-foreground); }
+        
+        /* Utility */
+        .hidden { display: none !important; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .text-success { color: var(--success); }
+        .text-muted { color: var(--muted-foreground); }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875rem; }
+        .text-center { text-align: center; }
+        .max-w-3xl { max-width: 800px; }
+        .max-w-5xl { max-width: 1024px; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            .header { position: static; }
+            body { background: white; }
+            .calculator-section, .result-card { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header no-print">
+    <div class="container">
+        <div class="header-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">🏠</div>
+                <span class="logo-text">contractorcalctools</span>
+            </a>
+            <nav class="nav">
+                <a href="../index.html">Home</a>
+                <a href="../sitemap.html">Sitemap</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </nav>
+            <button class="menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                <svg id="menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="../index.html">Home</a>
+            <a href="../sitemap.html">Sitemap</a>
+            <a href="../about.html">About</a>
+            <a href="../contact.html">Contact</a>
+        </nav>
+    </div>
+</header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="../index.html">Home</a>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <span>Roofing Calculator</span>
+            </nav>
+            <div class="page-title">
+                <span class="page-title-icon">🏠</span>
+                <div>
+                    <h1>Roofing Calculator</h1>
+                    <p>Calculate shingle bundles, roofing squares, and all materials needed for your project</p>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- TOP CONTENT AD -->
+        <div class="ad ad-top">
+            Advertisement
+        </div>
+
+        <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
+        <div style="display: grid; gap: 2rem; grid-template-columns: 1fr;" id="main-grid">
+            
+            <!-- Calculator Form -->
+            <div id="calculator-form">
+                
+                <!-- Calculation Method -->
+                <div class="calculator-section">
+                    <h3 class="section-title">📐 Calculation Method</h3>
+                    <div class="tab-group">
+                        <button class="tab-btn active" data-method="dimensions" onclick="setMethod('dimensions')">By Roof Dimensions</button>
+                        <button class="tab-btn" data-method="footprint" onclick="setMethod('footprint')">By House Footprint</button>
+                        <button class="tab-btn" data-method="sqft" onclick="setMethod('sqft')">Known Square Footage</button>
+                    </div>
+                </div>
+
+                <!-- Measurements -->
+                <div class="calculator-section">
+                    <h3 class="section-title">📏 Measurements</h3>
+                    
+                    <!-- By Dimensions -->
+                    <div id="method-dimensions">
+                        <div id="sections-container">
+                            <div class="section-row" data-section-id="1">
+                                <div class="grid-2" style="flex:1;">
+                                    <div class="input-group">
+                                        <label>Section 1 Length</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" class="section-length" value="40" placeholder="40" min="0">
+                                            <span class="input-suffix">ft</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Section 1 Width</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" class="section-width" value="25" placeholder="25" min="0">
+                                            <span class="input-suffix">ft</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-full" onclick="addSection()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Add Another Section
+                        </button>
+                    </div>
+
+                    <!-- By Footprint -->
+                    <div id="method-footprint" class="hidden">
+                        <div class="grid-3">
+                            <div class="input-group">
+                                <label for="houseLength">House Length</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="houseLength" value="50" placeholder="50" min="0">
+                                    <span class="input-suffix">ft</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="houseWidth">House Width</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="houseWidth" value="30" placeholder="30" min="0">
+                                    <span class="input-suffix">ft</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="overhang">Roof Overhang</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="overhang" value="12" placeholder="12" min="0">
+                                    <span class="input-suffix">in</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Known Sqft -->
+                    <div id="method-sqft" class="hidden">
+                        <div class="input-group" style="max-width: 300px;">
+                            <label for="totalSqFt">Total Roof Area</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="totalSqFt" value="2000" placeholder="2000" min="0">
+                                <span class="input-suffix">sq ft</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roof Shape (only for footprint method) -->
+                <div class="calculator-section" id="shape-section">
+                    <h3 class="section-title">🏠 Roof Shape</h3>
+                    <div class="shape-grid">
+                        <div class="shape-card active" data-shape="gable" onclick="setShape('gable')">
+                            <div class="shape-card-icon">🏠</div>
+                            <div class="shape-card-label">Gable</div>
+                            <div class="shape-card-desc">2 sloped sides</div>
+                            <div class="shape-card-mult">×1.0</div>
+                        </div>
+                        <div class="shape-card" data-shape="hip" onclick="setShape('hip')">
+                            <div class="shape-card-icon">🏛️</div>
+                            <div class="shape-card-label">Hip</div>
+                            <div class="shape-card-desc">4 sloped sides</div>
+                            <div class="shape-card-mult">×1.15</div>
+                        </div>
+                        <div class="shape-card" data-shape="flat" onclick="setShape('flat')">
+                            <div class="shape-card-icon">⬛</div>
+                            <div class="shape-card-label">Flat</div>
+                            <div class="shape-card-desc">Low slope (&lt;2/12)</div>
+                            <div class="shape-card-mult">×1.0</div>
+                        </div>
+                        <div class="shape-card" data-shape="shed" onclick="setShape('shed')">
+                            <div class="shape-card-icon">📐</div>
+                            <div class="shape-card-label">Shed</div>
+                            <div class="shape-card-desc">Single slope</div>
+                            <div class="shape-card-mult">×1.0</div>
+                        </div>
+                        <div class="shape-card" data-shape="gambrel" onclick="setShape('gambrel')">
+                            <div class="shape-card-icon">🏚️</div>
+                            <div class="shape-card-label">Gambrel</div>
+                            <div class="shape-card-desc">Barn-style</div>
+                            <div class="shape-card-mult">×1.20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roof Pitch -->
+                <div class="calculator-section">
+                    <h3 class="section-title">📐 Roof Pitch</h3>
+                    <p class="text-sm text-muted mb-4">Select your roof pitch (rise per 12 inches of run)</p>
+                    <div class="pitch-grid">
+                        <div class="pitch-card" data-pitch="2/12" onclick="setPitch('2/12')">
+                            <div class="pitch-card-value">2/12</div>
+                            <div class="pitch-card-cat">Low slope</div>
+                            <div class="pitch-card-mult">×1.014</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="3/12" onclick="setPitch('3/12')">
+                            <div class="pitch-card-value">3/12</div>
+                            <div class="pitch-card-cat">Low slope</div>
+                            <div class="pitch-card-mult">×1.031</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="4/12" onclick="setPitch('4/12')">
+                            <div class="pitch-card-value">4/12</div>
+                            <div class="pitch-card-cat">Standard</div>
+                            <div class="pitch-card-mult">×1.054</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="5/12" onclick="setPitch('5/12')">
+                            <div class="pitch-card-value">5/12</div>
+                            <div class="pitch-card-cat">Standard</div>
+                            <div class="pitch-card-mult">×1.083</div>
+                        </div>
+                        <div class="pitch-card active" data-pitch="6/12" onclick="setPitch('6/12')">
+                            <div class="pitch-card-value">6/12</div>
+                            <div class="pitch-card-cat">Common</div>
+                            <div class="pitch-card-mult">×1.118</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="7/12" onclick="setPitch('7/12')">
+                            <div class="pitch-card-value">7/12</div>
+                            <div class="pitch-card-cat">Moderate</div>
+                            <div class="pitch-card-mult">×1.158</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="8/12" onclick="setPitch('8/12')">
+                            <div class="pitch-card-value">8/12</div>
+                            <div class="pitch-card-cat">Steep</div>
+                            <div class="pitch-card-mult">×1.202</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="9/12" onclick="setPitch('9/12')">
+                            <div class="pitch-card-value">9/12</div>
+                            <div class="pitch-card-cat">Steep</div>
+                            <div class="pitch-card-mult">×1.250</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="10/12" onclick="setPitch('10/12')">
+                            <div class="pitch-card-value">10/12</div>
+                            <div class="pitch-card-cat">Very steep</div>
+                            <div class="pitch-card-mult">×1.302</div>
+                        </div>
+                        <div class="pitch-card" data-pitch="12/12" onclick="setPitch('12/12')">
+                            <div class="pitch-card-value">12/12</div>
+                            <div class="pitch-card-cat">45°</div>
+                            <div class="pitch-card-mult">×1.414</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roofing Material -->
+                <div class="calculator-section">
+                    <h3 class="section-title">🧱 Roofing Material</h3>
+                    <select id="material" onchange="updateMaterialInfo()">
+                        <option value="3tab">3-Tab Shingles (15-20 years)</option>
+                        <option value="architectural" selected>Architectural Shingles (25-30 years)</option>
+                        <option value="premium">Premium/Designer (30-50 years)</option>
+                        <option value="metal">Metal Panels (40-70 years)</option>
+                        <option value="tile">Clay/Concrete Tiles (50-100 years)</option>
+                        <option value="slate">Natural Slate (75-200 years)</option>
+                    </select>
+                    <div class="material-info" id="material-info">
+                        <div>
+                            <div class="material-info-label">Lifespan:</div>
+                            <div class="material-info-value" id="mat-lifespan">25-30 years</div>
+                        </div>
+                        <div>
+                            <div class="material-info-label">Wind Rating:</div>
+                            <div class="material-info-value" id="mat-wind">110-130 mph</div>
+                        </div>
+                        <div>
+                            <div class="material-info-label">Snow Load:</div>
+                            <div class="material-info-value" id="mat-snow">30-40 psf</div>
+                        </div>
+                        <div>
+                            <div class="material-info-label">Warranty:</div>
+                            <div class="material-info-value" id="mat-warranty">30-50 years</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Climate Zone -->
+                <div class="calculator-section">
+                    <h3 class="section-title">🌡️ Climate Zone</h3>
+                    <select id="climateZone" onchange="updateClimateInfo()">
+                        <option value="cold">Cold Climate - Northeast, Upper Midwest</option>
+                        <option value="temperate" selected>Temperate - Mid-Atlantic, Pacific NW</option>
+                        <option value="hot-dry">Hot & Dry - Southwest, Desert</option>
+                        <option value="hot-humid">Hot & Humid - Southeast, Gulf Coast</option>
+                        <option value="mixed">Mixed Climate - Central US</option>
+                    </select>
+                    <p class="text-sm text-muted mt-2" id="climate-recommendations">Standard materials, moderate protection</p>
+                </div>
+
+                <!-- Project Type -->
+                <div class="calculator-section">
+                    <h3 class="section-title">🔨 Project Type</h3>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="project-new" name="projectType" value="new">
+                            <label for="project-new">New Construction</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="project-tearoff" name="projectType" value="tearoff" checked>
+                            <label for="project-tearoff">Tear-Off & Replace</label>
+                            <span class="hint">(recommended for 20+ year roofs)</span>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="project-overlay" name="projectType" value="overlay">
+                            <label for="project-overlay">Overlay</label>
+                            <span class="warn">(only if 1 layer exists)</span>
+                        </div>
+                    </div>
+                    <div class="warning-box hidden" id="overlay-warning">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <p>Overlaying is not recommended. It may void warranties and hide underlying damage. Consider tear-off for best results.</p>
+                    </div>
+                    <div class="input-group mt-4" id="roof-age-group">
+                        <label for="roofAge">Current Roof Age (years)</label>
+                        <div class="input-wrapper" style="max-width: 200px;">
+                            <input type="number" id="roofAge" value="20" min="0" max="100">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Materials -->
+                <div class="calculator-section">
+                    <h3 class="section-title">📦 Additional Materials</h3>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeUnderlayment" checked>
+                            <label for="includeUnderlayment">Include Underlayment (Synthetic)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeDripEdge" checked>
+                            <label for="includeDripEdge">Include Drip Edge & Flashing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeStarterStrip" checked>
+                            <label for="includeStarterStrip">Include Starter Strip</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeRidgeCaps" checked>
+                            <label for="includeRidgeCaps">Include Ridge Caps</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeIceShield">
+                            <label for="includeIceShield">Include Ice & Water Shield</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeRidgeVents">
+                            <label for="includeRidgeVents">Include Ridge Vents</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeSoffitVents">
+                            <label for="includeSoffitVents">Include Soffit Vents</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeSafetyEquipment">
+                            <label for="includeSafetyEquipment">Add Safety Equipment & Tools</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Waste Factor -->
+                <div class="calculator-section">
+                    <h3 class="section-title">♻️ Waste Factor: <span id="waste-value">15</span>%</h3>
+                    <div class="slider-container">
+                        <input type="range" class="slider" id="wasteFactor" min="10" max="25" value="15" oninput="updateWasteValue()">
+                    </div>
+                    <p class="slider-hint">Use 10% for simple gable roofs, 15% for standard, 20-25% for complex roofs with many valleys/hips</p>
+                    <div class="warning-box hidden" id="waste-warning">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <p>High waste factor selected. Make sure this is necessary for your roof complexity.</p>
+                    </div>
+                </div>
+
+                <!-- Additional Options -->
+                <div class="calculator-section">
+                    <h3 class="section-title">⚙️ Additional Options</h3>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeRepairComparison">
+                            <label for="includeRepairComparison">Include Repair vs Replacement Comparison</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeEcoOptions">
+                            <label for="includeEcoOptions">Show Eco-Friendly & Cool Roof Options</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="includeSolarCheck">
+                            <label for="includeSolarCheck">Check Solar Panel Compatibility</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-lg btn-pulse" onclick="calculateRoofing()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14"></line><line x1="16" y1="10" x2="16" y2="10"></line><line x1="12" y1="14" x2="12" y2="14"></line><line x1="12" y1="10" x2="12" y2="10"></line><line x1="8" y1="14" x2="8" y2="14"></line><line x1="8" y1="10" x2="8" y2="10"></line><line x1="8" y1="18" x2="16" y2="18"></line></svg>
+                        Calculate Roofing Materials
+                    </button>
+                    <button class="btn btn-outline btn-lg" onclick="clearForm()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                        Clear
+                    </button>
+                </div>
+                <!-- MID CALCULATOR AD -->
+                <div class="ad ad-middle">
+                  Advertisement
+                </div>
+            </div>
+                        <!-- Results Section -->
+            <div id="results-section" class="hidden fade-in">
+                
+                <!-- Primary Result Card -->
+                <div class="result-card">
+                    <div class="result-card-label">Roofing Squares</div>
+                    <div class="result-card-value" id="result-squares">0.0</div>
+                    <div class="result-card-sub">(<span id="result-sqft">0</span> Square Feet)</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-btns no-print" style="margin-top: 1.5rem;">
+                    <button class="btn btn-outline" onclick="window.print()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        Print
+                    </button>
+                    <button class="btn btn-outline" onclick="window.print()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download PDF
+                    </button>
+                    <button class="btn btn-outline" onclick="saveEstimate()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        Save
+                    </button>
+                    <button class="btn btn-outline" onclick="copyShoppingList()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copy List
+                    </button>
+                    <button class="btn btn-outline" onclick="shareEstimate()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                        Share
+                    </button>
+                </div>
+
+                <!-- Calculation Breakdown -->
+                <div class="calculator-section" style="margin-top: 1.5rem;">
+                    <h3 class="section-title">📊 Calculation Breakdown</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Base Roof Area</td>
+                                    <td class="text-right" id="breakdown-base">0 sq ft</td>
+                                </tr>
+                                <tr>
+                                    <td>Pitch Adjustment</td>
+                                    <td class="text-right" id="breakdown-pitch">0 sq ft</td>
+                                </tr>
+                                <tr id="breakdown-shape-row">
+                                    <td>Shape Adjustment</td>
+                                    <td class="text-right" id="breakdown-shape">0 sq ft</td>
+                                </tr>
+                                <tr>
+                                    <td>Waste Factor (<span id="breakdown-waste-pct">15</span>%)</td>
+                                    <td class="text-right" id="breakdown-total">0 sq ft</td>
+                                </tr>
+                                <tr style="background: var(--muted);">
+                                    <td><strong>Total Roofing Squares</strong></td>
+                                    <td class="text-right"><strong id="breakdown-squares">0 squares</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Estimated Project Duration</td>
+                                    <td class="text-right" id="breakdown-duration">1 day</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Shopping List -->
+                <div class="calculator-section" id="shopping-list-section">
+                    <h3 class="section-title">📋 Complete Shopping List</h3>
+                    <p class="text-sm text-muted mb-4">Print this list and take it to your local home improvement store</p>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Material</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-right">Est. Cost</th>
+                                    <th class="hide-mobile">Where to Buy</th>
+                                </tr>
+                            </thead>
+                            <tbody id="shopping-list-body">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Safety Equipment -->
+                <div class="calculator-section hidden" id="safety-equipment-section">
+                    <h3 class="section-title">🦺 Safety Equipment</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-right">Est. Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody id="safety-equipment-body">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="calculator-section hidden" id="tools-section">
+                    <h3 class="section-title">🔧 Tools</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-right">Est. Cost (Buy/Rent)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tools-body">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Cost Summary -->
+                <div class="calculator-section">
+                    <h3 class="section-title">💰 Cost Summary</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th class="text-right">Low Estimate</th>
+                                    <th class="text-right">High Estimate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Materials</td>
+                                    <td class="text-right" id="cost-materials-min">$0</td>
+                                    <td class="text-right" id="cost-materials-max">$0</td>
+                                </tr>
+                                <tr>
+                                    <td>Delivery</td>
+                                    <td class="text-right">$75</td>
+                                    <td class="text-right">$150</td>
+                                </tr>
+                                <tr>
+                                    <td>Labor (<span id="cost-labor-squares">0</span> squares)</td>
+                                    <td class="text-right" id="cost-labor-min">$0</td>
+                                    <td class="text-right" id="cost-labor-max">$0</td>
+                                </tr>
+                                <tr id="cost-tearoff-row" class="hidden">
+                                    <td>Tear-Off</td>
+                                    <td class="text-right" id="cost-tearoff-min">$0</td>
+                                    <td class="text-right" id="cost-tearoff-max">$0</td>
+                                </tr>
+                                <tr id="cost-disposal-row" class="hidden">
+                                    <td>Disposal/Dumpster</td>
+                                    <td class="text-right">$300</td>
+                                    <td class="text-right">$600</td>
+                                </tr>
+                                <tr>
+                                    <td>Permits</td>
+                                    <td class="text-right">$100</td>
+                                    <td class="text-right">$500</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td><strong>TOTAL</strong></td>
+                                    <td class="text-right" id="cost-total-min">$0</td>
+                                    <td class="text-right" id="cost-total-max">$0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Material Specifications -->
+                <div class="calculator-section">
+                    <h3 class="section-title">📝 Material Specifications</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-label">Selected Material</div>
+                            <div class="info-card-value" id="spec-material">Architectural Shingles</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Expected Lifespan</div>
+                            <div class="info-card-value" id="spec-lifespan">25-30 years</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Wind Resistance</div>
+                            <div class="info-card-value" id="spec-wind">110-130 mph</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Snow Load Capacity</div>
+                            <div class="info-card-value" id="spec-snow">30-40 psf</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Manufacturer Warranty</div>
+                            <div class="info-card-value" id="spec-warranty-mfr">30-50 years</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Workmanship Warranty</div>
+                            <div class="info-card-value" id="spec-warranty-work">5-10 years</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solar Compatibility -->
+                <div class="calculator-section hidden" id="solar-section">
+                    <h3 class="section-title">☀️ Solar Panel Compatibility</h3>
+                    <div class="solar-check">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <div>
+                            <div class="solar-check-title" id="solar-material">Architectural Shingles</div>
+                            <div class="solar-check-desc" id="solar-compatibility">Good - 25+ year lifespan matches solar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eco Options -->
+                <div class="calculator-section hidden" id="eco-section">
+                    <h3 class="section-title">🌿 Eco-Friendly Options</h3>
+                    <div class="grid-2">
+                        <div class="eco-box">
+                            <div class="eco-box-title">Cool Roof Options</div>
+                            <p>Light-colored shingles can reduce cooling costs by 10-15% by reflecting more sunlight.</p>
+                        </div>
+                        <div class="eco-box">
+                            <div class="eco-box-title">Recycled Content</div>
+                            <p id="eco-recycled">Architectural Shingles contains approximately 20-30% recycled materials.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIY vs Professional -->
+                <div class="calculator-section">
+                    <h3 class="section-title">👷 DIY vs Professional Comparison</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Option</th>
+                                    <th class="text-right">Estimated Cost</th>
+                                    <th class="text-center">Time</th>
+                                    <th class="hide-mobile">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>DIY (materials only)</td>
+                                    <td class="text-right" id="diy-cost">$0 - $0</td>
+                                    <td class="text-center" id="diy-time">2-3 days</td>
+                                    <td class="hide-mobile text-muted">Plus equipment ~$500-800</td>
+                                </tr>
+                                <tr>
+                                    <td>Professional Install</td>
+                                    <td class="text-right" id="pro-cost">$0 - $0</td>
+                                    <td class="text-center" id="pro-time">1 day</td>
+                                    <td class="hide-mobile text-muted">Includes labor, warranty, cleanup</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Maintenance Schedule -->
+                <div class="calculator-section">
+                    <h3 class="section-title">📅 Recommended Maintenance Schedule</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th class="text-right">Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Visual Inspection</td>
+                                    <td class="text-right text-muted">Every 6 months (Spring & Fall)</td>
+                                </tr>
+                                <tr>
+                                    <td>Gutter Cleaning</td>
+                                    <td class="text-right text-muted">Every 3-6 months</td>
+                                </tr>
+                                <tr>
+                                    <td>Moss/Algae Treatment</td>
+                                    <td class="text-right text-muted">Annually in humid climates</td>
+                                </tr>
+                                <tr>
+                                    <td>Flashing Check</td>
+                                    <td class="text-right text-muted">Annually</td>
+                                </tr>
+                                <tr>
+                                    <td>Professional Inspection</td>
+                                    <td class="text-right text-muted">Every 3-5 years</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End Results Section -->
+
+        </div>
+    </main>
+
+    <!-- Feature Cards -->
+    <section class="py-12 no-print" style="background: var(--muted);">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-icon">📋</div>
+                    <h3>Complete Material Lists</h3>
+                    <p>Complete shopping lists with quantities for every material you'll need for your project.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">🖨️</div>
+                    <h3>Print & Save</h3>
+                    <p>Print your estimates, download as PDF, or save for future reference.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">💰</div>
+                    <h3>Detailed Cost Breakdown</h3>
+                    <p>Get material, labor, and disposal costs with local pricing estimates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Section -->
+    <section class="edu-section no-print" id="guides">
+        <div class="container">
+            <h2 class="text-center mb-8" style="font-size: 1.75rem;">Roofing Guide</h2>
+            <div class="edu-grid max-w-5xl mx-auto">
+                <div class="edu-card">
+                    <h3 class="section-title">📏 How to Measure Your Roof</h3>
+                    <ol>
+                        <li><span class="num">1.</span><span>Measure house footprint from the ground (safest method)</span></li>
+                        <li><span class="num">2.</span><span>Determine roof pitch using a level and measuring tape</span></li>
+                        <li><span class="num">3.</span><span>Account for overhangs (typically 12 inches)</span></li>
+                        <li><span class="num">4.</span><span>Count hips, valleys, and dormers for complex roofs</span></li>
+                        <li><span class="num">5.</span><span>Use the calculator to apply pitch multiplier</span></li>
+                    </ol>
+                </div>
+                <div class="edu-card">
+                    <h3 class="section-title">📐 Understanding Roof Pitch</h3>
+                    <p class="text-muted mb-2"><strong>What is roof pitch?</strong> Rise over run (vertical/horizontal)</p>
+                    <p class="text-muted mb-2"><strong>Common residential pitches:</strong> 4/12 to 8/12</p>
+                    <p class="text-muted mb-4"><strong>Why pitch matters:</strong> Steeper = more material needed</p>
+                    <div style="background: var(--muted); padding: 1rem; border-radius: var(--radius);">
+                        <div class="text-sm font-bold mb-2">Pitch Examples:</div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.875rem;">
+                            <span>4/12 = 18.4°</span>
+                            <span>6/12 = 26.6°</span>
+                            <span>8/12 = 33.7°</span>
+                            <span>10/12 = 39.8°</span>
+                            <span>12/12 = 45°</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <h3 class="section-title">🔨 Tear-Off vs Overlay</h3>
+                    <div class="mb-4">
+                        <h4 class="text-success font-bold mb-2">When to Tear Off:</h4>
+                        <ul>
+                            <li><span>•</span><span>Existing roof is 20+ years old</span></li>
+                            <li><span>•</span><span>Multiple layers already exist</span></li>
+                            <li><span>•</span><span>Visible damage to decking</span></li>
+                            <li><span>•</span><span>New warranty requirements</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--secondary);" class="font-bold mb-2">When Overlay Might Work:</h4>
+                        <ul>
+                            <li><span>•</span><span>Single layer of shingles exists</span></li>
+                            <li><span>•</span><span>Shingles are relatively flat</span></li>
+                            <li><span>•</span><span>Budget is limited</span></li>
+                            <li><span>•</span><span>Local codes allow it</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <h3 class="section-title">⚠️ Common Mistakes to Avoid</h3>
+                    <ul>
+                        <li><span class="icon">✗</span><span>Underestimating material needs</span></li>
+                        <li><span class="icon">✗</span><span>Not checking local permit requirements</span></li>
+                        <li><span class="icon">✗</span><span>Ignoring ventilation requirements</span></li>
+                        <li><span class="icon">✗</span><span>Starting in extreme weather</span></li>
+                        <li><span class="icon">✗</span><span>Not inspecting decking before re-roofing</span></li>
+                        <li><span class="icon">✗</span><span>Skipping ice and water shield in cold climates</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Material Comparison Table -->
+            <div class="comparison-table max-w-5xl mx-auto" style="margin-top: 3rem;">
+                <h3 class="text-center mb-4" style="font-size: 1.25rem;">Roofing Material Comparison Guide</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th class="text-center">Lifespan</th>
+                            <th class="text-center">Wind Rating</th>
+                            <th class="text-center">Snow Load</th>
+                            <th class="text-center hide-mobile">Warranty</th>
+                            <th class="text-center hide-mobile">Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3-Tab Shingles</td>
+                            <td class="text-center">15-20 yrs</td>
+                            <td class="text-center">60-70 mph</td>
+                            <td class="text-center">20-30 psf</td>
+                            <td class="text-center hide-mobile">20-25 years</td>
+                            <td class="text-center hide-mobile text-muted text-sm">Budget projects</td>
+                        </tr>
+                        <tr>
+                            <td>Architectural Shingles</td>
+                            <td class="text-center">25-30 yrs</td>
+                            <td class="text-center">110-130 mph</td>
+                            <td class="text-center">30-40 psf</td>
+                            <td class="text-center hide-mobile">30-50 years</td>
+                            <td class="text-center hide-mobile text-muted text-sm">Most homes</td>
+                        </tr>
+                        <tr>
+                            <td>Premium/Designer</td>
+                            <td class="text-center">30-50 yrs</td>
+                            <td class="text-center">130+ mph</td>
+                            <td class="text-center">40+ psf</td>
+                            <td class="text-center hide-mobile">50+ years</td>
+                            <td class="text-center hide-mobile text-muted text-sm">High-end homes</td>
+                        </tr>
+                        <tr>
+                            <td>Metal Panels</td>
+                            <td class="text-center">40-70 yrs</td>
+                            <td class="text-center">140+ mph</td>
+                            <td class="text-center">40+ psf</td>
+                            <td class="text-center hide-mobile">30-50 years</td>
+                            <td class="text-center hide-mobile text-muted text-sm">Durability</td>
+                        </tr>
+                        <tr>
+                            <td>Clay/Concrete Tiles</td>
+                            <td class="text-center">50-100 yrs</td>
+                            <td class="text-center">150+ mph</td>
+                            <td class="text-center">40+ psf</td>
+                            <td class="text-center hide-mobile">50+ years</td>
+                            <td class="text-center hide-mobile text-muted text-sm">Southwest style</td>
+                        </tr>
+                        <tr>
+                            <td>Natural Slate</td>
+                            <td class="text-center">75-200 yrs</td>
+                            <td class="text-center">150+ mph</td>
+                            <td class="text-center">40+ psf</td>
+                            <td class="text-center hide-mobile">75-100 years</td>
+                            <td class="text-center hide-mobile text-muted text-sm">Historic homes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+        <!-- CONTENT BREAK AD -->
+        <div class="ad ad-content">
+            Advertisement
+        </div>
+
+        <!-- FAQ Section -->
+    <section class="faq-section no-print" id="faq">
+        <div class="container">
+            <h2 class="text-center mb-8" style="font-size: 1.75rem;">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        How many bundles of shingles do I need for a 2,000 sq ft roof?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        For a 2,000 sq ft roof using architectural shingles, you need approximately 20 roofing squares. At 3.33 bundles per square, that's about 67 bundles. Adding 15% for waste, plan on 77 bundles total.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        What is a roofing square?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        A roofing square is a unit of measurement equal to 100 square feet of roof area. It's the standard unit used by roofing contractors to estimate materials and labor.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        How long does a roof replacement take?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        A typical residential roof replacement takes 1-3 days for a professional crew. Complex roofs with multiple levels, dormers, or steep pitches may take longer. DIY projects typically take much longer.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        Should I remove old shingles or roof over them?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Removing old shingles (tear-off) is recommended for best results. It allows inspection of the decking, ensures proper installation, and won't void most warranties. Some jurisdictions allow one layer of overlay, but it adds weight and may hide problems.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        How do I know if I need a new roof?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Signs you need a new roof: shingles are curling, cracking, or missing; granules in gutters; roof is 20+ years old; visible daylight through attic; water stains on ceilings; sagging roof deck.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        What is the best roofing material for my climate?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Cold climates benefit from impact-resistant architectural shingles with ice shield. Hot, humid areas need algae-resistant shingles. Hot, dry climates do well with tile or cool roofs. Your local building codes may have specific requirements.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        How much does a new roof cost?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        A new roof typically costs $5,000-$15,000 for materials and $8,000-$25,000 installed for a typical home. Costs vary by material (3-tab is cheapest, slate is most expensive), roof complexity, and local labor rates.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        What roofing materials are best for solar panels?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Metal roofs are ideal for solar panels due to easy mounting and long lifespan (40-70 years). Architectural shingles (25-30 year lifespan) also work well. Avoid installing solar on roofs that will need replacement within 10 years.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        How do I calculate roof pitch?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Measure 12 inches horizontally from the edge of your roof, then measure vertically from that point to the roof surface. If the vertical measurement is 6 inches, you have a 6/12 pitch. Steeper pitches require more roofing materials.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        What is underlayment and do I need it?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Underlayment is a water-resistant barrier installed under shingles. It's required by code in most areas and provides secondary protection against leaks. Synthetic underlayment is more durable than felt paper and is recommended for most installations.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        How much extra material should I order for waste?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Plan for 10-15% waste on simple gable roofs and 20-25% on complex roofs with multiple hips, valleys, and dormers. Ordering extra ensures you have matching shingles for repairs and avoids project delays.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <button class="faq-question">
+                        Do I need a permit for roof replacement?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="faq-answer">
+                        Most jurisdictions require a permit for roof replacement. Permits typically cost $100-$500 and ensure the work meets building codes. Working without a permit can result in fines and problems when selling your home.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Calculators -->
+    <section class="py-12 no-print" id="calculators">
+        <div class="container">
+            <h2 class="text-center mb-8" style="font-size: 1.75rem;">Related Calculators</h2>
+            <div class="related-grid max-w-5xl mx-auto">
+                <a href="#paint-calculator" class="related-card">
+                    <div class="related-card-icon">🎨</div>
+                    <h3>Paint Calculator</h3>
+                    <p>Calculate paint needed for interior/exterior</p>
+                    <span class="related-card-link">
+                        Open Calculator 
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </span>
+                </a>
+                <a href="#window-calculator" class="related-card">
+                    <div class="related-card-icon">🪟</div>
+                    <h3>Window Calculator</h3>
+                    <p>Estimate window replacement costs</p>
+                    <span class="related-card-link">
+                        Open Calculator 
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </span>
+                </a>
+                <a href="#home-addition-calculator" class="related-card">
+                    <div class="related-card-icon">🏗️</div>
+                    <h3>Home Addition</h3>
+                    <p>Calculate addition costs per sq ft</p>
+                    <span class="related-card-link">
+                        Open Calculator 
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </span>
+                </a>
+                <a href="#siding-calculator" class="related-card">
+                    <div class="related-card-icon">📐</div>
+                    <h3>Siding Calculator</h3>
+                    <p>Estimate siding materials and costs</p>
+                    <span class="related-card-link">
+                        Open Calculator 
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer no-print">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <div class="logo-icon">🏠</div>
+                    <span class="logo-text">contractorcalctools</span>
+                </div>
+                <p class="footer-desc">
+                    Free contractor calculator tools for homeowners and professionals. Get accurate estimates for roofing, painting, siding, and more.
+                </p>
+            </div>
+            <div>
+                <h4>Calculators</h4>
+                <ul>
+                    <li><a href="roofing-calculator.html">Roofing Calculator</a></li>
+                    <li><a href="paint-calculator.html">Paint Calculator</a></li>
+                    <li><a href="drywall-calculator.html">Drywall Calculator</a></li>
+                    <li><a href="window-replacement-calculator.html">Window Calculator</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="../sitemap.html">Sitemap</a></li>
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="../terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="../disclaimer.html">Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year">2026</span> contractorcalctools. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" style="position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: var(--primary-foreground); padding: 1rem 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-lg); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000;">
+        <div id="toast-title" style="font-weight: 600; margin-bottom: 0.25rem;"></div>
+        <div id="toast-message" style="font-size: 0.875rem; opacity: 0.9;"></div>
+    </div>
+        <script>
+        // ============================================
+        // DATA CONFIGURATION
+        // ============================================
+        
+        const pitchMultipliers = {
+            '2/12': 1.014,
+            '3/12': 1.031,
+            '4/12': 1.054,
+            '5/12': 1.083,
+            '6/12': 1.118,
+            '7/12': 1.158,
+            '8/12': 1.202,
+            '9/12': 1.250,
+            '10/12': 1.302,
+            '12/12': 1.414
+        };
+
+        const shapeMultipliers = {
+            gable: 1.0,
+            hip: 1.15,
+            flat: 1.0,
+            shed: 1.0,
+            gambrel: 1.20
+        };
+
+        const materialConfigs = {
+            '3tab': {
+                label: '3-Tab Shingles',
+                bundlesPerSquare: 3,
+                lifespanMin: 15,
+                lifespanMax: 20,
+                priceMin: 25,
+                priceMax: 35,
+                windRating: '60-70 mph',
+                snowLoad: '20-30 psf',
+                warrantyManufacturer: '20-25 years',
+                warrantyWorkmanship: '1-5 years',
+                solarCompatibility: 'Fair - may need replacement before panels',
+                recycledContent: '10-20%'
+            },
+            architectural: {
+                label: 'Architectural Shingles',
+                bundlesPerSquare: 3.33,
+                lifespanMin: 25,
+                lifespanMax: 30,
+                priceMin: 35,
+                priceMax: 50,
+                windRating: '110-130 mph',
+                snowLoad: '30-40 psf',
+                warrantyManufacturer: '30-50 years',
+                warrantyWorkmanship: '5-10 years',
+                solarCompatibility: 'Good - 25+ year lifespan matches solar',
+                recycledContent: '20-30%'
+            },
+            premium: {
+                label: 'Premium/Designer',
+                bundlesPerSquare: 4,
+                lifespanMin: 30,
+                lifespanMax: 50,
+                priceMin: 60,
+                priceMax: 100,
+                windRating: '130+ mph',
+                snowLoad: '40+ psf',
+                warrantyManufacturer: '50+ years',
+                warrantyWorkmanship: '10-25 years',
+                solarCompatibility: 'Excellent - long lifespan ideal for solar',
+                recycledContent: '25-35%'
+            },
+            metal: {
+                label: 'Metal Panels',
+                bundlesPerSquare: null,
+                pricePerSqFtMin: 8,
+                pricePerSqFtMax: 14,
+                lifespanMin: 40,
+                lifespanMax: 70,
+                windRating: '140+ mph',
+                snowLoad: '40+ psf',
+                warrantyManufacturer: '30-50 years',
+                warrantyWorkmanship: '10-20 years',
+                solarCompatibility: 'Excellent - best for solar mounting',
+                recycledContent: '25-95%'
+            },
+            tile: {
+                label: 'Clay/Concrete Tiles',
+                bundlesPerSquare: null,
+                tilesPerSquare: 90,
+                pricePerSqFtMin: 10,
+                pricePerSqFtMax: 18,
+                lifespanMin: 50,
+                lifespanMax: 100,
+                windRating: '150+ mph',
+                snowLoad: '40+ psf',
+                warrantyManufacturer: '50+ years',
+                warrantyWorkmanship: '10-15 years',
+                solarCompatibility: 'Good - requires special mounting',
+                recycledContent: '0-10%'
+            },
+            slate: {
+                label: 'Natural Slate',
+                bundlesPerSquare: null,
+                pricePerSqFtMin: 15,
+                pricePerSqFtMax: 30,
+                lifespanMin: 75,
+                lifespanMax: 200,
+                windRating: '150+ mph',
+                snowLoad: '40+ psf',
+                warrantyManufacturer: '75-100 years',
+                warrantyWorkmanship: '10-20 years',
+                solarCompatibility: 'Fair - requires careful installation',
+                recycledContent: '0%'
+            }
+        };
+
+        const climateZones = {
+            cold: {
+                label: 'Cold Climate',
+                description: 'Northeast, Upper Midwest',
+                recommendations: 'Ice shield required, high wind rating recommended'
+            },
+            temperate: {
+                label: 'Temperate',
+                description: 'Mid-Atlantic, Pacific NW',
+                recommendations: 'Standard materials, moderate protection'
+            },
+            'hot-dry': {
+                label: 'Hot & Dry',
+                description: 'Southwest, Desert',
+                recommendations: 'Cool roof options, UV resistance'
+            },
+            'hot-humid': {
+                label: 'Hot & Humid',
+                description: 'Southeast, Gulf Coast',
+                recommendations: 'Algae resistance, ventilation priority'
+            },
+            mixed: {
+                label: 'Mixed Climate',
+                description: 'Central US',
+                recommendations: 'Balanced approach'
+            }
+        };
+
+        // ============================================
+        // STATE VARIABLES
+        // ============================================
+        
+        let currentMethod = 'dimensions';
+        let currentPitch = '6/12';
+        let currentShape = 'gable';
+        let sectionCounter = 1;
+        let calculationResults = null;
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-message').textContent = message;
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.transform = 'translateY(100px)';
+                toast.style.opacity = '0';
+            }, 3000);
+        }
+
+        // ============================================
+        // UI INTERACTION HANDLERS
+        // ============================================
+        
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.toggle('active');
+        }
+
+        function setMethod(method) {
+            currentMethod = method;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.method === method) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Show/hide method sections
+            document.getElementById('method-dimensions').classList.toggle('hidden', method !== 'dimensions');
+            document.getElementById('method-footprint').classList.toggle('hidden', method !== 'footprint');
+            document.getElementById('method-sqft').classList.toggle('hidden', method !== 'sqft');
+            
+            // Show shape section only for footprint method
+            document.getElementById('shape-section').classList.toggle('hidden', method !== 'footprint');
+        }
+
+        function setPitch(pitch) {
+            currentPitch = pitch;
+            document.querySelectorAll('.pitch-card').forEach(card => {
+                card.classList.remove('active');
+                if (card.dataset.pitch === pitch) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        function setShape(shape) {
+            currentShape = shape;
+            document.querySelectorAll('.shape-card').forEach(card => {
+                card.classList.remove('active');
+                if (card.dataset.shape === shape) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        function addSection() {
+            sectionCounter++;
+            const container = document.getElementById('sections-container');
+            const newSection = document.createElement('div');
+            newSection.className = 'section-row fade-in';
+            newSection.dataset.sectionId = sectionCounter;
+            newSection.innerHTML = `
+                <div class="grid-2" style="flex:1;">
+                    <div class="input-group">
+                        <label>Section ${sectionCounter} Length</label>
+                        <div class="input-wrapper">
+                            <input type="number" class="section-length" value="" placeholder="0" min="0">
+                            <span class="input-suffix">ft</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Section ${sectionCounter} Width</label>
+                        <div class="input-wrapper">
+                            <input type="number" class="section-width" value="" placeholder="0" min="0">
+                            <span class="input-suffix">ft</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="remove-btn" onclick="removeSection(${sectionCounter})" title="Remove section">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+            `;
+            container.appendChild(newSection);
+        }
+
+        function removeSection(id) {
+            const sections = document.querySelectorAll('.section-row');
+            if (sections.length > 1) {
+                const sectionToRemove = document.querySelector(`.section-row[data-section-id="${id}"]`);
+                if (sectionToRemove) {
+                    sectionToRemove.remove();
+                }
+            }
+        }
+
+        function updateMaterialInfo() {
+            const material = document.getElementById('material').value;
+            const config = materialConfigs[material];
+            
+            document.getElementById('mat-lifespan').textContent = `${config.lifespanMin}-${config.lifespanMax} years`;
+            document.getElementById('mat-wind').textContent = config.windRating;
+            document.getElementById('mat-snow').textContent = config.snowLoad;
+            document.getElementById('mat-warranty').textContent = config.warrantyManufacturer;
+        }
+
+        function updateClimateInfo() {
+            const climate = document.getElementById('climateZone').value;
+            const info = climateZones[climate];
+            document.getElementById('climate-recommendations').textContent = info.recommendations;
+        }
+
+        function updateWasteValue() {
+            const value = document.getElementById('wasteFactor').value;
+            document.getElementById('waste-value').textContent = value;
+            document.getElementById('waste-warning').classList.toggle('hidden', value <= 20);
+        }
+
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+
+        // Project type radio handler
+        document.querySelectorAll('input[name="projectType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const overlayWarning = document.getElementById('overlay-warning');
+                const roofAgeGroup = document.getElementById('roof-age-group');
+                
+                overlayWarning.classList.toggle('hidden', this.value !== 'overlay');
+                roofAgeGroup.classList.toggle('hidden', this.value !== 'tearoff');
+            });
+        });
+
+        // ============================================
+        // CALCULATION FUNCTIONS
+        // ============================================
+        
+        function getInputs() {
+            const projectTypeEl = document.querySelector('input[name="projectType"]:checked');
+            
+            return {
+                method: currentMethod,
+                pitch: currentPitch,
+                roofShape: currentShape,
+                material: document.getElementById('material').value,
+                climateZone: document.getElementById('climateZone').value,
+                projectType: projectTypeEl ? projectTypeEl.value : 'tearoff',
+                wasteFactor: parseInt(document.getElementById('wasteFactor').value),
+                houseLength: parseFloat(document.getElementById('houseLength').value) || 0,
+                houseWidth: parseFloat(document.getElementById('houseWidth').value) || 0,
+                overhang: parseFloat(document.getElementById('overhang').value) || 0,
+                totalSqFt: parseFloat(document.getElementById('totalSqFt').value) || 0,
+                roofAge: parseInt(document.getElementById('roofAge').value) || 0,
+                includeUnderlayment: document.getElementById('includeUnderlayment').checked,
+                includeDripEdge: document.getElementById('includeDripEdge').checked,
+                includeStarterStrip: document.getElementById('includeStarterStrip').checked,
+                includeRidgeCaps: document.getElementById('includeRidgeCaps').checked,
+                includeIceShield: document.getElementById('includeIceShield').checked,
+                includeRidgeVents: document.getElementById('includeRidgeVents').checked,
+                includeSoffitVents: document.getElementById('includeSoffitVents').checked,
+                includeSafetyEquipment: document.getElementById('includeSafetyEquipment').checked,
+                includeRepairComparison: document.getElementById('includeRepairComparison').checked,
+                includeEcoOptions: document.getElementById('includeEcoOptions').checked,
+                includeSolarCheck: document.getElementById('includeSolarCheck').checked
+            };
+        }
+
+        function getSections() {
+            const sections = [];
+            document.querySelectorAll('.section-row').forEach(row => {
+                const length = parseFloat(row.querySelector('.section-length').value) || 0;
+                const width = parseFloat(row.querySelector('.section-width').value) || 0;
+                sections.push({ length, width });
+            });
+            return sections;
+        }
+
+        function calculateRoofing() {
+            const inputs = getInputs();
+            const sections = getSections();
+            const materialConfig = materialConfigs[inputs.material];
+
+            // Calculate base area based on method
+            let baseArea = 0;
+            let roofLength = 40;
+            let roofWidth = 30;
+
+            if (inputs.method === 'dimensions') {
+                sections.forEach(section => {
+                    baseArea += section.length * section.width;
+                });
+                if (sections.length > 0 && sections[0].length > 0) {
+                    roofLength = sections[0].length;
+                    roofWidth = sections[0].width;
+                }
+            } else if (inputs.method === 'footprint') {
+                const overhangFt = inputs.overhang / 12;
+                baseArea = (inputs.houseLength + 2 * overhangFt) * (inputs.houseWidth + 2 * overhangFt);
+                roofLength = inputs.houseLength;
+                roofWidth = inputs.houseWidth;
+            } else {
+                baseArea = inputs.totalSqFt;
+                roofLength = Math.sqrt(baseArea);
+                roofWidth = roofLength;
+            }
+
+            // Apply pitch multiplier
+            const pitchMultiplier = pitchMultipliers[inputs.pitch] || 1.118;
+            const pitchAdjustedArea = baseArea * pitchMultiplier;
+
+            // Apply shape multiplier (only for footprint method)
+            const shapeMultiplier = inputs.method === 'footprint' ? (shapeMultipliers[inputs.roofShape] || 1.0) : 1.0;
+            const shapeAdjustedArea = pitchAdjustedArea * shapeMultiplier;
+
+            // Apply waste factor
+            const totalSqFt = shapeAdjustedArea * (1 + inputs.wasteFactor / 100);
+            const roofingSquares = totalSqFt / 100;
+
+            // Calculate perimeter
+            let perimeter = 0;
+            if (inputs.method === 'footprint') {
+                const overhangFt = inputs.overhang / 12;
+                perimeter = 2 * ((inputs.houseLength + 2 * overhangFt) + (inputs.houseWidth + 2 * overhangFt));
+            } else if (inputs.method === 'dimensions') {
+                sections.forEach(section => {
+                    perimeter += 2 * (section.length + section.width);
+                });
+            } else {
+                perimeter = Math.sqrt(baseArea) * 4;
+            }
+
+            // Calculate materials based on type
+            let bundles = null;
+            let metalPanels = null;
+            let tiles = null;
+            let screwBoxes = null;
+
+            if (materialConfig.bundlesPerSquare) {
+                bundles = Math.ceil(roofingSquares * materialConfig.bundlesPerSquare);
+            }
+
+            if (inputs.material === 'metal') {
+                const metalPanelWidth = 3;
+                metalPanels = Math.ceil(shapeAdjustedArea / (roofLength * metalPanelWidth));
+                const screwsPerPanel = 80;
+                const totalScrews = metalPanels * screwsPerPanel;
+                screwBoxes = Math.ceil(totalScrews / 250);
+            }
+
+            if (inputs.material === 'tile') {
+                tiles = Math.ceil(roofingSquares * 90);
+            }
+
+            // Calculate other materials
+            const syntheticRolls = Math.ceil(totalSqFt / 1000);
+            const dripEdgePieces = Math.ceil(perimeter / 10);
+
+            const isHipRoof = inputs.roofShape === 'hip';
+            const valleyLength = isHipRoof ? perimeter * 0.3 : perimeter * 0.1;
+            const stepFlashingPieces = Math.ceil(valleyLength / 0.5);
+            const valleyFlashingRolls = Math.ceil(valleyLength / 50);
+
+            const starterRolls = Math.ceil(perimeter / 120);
+
+            const ridgeLength = roofWidth + (isHipRoof ? roofLength * 2 : 0);
+            const ridgeBundles = Math.ceil(ridgeLength / 25);
+
+            const iceShieldWidth = inputs.climateZone === 'cold' ? 6 : 3;
+            const iceShieldSqFt = perimeter * iceShieldWidth;
+            const iceShieldRolls = Math.ceil(iceShieldSqFt / 75);
+
+            const nailsLbs = bundles ? Math.ceil(bundles * 2.5) : Math.ceil(roofingSquares * 8);
+            const nailBoxes = Math.ceil(nailsLbs / 5);
+
+            // Ventilation
+            const atticSqFt = baseArea;
+            const nfaRequired = atticSqFt / 150;
+            const ridgeVentFeet = Math.ceil(ridgeLength);
+            const soffitVentPieces = Math.ceil((nfaRequired * 0.5) / 0.5);
+
+            // Labor days
+            const laborDays = Math.ceil(roofingSquares / 10);
+
+            // Cost calculations
+            let materialCostMin = 0;
+            let materialCostMax = 0;
+
+            if (bundles && materialConfig.priceMin && materialConfig.priceMax) {
+                materialCostMin = bundles * materialConfig.priceMin;
+                materialCostMax = bundles * materialConfig.priceMax;
+            } else if (materialConfig.pricePerSqFtMin) {
+                materialCostMin = totalSqFt * materialConfig.pricePerSqFtMin;
+                materialCostMax = totalSqFt * (materialConfig.pricePerSqFtMax || materialConfig.pricePerSqFtMin);
+            }
+
+            // Add accessory costs
+            const underlaymentCost = syntheticRolls * 125;
+            const dripEdgeCost = dripEdgePieces * 8;
+            const flashingCost = (stepFlashingPieces * 1.5) + (valleyFlashingRolls * 30);
+            const starterCost = starterRolls * 35;
+            const ridgeCost = ridgeBundles * 40;
+            const iceShieldCost = inputs.includeIceShield ? iceShieldRolls * 95 : 0;
+            const nailsCost = nailBoxes * 30;
+            const ventCost = inputs.includeRidgeVents ? (ridgeVentFeet * 5) + (soffitVentPieces * 15) : 0;
+
+            const accessoryCost = (inputs.includeUnderlayment ? underlaymentCost : 0) +
+                (inputs.includeDripEdge ? dripEdgeCost + flashingCost : 0) +
+                (inputs.includeStarterStrip ? starterCost : 0) +
+                (inputs.includeRidgeCaps ? ridgeCost : 0) +
+                iceShieldCost + nailsCost + ventCost;
+
+            materialCostMin += accessoryCost;
+            materialCostMax += accessoryCost;
+
+            // Labor costs
+            const laborCostMin = roofingSquares * 50;
+            const laborCostMax = roofingSquares * 100;
+
+            // Tear-off costs
+            const tearOffCostMin = inputs.projectType === 'tearoff' ? roofingSquares * 25 : 0;
+            const tearOffCostMax = inputs.projectType === 'tearoff' ? roofingSquares * 50 : 0;
+
+            // Total costs
+            const disposalMin = inputs.projectType === 'tearoff' ? 300 : 0;
+            const disposalMax = inputs.projectType === 'tearoff' ? 600 : 0;
+            const deliveryMin = 75;
+            const deliveryMax = 150;
+            const permitMin = 100;
+            const permitMax = 500;
+
+            const totalCostMin = materialCostMin + laborCostMin + tearOffCostMin + disposalMin + deliveryMin + permitMin;
+            const totalCostMax = materialCostMax + laborCostMax + tearOffCostMax + disposalMax + deliveryMax + permitMax;
+
+            // Build shopping list
+            const shoppingList = [];
+
+            if (bundles && materialConfig.priceMin && materialConfig.priceMax) {
+                shoppingList.push({
+                    item: materialConfig.label,
+                    quantity: bundles,
+                    unit: 'bundles',
+                    priceMin: bundles * materialConfig.priceMin,
+                    priceMax: bundles * materialConfig.priceMax,
+                    whereToBuy: "Home Depot, Lowe's"
+                });
+            }
+
+            if (metalPanels) {
+                shoppingList.push({
+                    item: 'Metal Roof Panels',
+                    quantity: metalPanels,
+                    unit: 'panels',
+                    priceMin: totalSqFt * 8,
+                    priceMax: totalSqFt * 14,
+                    whereToBuy: 'Metal roofing supplier'
+                });
+            }
+
+            if (tiles) {
+                shoppingList.push({
+                    item: 'Roof Tiles',
+                    quantity: tiles,
+                    unit: 'tiles',
+                    priceMin: totalSqFt * 10,
+                    priceMax: totalSqFt * 18,
+                    whereToBuy: 'Tile supplier'
+                });
+            }
+
+            if (inputs.includeUnderlayment) {
+                shoppingList.push({
+                    item: 'Synthetic Underlayment',
+                    quantity: syntheticRolls,
+                    unit: 'rolls',
+                    priceMin: syntheticRolls * 100,
+                    priceMax: syntheticRolls * 150,
+                    whereToBuy: 'Roofing Supply'
+                });
+            }
+
+            if (inputs.includeDripEdge) {
+                shoppingList.push({
+                    item: 'Drip Edge (10 ft pieces)',
+                    quantity: dripEdgePieces,
+                    unit: 'pieces',
+                    priceMin: dripEdgePieces * 6,
+                    priceMax: dripEdgePieces * 10,
+                    whereToBuy: "Home Depot, Lowe's"
+                });
+                shoppingList.push({
+                    item: 'Step Flashing',
+                    quantity: stepFlashingPieces,
+                    unit: 'pieces',
+                    priceMin: stepFlashingPieces * 1,
+                    priceMax: stepFlashingPieces * 2,
+                    whereToBuy: 'Roofing Supply'
+                });
+            }
+
+            if (inputs.includeStarterStrip) {
+                shoppingList.push({
+                    item: 'Starter Strip',
+                    quantity: starterRolls,
+                    unit: 'rolls',
+                    priceMin: starterRolls * 30,
+                    priceMax: starterRolls * 40,
+                    whereToBuy: "Home Depot, Lowe's"
+                });
+            }
+
+            if (inputs.includeRidgeCaps) {
+                shoppingList.push({
+                    item: 'Ridge Caps',
+                    quantity: ridgeBundles,
+                    unit: 'bundles',
+                    priceMin: ridgeBundles * 35,
+                    priceMax: ridgeBundles * 50,
+                    whereToBuy: "Home Depot, Lowe's"
+                });
+            }
+
+            if (inputs.includeIceShield) {
+                shoppingList.push({
+                    item: 'Ice & Water Shield',
+                    quantity: iceShieldRolls,
+                    unit: 'rolls',
+                    priceMin: iceShieldRolls * 80,
+                    priceMax: iceShieldRolls * 110,
+                    whereToBuy: 'Roofing Supply'
+                });
+            }
+
+            shoppingList.push({
+                item: 'Roofing Nails (1.25")',
+                quantity: nailBoxes,
+                unit: '5 lb boxes',
+                priceMin: nailBoxes * 25,
+                priceMax: nailBoxes * 35,
+                whereToBuy: "Home Depot, Lowe's"
+            });
+
+            if (inputs.includeRidgeVents) {
+                shoppingList.push({
+                    item: 'Ridge Vent',
+                    quantity: ridgeVentFeet,
+                    unit: 'linear ft',
+                    priceMin: ridgeVentFeet * 4,
+                    priceMax: ridgeVentFeet * 6,
+                    whereToBuy: "Home Depot, Lowe's"
+                });
+            }
+
+            if (inputs.includeSoffitVents) {
+                shoppingList.push({
+                    item: 'Soffit Vents',
+                    quantity: soffitVentPieces,
+                    unit: 'pieces',
+                    priceMin: soffitVentPieces * 12,
+                    priceMax: soffitVentPieces * 18,
+                    whereToBuy: "Home Depot, Lowe's"
+                });
+            }
+
+            shoppingList.push({
+                item: 'Roofing Cement',
+                quantity: Math.ceil(roofingSquares / 5),
+                unit: 'tubes',
+                priceMin: Math.ceil(roofingSquares / 5) * 5,
+                priceMax: Math.ceil(roofingSquares / 5) * 8,
+                whereToBuy: "Home Depot, Lowe's"
+            });
+
+            // Safety equipment
+            const safetyEquipment = inputs.includeSafetyEquipment ? [
+                { item: 'Roofing Harness Kit', quantity: 1, unit: 'kit', priceMin: 120, priceMax: 180 },
+                { item: 'Roof Brackets', quantity: 6, unit: 'pieces', priceMin: 60, priceMax: 120 },
+                { item: 'Roofing Ladder Hooks', quantity: 2, unit: 'pieces', priceMin: 40, priceMax: 70 },
+                { item: 'Work Gloves', quantity: 2, unit: 'pairs', priceMin: 30, priceMax: 50 },
+                { item: 'Safety Glasses', quantity: 2, unit: 'pieces', priceMin: 15, priceMax: 25 },
+                { item: 'Knee Pads', quantity: 1, unit: 'pair', priceMin: 20, priceMax: 35 }
+            ] : [];
+
+            // Tools
+            const tools = inputs.includeSafetyEquipment ? [
+                { item: 'Roofing Nailer (rental/day)', quantity: 1, unit: 'rental', priceMin: 40, priceMax: 60 },
+                { item: 'Air Compressor (rental/day)', quantity: 1, unit: 'rental', priceMin: 30, priceMax: 50 },
+                { item: 'Roofing Shovel', quantity: 1, unit: 'piece', priceMin: 30, priceMax: 45 },
+                { item: 'Utility Knife', quantity: 1, unit: 'piece', priceMin: 8, priceMax: 15 },
+                { item: 'Chalk Line', quantity: 1, unit: 'piece', priceMin: 10, priceMax: 20 },
+                { item: 'Tape Measure (25 ft)', quantity: 1, unit: 'piece', priceMin: 12, priceMax: 20 },
+                { item: 'Pry Bar', quantity: 1, unit: 'piece', priceMin: 15, priceMax: 25 }
+            ] : [];
+
+            // Store results
+            calculationResults = {
+                baseArea: Math.round(baseArea),
+                pitchAdjustedArea: Math.round(pitchAdjustedArea),
+                shapeAdjustedArea: Math.round(shapeAdjustedArea),
+                totalSqFt: Math.round(totalSqFt),
+                roofingSquares,
+                laborDays,
+                materialCostMin,
+                materialCostMax,
+                laborCostMin,
+                laborCostMax,
+                tearOffCostMin,
+                tearOffCostMax,
+                totalCostMin,
+                totalCostMax,
+                shoppingList,
+                safetyEquipment,
+                tools,
+                materialConfig,
+                inputs
+            };
+
+            // Display results
+            displayResults(calculationResults);
+        }
+
+        function displayResults(results) {
+            const inputs = results.inputs;
+            const materialConfig = results.materialConfig;
+
+            // Show results section
+            document.getElementById('results-section').classList.remove('hidden');
+
+            // Primary results
+            document.getElementById('result-squares').textContent = results.roofingSquares.toFixed(1);
+            document.getElementById('result-sqft').textContent = results.totalSqFt.toLocaleString();
+
+            // Breakdown
+            document.getElementById('breakdown-base').textContent = `${results.baseArea.toLocaleString()} sq ft`;
+            document.getElementById('breakdown-pitch').textContent = `${results.pitchAdjustedArea.toLocaleString()} sq ft`;
+            document.getElementById('breakdown-shape').textContent = `${results.shapeAdjustedArea.toLocaleString()} sq ft`;
+            document.getElementById('breakdown-shape-row').classList.toggle('hidden', inputs.method !== 'footprint');
+            document.getElementById('breakdown-waste-pct').textContent = inputs.wasteFactor;
+            document.getElementById('breakdown-total').textContent = `${results.totalSqFt.toLocaleString()} sq ft`;
+            document.getElementById('breakdown-squares').textContent = `${results.roofingSquares.toFixed(1)} squares`;
+            document.getElementById('breakdown-duration').textContent = `${results.laborDays} day${results.laborDays > 1 ? 's' : ''}`;
+
+            // Shopping list
+            const shoppingListBody = document.getElementById('shopping-list-body');
+            shoppingListBody.innerHTML = results.shoppingList.map(item => `
+                <tr>
+                    <td>${item.item}</td>
+                    <td class="text-center">${item.quantity} ${item.unit}</td>
+                    <td class="text-right">${formatCurrency(item.priceMin)} - ${formatCurrency(item.priceMax)}</td>
+                    <td class="hide-mobile text-muted">${item.whereToBuy}</td>
+                </tr>
+            `).join('');
+
+            // Safety equipment
+            const safetySection = document.getElementById('safety-equipment-section');
+            const safetyBody = document.getElementById('safety-equipment-body');
+            if (inputs.includeSafetyEquipment && results.safetyEquipment.length > 0) {
+                safetySection.classList.remove('hidden');
+                safetyBody.innerHTML = results.safetyEquipment.map(item => `
+                    <tr>
+                        <td>${item.item}</td>
+                        <td class="text-center">${item.quantity} ${item.unit}</td>
+                        <td class="text-right">${formatCurrency(item.priceMin)} - ${formatCurrency(item.priceMax)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                safetySection.classList.add('hidden');
+            }
+
+            // Tools
+            const toolsSection = document.getElementById('tools-section');
+            const toolsBody = document.getElementById('tools-body');
+            if (inputs.includeSafetyEquipment && results.tools.length > 0) {
+                toolsSection.classList.remove('hidden');
+                toolsBody.innerHTML = results.tools.map(item => `
+                    <tr>
+                        <td>${item.item}</td>
+                        <td class="text-center">${item.quantity}</td>
+                        <td class="text-right">${formatCurrency(item.priceMin)} - ${formatCurrency(item.priceMax)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                toolsSection.classList.add('hidden');
+            }
+
+            // Cost summary
+            document.getElementById('cost-materials-min').textContent = formatCurrency(results.materialCostMin);
+            document.getElementById('cost-materials-max').textContent = formatCurrency(results.materialCostMax);
+            document.getElementById('cost-labor-squares').textContent = results.roofingSquares.toFixed(0);
+            document.getElementById('cost-labor-min').textContent = formatCurrency(results.laborCostMin);
+            document.getElementById('cost-labor-max').textContent = formatCurrency(results.laborCostMax);
+
+            const tearoffRow = document.getElementById('cost-tearoff-row');
+            const disposalRow = document.getElementById('cost-disposal-row');
+            if (inputs.projectType === 'tearoff') {
+                tearoffRow.classList.remove('hidden');
+                disposalRow.classList.remove('hidden');
+                document.getElementById('cost-tearoff-min').textContent = formatCurrency(results.tearOffCostMin);
+                document.getElementById('cost-tearoff-max').textContent = formatCurrency(results.tearOffCostMax);
+            } else {
+                tearoffRow.classList.add('hidden');
+                disposalRow.classList.add('hidden');
+            }
+
+            document.getElementById('cost-total-min').textContent = formatCurrency(results.totalCostMin);
+            document.getElementById('cost-total-max').textContent = formatCurrency(results.totalCostMax);
+
+            // Material specifications
+            document.getElementById('spec-material').textContent = materialConfig.label;
+            document.getElementById('spec-lifespan').textContent = `${materialConfig.lifespanMin}-${materialConfig.lifespanMax} years`;
+            document.getElementById('spec-wind').textContent = materialConfig.windRating;
+            document.getElementById('spec-snow').textContent = materialConfig.snowLoad;
+            document.getElementById('spec-warranty-mfr').textContent = materialConfig.warrantyManufacturer;
+            document.getElementById('spec-warranty-work').textContent = materialConfig.warrantyWorkmanship;
+
+            // Solar section
+            const solarSection = document.getElementById('solar-section');
+            if (inputs.includeSolarCheck) {
+                solarSection.classList.remove('hidden');
+                document.getElementById('solar-material').textContent = materialConfig.label;
+                document.getElementById('solar-compatibility').textContent = materialConfig.solarCompatibility;
+            } else {
+                solarSection.classList.add('hidden');
+            }
+
+            // Eco section
+            const ecoSection = document.getElementById('eco-section');
+            if (inputs.includeEcoOptions) {
+                ecoSection.classList.remove('hidden');
+                document.getElementById('eco-recycled').textContent = `${materialConfig.label} contains approximately ${materialConfig.recycledContent} recycled materials.`;
+            } else {
+                ecoSection.classList.add('hidden');
+            }
+
+            // DIY vs Professional
+            document.getElementById('diy-cost').textContent = `${formatCurrency(results.materialCostMin)} - ${formatCurrency(results.materialCostMax)}`;
+            document.getElementById('diy-time').textContent = `${results.laborDays * 2}-${results.laborDays * 3} days`;
+            document.getElementById('pro-cost').textContent = `${formatCurrency(results.totalCostMin)} - ${formatCurrency(results.totalCostMax)}`;
+            document.getElementById('pro-time').textContent = `${results.laborDays} day${results.laborDays > 1 ? 's' : ''}`;
+
+            // Scroll to results
+            document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================
+        // ACTION FUNCTIONS
+        // ============================================
+        
+        function clearForm() {
+            // Reset sections
+            const container = document.getElementById('sections-container');
+            container.innerHTML = `
+                <div class="section-row" data-section-id="1">
+                    <div class="grid-2" style="flex:1;">
+                        <div class="input-group">
+                            <label>Section 1 Length</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="section-length" value="40" placeholder="40" min="0">
+                                <span class="input-suffix">ft</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Section 1 Width</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="section-width" value="25" placeholder="25" min="0">
+                                <span class="input-suffix">ft</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            sectionCounter = 1;
+
+            // Reset other inputs
+            document.getElementById('houseLength').value = 50;
+            document.getElementById('houseWidth').value = 30;
+            document.getElementById('overhang').value = 12;
+            document.getElementById('totalSqFt').value = 2000;
+            document.getElementById('material').value = 'architectural';
+            document.getElementById('wasteFactor').value = 15;
+            document.getElementById('waste-value').textContent = '15';
+
+            // Reset selections
+            setMethod('dimensions');
+            setPitch('6/12');
+            setShape('gable');
+            updateMaterialInfo();
+
+            // Hide results
+            document.getElementById('results-section').classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function saveEstimate() {
+            if (!calculationResults) {
+                showToast('Error', 'Please calculate first');
+                return;
+            }
+
+            const savedEstimates = JSON.parse(localStorage.getItem('roofingEstimates') || '[]');
+            const newEstimate = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                results: calculationResults
+            };
+            savedEstimates.push(newEstimate);
+            localStorage.setItem('roofingEstimates', JSON.stringify(savedEstimates));
+
+            showToast('Saved!', 'Estimate saved to your browser');
+        }
+
+        function copyShoppingList() {
+            if (!calculationResults) {
+                showToast('Error', 'Please calculate first');
+                return;
+            }
+
+            const listText = calculationResults.shoppingList
+                .map(item => `${item.item}: ${item.quantity} ${item.unit}`)
+                .join('\n');
+
+            navigator.clipboard.writeText(listText).then(() => {
+                showToast('Copied!', 'Shopping list copied to clipboard');
+            });
+        }
+
+        function shareEstimate() {
+            if (!calculationResults) {
+                showToast('Error', 'Please calculate first');
+                return;
+            }
+
+            const shareText = `Roofing Estimate: ${calculationResults.roofingSquares.toFixed(1)} squares, ${formatCurrency(calculationResults.totalCostMin)} - ${formatCurrency(calculationResults.totalCostMax)} total`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Roofing Calculator Estimate',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    showToast('Copied!', 'Estimate summary copied to clipboard');
+                });
+            }
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Initialize material info
+            updateMaterialInfo();
+            updateClimateInfo();
+
+            // Hide shape section initially (only for footprint method)
+            document.getElementById('shape-section').classList.add('hidden');
+
+            // Initialize roof age group visibility
+            document.getElementById('roof-age-group').classList.remove('hidden');
+        });
+    </script>
+    </body>
+</html>
