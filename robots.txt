@@ -1,3 +1,4 @@
+# ContractorCalcTools robots.txt
 User-agent: *
 Allow: /
 
