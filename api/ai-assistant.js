@@ -1,9 +1,9 @@
 /**
  * ContractorCalcTools AI Assistant
  *
- * Groq API version
+ * Vercel Serverless Function
  *
- * Required Vercel Environment Variables:
+ * Environment Variables:
  *
  * GROQ_API_KEY
  * GROQ_MODEL
@@ -24,7 +24,6 @@ const MODEL =
 const MAX_QUESTION_LENGTH = 1200;
 const MAX_FIELDS = 40;
 const MAX_FIELD_VALUE_LENGTH = 300;
-
 const MAX_RETRIES = 3;
 
 // ============================================================
@@ -37,10 +36,15 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 // ============================================================
-// RESPONSE HELPER
+// SAFE JSON RESPONSE
 // ============================================================
 
-function sendJson(res, status, payload) {
+function sendJson(
+    res,
+    status,
+    payload,
+    origin = null
+) {
 
     res.status(status);
 
@@ -59,6 +63,27 @@ function sendJson(res, status, payload) {
         "nosniff"
     );
 
+    // --------------------------------------------------------
+    // CORS
+    // --------------------------------------------------------
+
+    if (
+        origin &&
+        ALLOWED_ORIGINS.has(origin)
+    ) {
+
+        res.setHeader(
+            "Access-Control-Allow-Origin",
+            origin
+        );
+
+        res.setHeader(
+            "Vary",
+            "Origin"
+        );
+
+    }
+
     res.end(
         JSON.stringify(payload)
     );
@@ -68,7 +93,10 @@ function sendJson(res, status, payload) {
 // SAFE TEXT
 // ============================================================
 
-function safeText(value, maxLength) {
+function safeText(
+    value,
+    maxLength
+) {
 
     return String(
         value ?? ""
@@ -79,23 +107,30 @@ function safeText(value, maxLength) {
 }
 
 // ============================================================
-// NORMALIZE CALCULATOR FIELDS
+// NORMALIZE INPUT FIELDS
 // ============================================================
 
-function normalizeFields(fields) {
+function normalizeFields(
+    fields
+) {
 
     if (
         !fields ||
         typeof fields !== "object" ||
         Array.isArray(fields)
     ) {
+
         return {};
+
     }
 
     const entries =
         Object
             .entries(fields)
-            .slice(0, MAX_FIELDS);
+            .slice(
+                0,
+                MAX_FIELDS
+            );
 
     return Object.fromEntries(
         entries.map(
@@ -104,7 +139,6 @@ function normalizeFields(fields) {
                     key,
                     100
                 ),
-
                 safeText(
                     value,
                     MAX_FIELD_VALUE_LENGTH
@@ -115,31 +149,44 @@ function normalizeFields(fields) {
 }
 
 // ============================================================
-// ORIGIN CHECK
+// ORIGIN VALIDATION
 // ============================================================
 
-function isAllowedOrigin(origin) {
+function isAllowedOrigin(
+    origin
+) {
 
-    if (!origin) {
+    if (
+        !origin
+    ) {
+
         return true;
+
     }
 
     if (
-        ALLOWED_ORIGINS.has(origin)
+        ALLOWED_ORIGINS.has(
+            origin
+        )
     ) {
+
         return true;
+
     }
 
+    // Local development
     return /^https?:\/\/localhost(?::\d+)?$/.test(
         origin
     );
 }
 
 // ============================================================
-// RETRYABLE ERROR CHECK
+// RETRYABLE STATUS CODES
 // ============================================================
 
-function isRetryableStatus(status) {
+function isRetryableStatus(
+    status
+) {
 
     return (
         status === 408 ||
@@ -155,7 +202,9 @@ function isRetryableStatus(status) {
 // SLEEP
 // ============================================================
 
-function sleep(ms) {
+function sleep(
+    ms
+) {
 
     return new Promise(
         resolve =>
@@ -167,7 +216,7 @@ function sleep(ms) {
 }
 
 // ============================================================
-// GROQ REQUEST WITH RETRY
+// GROQ REQUEST WITH RETRIES
 // ============================================================
 
 async function callGroqWithRetry(
@@ -175,8 +224,11 @@ async function callGroqWithRetry(
     options
 ) {
 
-    let lastResponse = null;
-    let lastData = null;
+    let lastResponse =
+        null;
+
+    let lastData =
+        null;
 
     for (
         let attempt = 0;
@@ -210,13 +262,14 @@ async function callGroqWithRetry(
                             "Invalid service response."
                     }
                 };
+
             }
 
             lastData =
                 data;
 
             // ------------------------------------------------
-            // SUCCESS
+            // Successful response
             // ------------------------------------------------
 
             if (
@@ -227,10 +280,11 @@ async function callGroqWithRetry(
                     response,
                     data
                 };
+
             }
 
             // ------------------------------------------------
-            // PERMANENT ERROR
+            // Do not retry permanent errors
             // ------------------------------------------------
 
             if (
@@ -243,10 +297,11 @@ async function callGroqWithRetry(
                     response,
                     data
                 };
+
             }
 
             // ------------------------------------------------
-            // RETRY LIMIT
+            // Retry limit reached
             // ------------------------------------------------
 
             if (
@@ -257,10 +312,15 @@ async function callGroqWithRetry(
                     response,
                     data
                 };
+
             }
 
             // ------------------------------------------------
-            // EXPONENTIAL BACKOFF
+            // Exponential backoff
+            //
+            // ~1 second
+            // ~2 seconds
+            // ~4 seconds
             // ------------------------------------------------
 
             const baseDelay =
@@ -285,10 +345,8 @@ async function callGroqWithRetry(
                 {
                     status:
                         response.status,
-
                     attempt:
                         attempt + 1,
-
                     retryInMs:
                         delay
                 }
@@ -298,7 +356,13 @@ async function callGroqWithRetry(
                 delay
             );
 
-        } catch (error) {
+        } catch (
+            error
+        ) {
+
+            // ------------------------------------------------
+            // Network-level failure
+            // ------------------------------------------------
 
             lastData = {
                 error: {
@@ -313,6 +377,7 @@ async function callGroqWithRetry(
             ) {
 
                 break;
+
             }
 
             const baseDelay =
@@ -337,7 +402,6 @@ async function callGroqWithRetry(
                 {
                     attempt:
                         attempt + 1,
-
                     retryInMs:
                         delay
                 }
@@ -346,6 +410,7 @@ async function callGroqWithRetry(
             await sleep(
                 delay
             );
+
         }
     }
 
@@ -359,7 +424,7 @@ async function callGroqWithRetry(
 }
 
 // ============================================================
-// GROQ STRUCTURED OUTPUT SCHEMA
+// STRICT STRUCTURED OUTPUT SCHEMA
 // ============================================================
 
 const calculatorSchema = {
@@ -370,7 +435,6 @@ const calculatorSchema = {
 
         intent: {
             type: "string",
-
             enum: [
                 "calculate",
                 "clarify",
@@ -442,7 +506,8 @@ const calculatorSchema = {
                 "phase"
             ],
 
-            additionalProperties: false
+            additionalProperties:
+                false
         },
 
         missingInputs: {
@@ -470,7 +535,8 @@ const calculatorSchema = {
         "confidence"
     ],
 
-    additionalProperties: false
+    additionalProperties:
+        false
 };
 
 // ============================================================
@@ -483,11 +549,12 @@ export default async function handler(
 ) {
 
     const origin =
-        req.headers.origin;
+        req.headers.origin ||
+        null;
 
-    // --------------------------------------------------------
+    // ========================================================
     // ORIGIN CHECK
-    // --------------------------------------------------------
+    // ========================================================
 
     if (
         !isAllowedOrigin(
@@ -501,13 +568,62 @@ export default async function handler(
             {
                 error:
                     "Origin not allowed."
-            }
+            },
+            origin
         );
+
     }
 
-    // --------------------------------------------------------
+    // ========================================================
+    // CORS PREFLIGHT
+    // ========================================================
+
+    if (
+        req.method === "OPTIONS"
+    ) {
+
+        if (
+            origin &&
+            ALLOWED_ORIGINS.has(
+                origin
+            )
+        ) {
+
+            res.setHeader(
+                "Access-Control-Allow-Origin",
+                origin
+            );
+
+            res.setHeader(
+                "Vary",
+                "Origin"
+            );
+
+        }
+
+        res.setHeader(
+            "Access-Control-Allow-Methods",
+            "POST, OPTIONS"
+        );
+
+        res.setHeader(
+            "Access-Control-Allow-Headers",
+            "Content-Type"
+        );
+
+        res.setHeader(
+            "Access-Control-Max-Age",
+            "86400"
+        );
+
+        return res
+            .status(204)
+            .end();
+    }
+
+    // ========================================================
     // METHOD CHECK
-    // --------------------------------------------------------
+    // ========================================================
 
     if (
         req.method !== "POST"
@@ -515,7 +631,7 @@ export default async function handler(
 
         res.setHeader(
             "Allow",
-            "POST"
+            "POST, OPTIONS"
         );
 
         return sendJson(
@@ -524,13 +640,15 @@ export default async function handler(
             {
                 error:
                     "Method not allowed."
-            }
+            },
+            origin
         );
+
     }
 
-    // --------------------------------------------------------
+    // ========================================================
     // API KEY CHECK
-    // --------------------------------------------------------
+    // ========================================================
 
     if (
         !process.env.GROQ_API_KEY
@@ -546,15 +664,41 @@ export default async function handler(
             {
                 error:
                     "AI assistant is temporarily unavailable. Please try again later."
-            }
+            },
+            origin
         );
+
     }
 
-    // --------------------------------------------------------
-    // REQUEST BODY
-    // --------------------------------------------------------
+    // ========================================================
+    // MODEL CHECK
+    // ========================================================
+
+    if (
+        !MODEL
+    ) {
+
+        console.error(
+            "AI model is missing."
+        );
+
+        return sendJson(
+            res,
+            503,
+            {
+                error:
+                    "AI assistant is temporarily unavailable. Please try again later."
+            },
+            origin
+        );
+
+    }
 
     try {
+
+        // ====================================================
+        // REQUEST BODY
+        // ====================================================
 
         const body =
             req.body || {};
@@ -577,11 +721,13 @@ export default async function handler(
                 body.fields
             );
 
-        // ----------------------------------------------------
-        // VALIDATE QUESTION
-        // ----------------------------------------------------
+        // ====================================================
+        // QUESTION VALIDATION
+        // ====================================================
 
-        if (!question) {
+        if (
+            !question
+        ) {
 
             return sendJson(
                 res,
@@ -589,13 +735,15 @@ export default async function handler(
                 {
                     error:
                         "Please describe your project or calculation."
-                }
+                },
+                origin
             );
+
         }
 
-        // ----------------------------------------------------
+        // ====================================================
         // SYSTEM INSTRUCTIONS
-        // ----------------------------------------------------
+        // ====================================================
 
         const systemPrompt = `
 You are the AI assistant for ContractorCalcTools.
@@ -614,19 +762,19 @@ IMPORTANT RULES:
 6. Never invent missing calculator inputs.
 7. Only extract values explicitly stated by the user.
 8. If important information is missing, use missingInputs
-   and ask exactly one useful question.
-9. Do not perform the calculator's final deterministic math.
-10. Your job is extracting and organizing inputs.
+   and provide exactly one useful question.
+9. Do not replace the calculator's deterministic math.
+10. Your job is to extract and organize inputs.
 11. Electrical, structural, safety, construction-code,
     and building-code information is planning information
-    and must be verified against applicable requirements
+    and should be verified against applicable requirements
     and qualified professionals.
 12. Return exactly one JSON object matching the schema.
 13. Do not return Markdown.
 14. Do not use code fences.
 15. Do not add additional properties.
 
-For the wire-size calculator, use:
+For the wire-size calculator:
 
 voltage:
 Circuit voltage in volts.
@@ -641,10 +789,11 @@ material:
 Conductor material such as copper or aluminum.
 
 phase:
-Use "single" or "three" if explicitly stated.
+Use "single" or "three" only if explicitly stated.
 
-Example user request:
+Example:
 
+User:
 "I have a 20 amp, 120 volt circuit that runs 100 feet."
 
 Expected inputs:
@@ -657,12 +806,12 @@ Expected inputs:
   "phase": null
 }
 
-Do not invent material or phase.
+Never invent material, phase, or wire gauge.
 `;
 
-        // ----------------------------------------------------
+        // ====================================================
         // USER PROMPT
-        // ----------------------------------------------------
+        // ====================================================
 
         const userPrompt = `
 Calculator:
@@ -676,19 +825,19 @@ ${JSON.stringify(
 User request:
 ${question}
 
-Extract only information explicitly provided.
+Extract only information explicitly provided by the user.
 `;
 
-        // ----------------------------------------------------
-        // GROQ API URL
-        // ----------------------------------------------------
+        // ====================================================
+        // GROQ ENDPOINT
+        // ====================================================
 
         const groqUrl =
             "https://api.groq.com/openai/v1/chat/completions";
 
-        // ----------------------------------------------------
-        // GROQ REQUEST
-        // ----------------------------------------------------
+        // ====================================================
+        // CALL GROQ
+        // ====================================================
 
         const {
             response: groqResponse,
@@ -697,7 +846,9 @@ Extract only information explicitly provided.
             await callGroqWithRetry(
                 groqUrl,
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
 
@@ -706,6 +857,7 @@ Extract only information explicitly provided.
 
                         "Authorization":
                             `Bearer ${process.env.GROQ_API_KEY}`
+
                     },
 
                     body:
@@ -755,21 +907,26 @@ Extract only information explicitly provided.
 
                                     schema:
                                         calculatorSchema
+
                                 }
+
                             }
+
                         })
+
                 }
             );
 
-        // ----------------------------------------------------
-        // API ERROR HANDLING
-        // ----------------------------------------------------
+        // ====================================================
+        // PROVIDER ERROR HANDLING
+        // ====================================================
 
         if (
             !groqResponse ||
             !groqResponse.ok
         ) {
 
+            // Detailed information remains server-side.
             console.error(
                 "AI provider error:",
                 data
@@ -777,9 +934,13 @@ Extract only information explicitly provided.
 
             const status =
                 groqResponse
-                    ?.status || 502;
+                    ?.status ||
+                502;
 
-            // Rate limit
+            // ------------------------------------------------
+            // RATE LIMIT
+            // ------------------------------------------------
+
             if (
                 status === 429
             ) {
@@ -790,11 +951,16 @@ Extract only information explicitly provided.
                     {
                         error:
                             "AI assistant is temporarily unavailable. Please try again shortly."
-                    }
+                    },
+                    origin
                 );
+
             }
 
-            // Temporary service problem
+            // ------------------------------------------------
+            // TEMPORARY SERVER ERROR
+            // ------------------------------------------------
+
             if (
                 status === 500 ||
                 status === 502 ||
@@ -808,11 +974,16 @@ Extract only information explicitly provided.
                     {
                         error:
                             "AI assistant is temporarily busy. Please try again in a few seconds."
-                    }
+                    },
+                    origin
                 );
+
             }
 
-            // Authentication problem
+            // ------------------------------------------------
+            // AUTHENTICATION
+            // ------------------------------------------------
+
             if (
                 status === 401 ||
                 status === 403
@@ -824,24 +995,31 @@ Extract only information explicitly provided.
                     {
                         error:
                             "AI assistant is temporarily unavailable. Please try again later."
-                    }
+                    },
+                    origin
                 );
+
             }
 
-            // Generic provider error
+            // ------------------------------------------------
+            // GENERIC ERROR
+            // ------------------------------------------------
+
             return sendJson(
                 res,
                 502,
                 {
                     error:
                         "AI assistant could not process your request. Please try again."
-                }
+                },
+                origin
             );
+
         }
 
-        // ----------------------------------------------------
+        // ====================================================
         // EXTRACT RESPONSE CONTENT
-        // ----------------------------------------------------
+        // ====================================================
 
         const content =
             data
@@ -865,13 +1043,15 @@ Extract only information explicitly provided.
                 {
                     error:
                         "AI assistant could not process your request. Please try again."
-                }
+                },
+                origin
             );
+
         }
 
-        // ----------------------------------------------------
-        // PARSE STRUCTURED JSON
-        // ----------------------------------------------------
+        // ====================================================
+        // PARSE JSON
+        // ====================================================
 
         let result;
 
@@ -882,7 +1062,9 @@ Extract only information explicitly provided.
                     content
                 );
 
-        } catch (error) {
+        } catch (
+            error
+        ) {
 
             console.error(
                 "AI JSON parse error:",
@@ -900,22 +1082,77 @@ Extract only information explicitly provided.
                 {
                     error:
                         "AI assistant could not process your request. Please try again."
-                }
+                },
+                origin
             );
+
         }
 
-        // ----------------------------------------------------
+        // ====================================================
+        // VALIDATE RESULT OBJECT
+        // ====================================================
+
+        if (
+            !result ||
+            typeof result !== "object" ||
+            Array.isArray(result)
+        ) {
+
+            console.error(
+                "AI returned invalid object."
+            );
+
+            return sendJson(
+                res,
+                502,
+                {
+                    error:
+                        "AI assistant could not process your request. Please try again."
+                },
+                origin
+            );
+
+        }
+
+        // ====================================================
+        // NORMALIZE INTENT
+        // ====================================================
+
+        const validIntents = [
+            "calculate",
+            "clarify",
+            "explain",
+            "recommend"
+        ];
+
+        const intent =
+            validIntents.includes(
+                result.intent
+            )
+                ? result.intent
+                : "explain";
+
+        // ====================================================
         // NORMALIZE INPUTS
-        // ----------------------------------------------------
+        // ====================================================
 
         const rawInputs =
-            result.inputs || {};
+            result.inputs &&
+            typeof result.inputs === "object" &&
+            !Array.isArray(
+                result.inputs
+            )
+                ? result.inputs
+                : {};
 
         const inputs = {};
 
+        // ----------------------------------------------------
+        // Voltage
+        // ----------------------------------------------------
+
         if (
-            typeof rawInputs.voltage ===
-                "number" &&
+            typeof rawInputs.voltage === "number" &&
             Number.isFinite(
                 rawInputs.voltage
             )
@@ -923,11 +1160,15 @@ Extract only information explicitly provided.
 
             inputs.voltage =
                 rawInputs.voltage;
+
         }
 
+        // ----------------------------------------------------
+        // Amps
+        // ----------------------------------------------------
+
         if (
-            typeof rawInputs.amps ===
-                "number" &&
+            typeof rawInputs.amps === "number" &&
             Number.isFinite(
                 rawInputs.amps
             )
@@ -935,11 +1176,15 @@ Extract only information explicitly provided.
 
             inputs.amps =
                 rawInputs.amps;
+
         }
 
+        // ----------------------------------------------------
+        // Distance
+        // ----------------------------------------------------
+
         if (
-            typeof rawInputs.distance_ft ===
-                "number" &&
+            typeof rawInputs.distance_ft === "number" &&
             Number.isFinite(
                 rawInputs.distance_ft
             )
@@ -947,11 +1192,15 @@ Extract only information explicitly provided.
 
             inputs.distance_ft =
                 rawInputs.distance_ft;
+
         }
 
+        // ----------------------------------------------------
+        // Material
+        // ----------------------------------------------------
+
         if (
-            typeof rawInputs.material ===
-                "string" &&
+            typeof rawInputs.material === "string" &&
             rawInputs.material.trim()
         ) {
 
@@ -960,11 +1209,15 @@ Extract only information explicitly provided.
                     rawInputs.material,
                     100
                 );
+
         }
 
+        // ----------------------------------------------------
+        // Phase
+        // ----------------------------------------------------
+
         if (
-            typeof rawInputs.phase ===
-                "string" &&
+            typeof rawInputs.phase === "string" &&
             rawInputs.phase.trim()
         ) {
 
@@ -973,11 +1226,12 @@ Extract only information explicitly provided.
                     rawInputs.phase,
                     100
                 );
+
         }
 
-        // ----------------------------------------------------
-        // NORMALIZE MISSING INPUTS
-        // ----------------------------------------------------
+        // ====================================================
+        // MISSING INPUTS
+        // ====================================================
 
         const missingInputs =
             Array.isArray(
@@ -997,13 +1251,12 @@ Extract only information explicitly provided.
                     )
                 : [];
 
-        // ----------------------------------------------------
-        // NORMALIZE CONFIDENCE
-        // ----------------------------------------------------
+        // ====================================================
+        // CONFIDENCE
+        // ====================================================
 
         let confidence =
-            typeof result.confidence ===
-                "number"
+            typeof result.confidence === "number"
                 ? result.confidence
                 : 0;
 
@@ -1016,27 +1269,9 @@ Extract only information explicitly provided.
                 )
             );
 
-        // ----------------------------------------------------
-        // VALIDATE INTENT
-        // ----------------------------------------------------
-
-        const validIntents = [
-            "calculate",
-            "clarify",
-            "explain",
-            "recommend"
-        ];
-
-        const intent =
-            validIntents.includes(
-                result.intent
-            )
-                ? result.intent
-                : "explain";
-
-        // ----------------------------------------------------
+        // ====================================================
         // FINAL RESPONSE
-        // ----------------------------------------------------
+        // ====================================================
 
         return sendJson(
             res,
@@ -1074,26 +1309,29 @@ Extract only information explicitly provided.
                 confidence:
                     confidence
 
-            }
+            },
+            origin
         );
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
-        // Detailed information remains
-        // in Vercel logs only.
-
+        // Detailed information stays in Vercel logs.
         console.error(
             "AI assistant internal error:",
             error
         );
 
+        // Generic user-facing response.
         return sendJson(
             res,
             500,
             {
                 error:
                     "AI assistant is temporarily unavailable. Please try again later."
-            }
+            },
+            origin
         );
     }
 }
