@@ -1,14 +1,14 @@
 /**
  * ContractorCalcTools AI Assistant
  *
- * Gemini API backend for Vercel
+ * Serverless API endpoint for Vercel
  *
- * Required Vercel Environment Variables:
+ * Required environment variables:
  *
  * GEMINI_API_KEY
  * GEMINI_MODEL
  *
- * Recommended:
+ * Example:
  *
  * GEMINI_MODEL=gemini-3.7-flash
  */
@@ -20,15 +20,12 @@
 const RAW_MODEL =
     process.env.GEMINI_MODEL || "gemini-3.7-flash";
 
-// Remove "models/" if someone accidentally puts it
-// into the Vercel environment variable.
 const MODEL_NAME =
     RAW_MODEL.replace(/^models\//, "");
 
 const MAX_QUESTION_LENGTH = 1200;
 const MAX_FIELDS = 40;
 const MAX_FIELD_VALUE_LENGTH = 300;
-
 const MAX_RETRIES = 3;
 
 // ============================================================
@@ -45,7 +42,6 @@ const ALLOWED_ORIGINS = new Set([
 // ============================================================
 
 function sendJson(res, status, payload) {
-
     res.status(status);
 
     res.setHeader(
@@ -73,7 +69,6 @@ function sendJson(res, status, payload) {
 // ============================================================
 
 function safeText(value, maxLength) {
-
     return String(
         value ?? ""
     ).slice(
@@ -104,11 +99,7 @@ function normalizeFields(fields) {
     return Object.fromEntries(
         entries.map(
             ([key, value]) => [
-                safeText(
-                    key,
-                    100
-                ),
-
+                safeText(key, 100),
                 safeText(
                     value,
                     MAX_FIELD_VALUE_LENGTH
@@ -140,10 +131,10 @@ function isAllowedOrigin(origin) {
 }
 
 // ============================================================
-// EXTRACT GEMINI TEXT
+// EXTRACT MODEL TEXT
 // ============================================================
 
-function extractGeminiText(data) {
+function extractModelText(data) {
 
     try {
 
@@ -169,7 +160,7 @@ function extractGeminiText(data) {
     } catch (error) {
 
         console.error(
-            "Failed to extract Gemini response:",
+            "Failed to extract model response:",
             error
         );
 
@@ -206,17 +197,14 @@ function removeCodeFence(text) {
 // ROBUST JSON PARSER
 // ============================================================
 
-function parseGeminiJson(text) {
+function parseModelJson(text) {
 
     let value =
         String(
             text || ""
         ).trim();
 
-    // --------------------------------------------------------
-    // Remove markdown fences
-    // --------------------------------------------------------
-
+    // Remove Markdown fences
     value =
         value
             .replace(
@@ -233,10 +221,7 @@ function parseGeminiJson(text) {
             )
             .trim();
 
-    // --------------------------------------------------------
-    // Extract the outermost JSON object
-    // --------------------------------------------------------
-
+    // Find outermost object
     const firstBrace =
         value.indexOf("{");
 
@@ -256,35 +241,24 @@ function parseGeminiJson(text) {
             );
     }
 
-    // --------------------------------------------------------
-    // First attempt: strict JSON
-    // --------------------------------------------------------
-
+    // Attempt 1: strict JSON
     try {
 
-        return JSON.parse(
-            value
-        );
+        return JSON.parse(value);
 
     } catch (_) {
 
-        // Continue with safe repairs.
+        // Continue.
     }
 
-    // --------------------------------------------------------
     // Remove trailing commas
-    // --------------------------------------------------------
-
     value =
         value.replace(
             /,\s*([}\]])/g,
             "$1"
         );
 
-    // --------------------------------------------------------
     // Normalize smart quotes
-    // --------------------------------------------------------
-
     value =
         value
             .replace(
@@ -296,48 +270,27 @@ function parseGeminiJson(text) {
                 "'"
             );
 
-    // --------------------------------------------------------
-    // Second attempt
-    // --------------------------------------------------------
-
+    // Attempt 2
     try {
 
-        return JSON.parse(
-            value
-        );
+        return JSON.parse(value);
 
     } catch (_) {
 
         // Continue.
     }
 
-    // --------------------------------------------------------
     // Repair simple unquoted property names
-    //
-    // Example:
-    //
-    // { intent: "calculate" }
-    //
-    // becomes:
-    //
-    // { "intent": "calculate" }
-    // --------------------------------------------------------
-
     value =
         value.replace(
             /([{,]\s*)([A-Za-z_][A-Za-z0-9_]*)\s*:/g,
             '$1"$2":'
         );
 
-    // --------------------------------------------------------
-    // Third attempt
-    // --------------------------------------------------------
-
+    // Attempt 3
     try {
 
-        return JSON.parse(
-            value
-        );
+        return JSON.parse(value);
 
     } catch (_) {
 
@@ -346,7 +299,7 @@ function parseGeminiJson(text) {
 }
 
 // ============================================================
-// GEMINI STRUCTURED OUTPUT SCHEMA
+// STRUCTURED OUTPUT SCHEMA
 // ============================================================
 
 const responseSchema = {
@@ -434,10 +387,10 @@ const responseSchema = {
 };
 
 // ============================================================
-// GEMINI RETRYABLE ERROR CHECK
+// RETRYABLE ERROR CHECK
 // ============================================================
 
-function isRetryableGeminiError(
+function isRetryableError(
     response,
     data
 ) {
@@ -474,7 +427,7 @@ function isRetryableGeminiError(
 }
 
 // ============================================================
-// SLEEP HELPER
+// SLEEP
 // ============================================================
 
 function sleep(ms) {
@@ -489,19 +442,16 @@ function sleep(ms) {
 }
 
 // ============================================================
-// GEMINI REQUEST WITH RETRIES
+// MODEL REQUEST WITH RETRIES
 // ============================================================
 
-async function callGeminiWithRetry(
+async function callModelWithRetry(
     url,
     options
 ) {
 
-    let lastResponse =
-        null;
-
-    let lastData =
-        null;
+    let lastResponse = null;
+    let lastData = null;
 
     for (
         let attempt = 0;
@@ -532,7 +482,7 @@ async function callGeminiWithRetry(
                 data = {
                     error: {
                         message:
-                            "Gemini returned a non-JSON response."
+                            "The service returned an invalid response."
                     }
                 };
             }
@@ -540,10 +490,7 @@ async function callGeminiWithRetry(
             lastData =
                 data;
 
-            // ------------------------------------------------
             // Success
-            // ------------------------------------------------
-
             if (
                 response.ok
             ) {
@@ -554,12 +501,9 @@ async function callGeminiWithRetry(
                 };
             }
 
-            // ------------------------------------------------
-            // Don't retry permanent errors
-            // ------------------------------------------------
-
+            // Permanent error
             if (
-                !isRetryableGeminiError(
+                !isRetryableError(
                     response,
                     data
                 )
@@ -571,10 +515,7 @@ async function callGeminiWithRetry(
                 };
             }
 
-            // ------------------------------------------------
-            // Retry limit reached
-            // ------------------------------------------------
-
+            // Maximum retries reached
             if (
                 attempt >= MAX_RETRIES
             ) {
@@ -585,14 +526,7 @@ async function callGeminiWithRetry(
                 };
             }
 
-            // ------------------------------------------------
             // Exponential backoff
-            //
-            // 1 sec
-            // 2 sec
-            // 4 sec
-            // ------------------------------------------------
-
             const baseDelay =
                 1000 *
                 Math.pow(
@@ -600,7 +534,7 @@ async function callGeminiWithRetry(
                     attempt
                 );
 
-            // Random jitter between 0-500ms
+            // Small random jitter
             const jitter =
                 Math.floor(
                     Math.random() *
@@ -612,7 +546,7 @@ async function callGeminiWithRetry(
                 jitter;
 
             console.warn(
-                "Gemini temporary error.",
+                "Temporary AI service error. Retrying.",
                 {
                     status:
                         response.status,
@@ -630,10 +564,6 @@ async function callGeminiWithRetry(
             );
 
         } catch (error) {
-
-            // ------------------------------------------------
-            // Network-level error
-            // ------------------------------------------------
 
             lastData = {
                 error: {
@@ -668,16 +598,13 @@ async function callGeminiWithRetry(
                 jitter;
 
             console.warn(
-                "Gemini network error.",
+                "AI service network error. Retrying.",
                 {
                     attempt:
                         attempt + 1,
 
                     retryInMs:
-                        delay,
-
-                    message:
-                        error?.message
+                        delay
                 }
             );
 
@@ -752,37 +679,41 @@ export default async function handler(
     }
 
     // --------------------------------------------------------
-    // Check API key
+    // API configuration check
     // --------------------------------------------------------
 
     if (
         !process.env.GEMINI_API_KEY
     ) {
 
+        console.error(
+            "AI provider API key is missing."
+        );
+
         return sendJson(
             res,
             503,
             {
                 error:
-                    "Gemini AI is not configured. Add GEMINI_API_KEY in Vercel Environment Variables."
+                    "AI assistant is not available right now. Please try again later."
             }
         );
     }
-
-    // --------------------------------------------------------
-    // Check model
-    // --------------------------------------------------------
 
     if (
         !MODEL_NAME
     ) {
 
+        console.error(
+            "AI model is missing."
+        );
+
         return sendJson(
             res,
             503,
             {
                 error:
-                    "Gemini model is not configured. Add GEMINI_MODEL in Vercel Environment Variables."
+                    "AI assistant is not available right now. Please try again later."
             }
         );
     }
@@ -790,7 +721,7 @@ export default async function handler(
     try {
 
         // ----------------------------------------------------
-        // Request body
+        // REQUEST BODY
         // ----------------------------------------------------
 
         const body =
@@ -815,7 +746,7 @@ export default async function handler(
             );
 
         // ----------------------------------------------------
-        // Validate question
+        // QUESTION VALIDATION
         // ----------------------------------------------------
 
         if (!question) {
@@ -831,7 +762,7 @@ export default async function handler(
         }
 
         // ----------------------------------------------------
-        // System instructions
+        // SYSTEM PROMPT
         // ----------------------------------------------------
 
         const systemPrompt = `
@@ -898,8 +829,9 @@ input names whenever applicable:
 - material
 - phase
 
-Example user request:
+Example:
 
+User:
 "I have a 20 amp, 120 volt circuit that runs 100 feet."
 
 Expected inputs:
@@ -911,14 +843,15 @@ Expected inputs:
 }
 
 Do not invent material, phase, or wire gauge
-unless the user explicitly provides them.
+unless explicitly provided.
 
-The final response must match the JSON schema.
-confidence must be between 0 and 1.
+The final response must match the required JSON schema.
+
+confidence must be a number from 0 to 1.
 `;
 
         // ----------------------------------------------------
-        // Build user prompt
+        // BUILD PROMPT
         // ----------------------------------------------------
 
         const fullPrompt = `
@@ -939,24 +872,24 @@ Return only the required JSON object.
 `;
 
         // ----------------------------------------------------
-        // Gemini endpoint
+        // API ENDPOINT
         // ----------------------------------------------------
 
-        const geminiUrl =
+        const modelUrl =
             `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
                 MODEL_NAME
             )}:generateContent`;
 
         // ----------------------------------------------------
-        // Gemini request
+        // REQUEST
         // ----------------------------------------------------
 
         const {
-            response: geminiResponse,
+            response: modelResponse,
             data
         } =
-            await callGeminiWithRetry(
-                geminiUrl,
+            await callModelWithRetry(
+                modelUrl,
                 {
                     method: "POST",
 
@@ -973,7 +906,8 @@ Return only the required JSON object.
 
                             contents: [
                                 {
-                                    role: "user",
+                                    role:
+                                        "user",
 
                                     parts: [
                                         {
@@ -999,37 +933,35 @@ Return only the required JSON object.
             );
 
         // ----------------------------------------------------
-        // Handle Gemini errors
+        // API ERROR HANDLING
         // ----------------------------------------------------
 
         if (
-            !geminiResponse ||
-            !geminiResponse.ok
+            !modelResponse ||
+            !modelResponse.ok
         ) {
 
+            // Detailed information stays in server logs.
             console.error(
-                "Gemini API error:",
+                "AI provider error:",
                 data
             );
 
             const status =
-                geminiResponse
+                modelResponse
                     ?.status || 502;
 
-            const apiMessage =
-                data
-                    ?.error
-                    ?.message ||
-                "Gemini API request failed.";
-
-            // Temporary service issue
-            if (
-                status === 503 ||
+            const providerStatus =
                 String(
                     data
                         ?.error
                         ?.status || ""
-                ).toUpperCase() ===
+                ).toUpperCase();
+
+            // Temporary unavailable
+            if (
+                status === 503 ||
+                providerStatus ===
                     "UNAVAILABLE"
             ) {
 
@@ -1038,7 +970,7 @@ Return only the required JSON object.
                     503,
                     {
                         error:
-                            "Gemini is temporarily busy. Please try again in a few seconds."
+                            "AI assistant is temporarily busy. Please try again in a few seconds."
                     }
                 );
             }
@@ -1046,11 +978,7 @@ Return only the required JSON object.
             // Rate limit / resource exhaustion
             if (
                 status === 429 ||
-                String(
-                    data
-                        ?.error
-                        ?.status || ""
-                ).toUpperCase() ===
+                providerStatus ===
                     "RESOURCE_EXHAUSTED"
             ) {
 
@@ -1059,46 +987,51 @@ Return only the required JSON object.
                     429,
                     {
                         error:
-                            "Gemini request limit reached. Please try again shortly."
+                            "AI assistant is temporarily unavailable. Please try again shortly."
                     }
                 );
             }
 
+            // Authentication/configuration error
+            if (
+                status === 401 ||
+                status === 403
+            ) {
+
+                return sendJson(
+                    res,
+                    503,
+                    {
+                        error:
+                            "AI assistant is temporarily unavailable. Please try again later."
+                    }
+                );
+            }
+
+            // Invalid request/model/etc.
             return sendJson(
                 res,
                 502,
                 {
                     error:
-                        "The Gemini AI service returned an error.",
-
-                    code:
-                        data
-                            ?.error
-                            ?.status ||
-                        data
-                            ?.error
-                            ?.code ||
-                        null,
-
-                    message:
-                        apiMessage
+                        "AI assistant could not process your request. Please try again."
                 }
             );
         }
 
         // ----------------------------------------------------
-        // Extract Gemini text
+        // EXTRACT TEXT
         // ----------------------------------------------------
 
         const rawText =
-            extractGeminiText(
+            extractModelText(
                 data
             );
 
         if (!rawText) {
 
             console.error(
-                "Gemini returned an empty response:",
+                "AI returned an empty response:",
                 data
             );
 
@@ -1107,13 +1040,13 @@ Return only the required JSON object.
                 502,
                 {
                     error:
-                        "Gemini returned an empty response."
+                        "AI assistant could not process your request. Please try again."
                 }
             );
         }
 
         // ----------------------------------------------------
-        // Parse structured JSON
+        // PARSE JSON
         // ----------------------------------------------------
 
         const cleanText =
@@ -1122,7 +1055,7 @@ Return only the required JSON object.
             );
 
         const result =
-            parseGeminiJson(
+            parseModelJson(
                 cleanText
             );
 
@@ -1136,11 +1069,11 @@ Return only the required JSON object.
         ) {
 
             console.error(
-                "Gemini JSON parse failed."
+                "AI JSON parse failed."
             );
 
             console.error(
-                "Gemini raw response:",
+                "AI raw response:",
                 rawText
             );
 
@@ -1149,13 +1082,13 @@ Return only the required JSON object.
                 502,
                 {
                     error:
-                        "Gemini returned an unexpected response."
+                        "AI assistant could not process your request. Please try again."
                 }
             );
         }
 
         // ----------------------------------------------------
-        // Validate / normalize intent
+        // NORMALIZE INTENT
         // ----------------------------------------------------
 
         const validIntents = [
@@ -1165,7 +1098,7 @@ Return only the required JSON object.
             "recommend"
         ];
 
-        const normalizedIntent =
+        const intent =
             validIntents.includes(
                 result.intent
             )
@@ -1173,7 +1106,7 @@ Return only the required JSON object.
                 : "explain";
 
         // ----------------------------------------------------
-        // Normalize inputs
+        // NORMALIZE INPUTS
         // ----------------------------------------------------
 
         const rawInputs =
@@ -1186,7 +1119,7 @@ Return only the required JSON object.
                 ? result.inputs
                 : {};
 
-        const normalizedInputs = {};
+        const inputs = {};
 
         // Voltage
         if (
@@ -1197,11 +1130,11 @@ Return only the required JSON object.
             )
         ) {
 
-            normalizedInputs.voltage =
+            inputs.voltage =
                 rawInputs.voltage;
         }
 
-        // Amps
+        // Amperage
         if (
             typeof rawInputs.amps ===
             "number" &&
@@ -1210,7 +1143,7 @@ Return only the required JSON object.
             )
         ) {
 
-            normalizedInputs.amps =
+            inputs.amps =
                 rawInputs.amps;
         }
 
@@ -1223,7 +1156,7 @@ Return only the required JSON object.
             )
         ) {
 
-            normalizedInputs.distance_ft =
+            inputs.distance_ft =
                 rawInputs.distance_ft;
         }
 
@@ -1233,7 +1166,7 @@ Return only the required JSON object.
             "string"
         ) {
 
-            normalizedInputs.material =
+            inputs.material =
                 safeText(
                     rawInputs.material,
                     100
@@ -1246,7 +1179,7 @@ Return only the required JSON object.
             "string"
         ) {
 
-            normalizedInputs.phase =
+            inputs.phase =
                 safeText(
                     rawInputs.phase,
                     100
@@ -1254,7 +1187,7 @@ Return only the required JSON object.
         }
 
         // ----------------------------------------------------
-        // Normalize missing inputs
+        // MISSING INPUTS
         // ----------------------------------------------------
 
         const missingInputs =
@@ -1276,7 +1209,7 @@ Return only the required JSON object.
                 : [];
 
         // ----------------------------------------------------
-        // Normalize confidence
+        // CONFIDENCE
         // ----------------------------------------------------
 
         let confidence =
@@ -1295,62 +1228,63 @@ Return only the required JSON object.
             );
 
         // ----------------------------------------------------
-        // Final response
+        // FINAL SAFE RESPONSE
         // ----------------------------------------------------
-
-        const normalized = {
-
-            intent:
-                normalizedIntent,
-
-            calculator:
-                safeText(
-                    result.calculator ||
-                        calculator,
-                    120
-                ),
-
-            summary:
-                safeText(
-                    result.summary,
-                    1500
-                ),
-
-            question:
-                safeText(
-                    result.question,
-                    600
-                ),
-
-            inputs:
-                normalizedInputs,
-
-            missingInputs:
-                missingInputs,
-
-            confidence:
-                confidence
-        };
 
         return sendJson(
             res,
             200,
-            normalized
+            {
+
+                intent:
+                    intent,
+
+                calculator:
+                    safeText(
+                        result.calculator ||
+                            calculator,
+                        120
+                    ),
+
+                summary:
+                    safeText(
+                        result.summary,
+                        1500
+                    ),
+
+                question:
+                    safeText(
+                        result.question,
+                        600
+                    ),
+
+                inputs:
+                    inputs,
+
+                missingInputs:
+                    missingInputs,
+
+                confidence:
+                    confidence
+
+            }
         );
 
     } catch (error) {
 
+        // Detailed error for you in Vercel logs.
         console.error(
-            "Gemini AI assistant error:",
+            "AI assistant internal error:",
             error
         );
 
+        // Generic user-facing error.
         return sendJson(
             res,
             500,
             {
                 error:
-                    "Something went wrong while processing your request."
+                    "AI assistant is temporarily unavailable. Please try again later."
             }
         );
     }
