@@ -7177,7 +7177,7 @@
             // Focus on length input
             lengthInput.focus();
         }
-
+window.addWireRun = addWireRun;
         /**
          * Remove a wire run from the list
          * @param {number} runId - ID of the run to remove
@@ -9984,7 +9984,9 @@ function applyAiInputs(
                 "circuitAmperage"
             );
 
-        if (amperage) {
+        if (
+            amperage
+        ) {
 
             amperage.value =
                 inputs.amps;
@@ -10030,19 +10032,24 @@ function applyAiInputs(
         ) > 0
     ) {
 
-        const distance =
-            document.getElementById(
-                "circuitLength"
-            );
-
         const distanceValue =
             Number(
                 inputs.distance_ft
             );
 
 
-        // Update circuit length
-        if (distance) {
+        // -----------------------------------------------
+        // Update main circuit length
+        // -----------------------------------------------
+
+        const distance =
+            document.getElementById(
+                "circuitLength"
+            );
+
+        if (
+            distance
+        ) {
 
             distance.value =
                 distanceValue;
@@ -10068,146 +10075,176 @@ function applyAiInputs(
         }
 
 
-        // ------------------------------------------------
-        // Create wire run automatically
-        // ------------------------------------------------
+        // -----------------------------------------------
+        // Create a Wire Run if none exists
+        // -----------------------------------------------
 
         if (
-            typeof addWireRun ===
-            "function"
+            Array.isArray(
+                appState.wireRuns
+            ) &&
+            appState.wireRuns.length === 0
         ) {
 
+            // Use the globally exposed calculator
+            // function when available.
             if (
-                Array.isArray(
-                    appState.wireRuns
-                ) &&
-                appState.wireRuns.length === 0
+                typeof window.addWireRun ===
+                "function"
+            ) {
+
+                window.addWireRun();
+
+            }
+            else if (
+                typeof addWireRun ===
+                "function"
             ) {
 
                 addWireRun();
 
-                const lastRun =
-                    appState.wireRuns[
-                        appState.wireRuns.length - 1
-                    ];
+            }
+            else {
 
+                console.error(
+                    "AI Assistant: addWireRun() is not available."
+                );
+
+            }
+
+        }
+
+
+        // -----------------------------------------------
+        // Fill the newly-created wire run
+        // -----------------------------------------------
+
+        if (
+            Array.isArray(
+                appState.wireRuns
+            ) &&
+            appState.wireRuns.length > 0
+        ) {
+
+            const lastRun =
+                appState.wireRuns[
+                    appState.wireRuns.length - 1
+                ];
+
+
+            if (
+                lastRun &&
+                lastRun.element
+            ) {
+
+                const lengthInput =
+                    lastRun.element.querySelector(
+                        ".run-length"
+                    );
+
+                const quantityInput =
+                    lastRun.element.querySelector(
+                        ".run-quantity"
+                    );
+
+                const descriptionInput =
+                    lastRun.element.querySelector(
+                        ".run-description"
+                    );
+
+
+                // ---------------------------------------
+                // Wire run length
+                // ---------------------------------------
 
                 if (
-                    lastRun &&
-                    lastRun.element
+                    lengthInput
                 ) {
 
-                    const lengthInput =
-                        lastRun.element.querySelector(
-                            ".run-length"
-                        );
+                    lengthInput.value =
+                        distanceValue;
 
-                    const quantityInput =
-                        lastRun.element.querySelector(
-                            ".run-quantity"
-                        );
+                    lengthInput.dispatchEvent(
+                        new Event(
+                            "input",
+                            {
+                                bubbles: true
+                            }
+                        )
+                    );
 
-                    const descriptionInput =
-                        lastRun.element.querySelector(
-                            ".run-description"
-                        );
-
-
-                    // Wire run length
-                    if (
-                        lengthInput
-                    ) {
-
-                        lengthInput.value =
-                            distanceValue;
-
-                        lengthInput.dispatchEvent(
-                            new Event(
-                                "input",
-                                {
-                                    bubbles: true
-                                }
-                            )
-                        );
-
-                        lengthInput.dispatchEvent(
-                            new Event(
-                                "change",
-                                {
-                                    bubbles: true
-                                }
-                            )
-                        );
-
-                    }
-
-
-                    // Quantity
-                    if (
-                        quantityInput
-                    ) {
-
-                        quantityInput.value =
-                            "1";
-
-                        quantityInput.dispatchEvent(
-                            new Event(
-                                "input",
-                                {
-                                    bubbles: true
-                                }
-                            )
-                        );
-
-                        quantityInput.dispatchEvent(
-                            new Event(
-                                "change",
-                                {
-                                    bubbles: true
-                                }
-                            )
-                        );
-
-                    }
-
-
-                    // Description
-                    if (
-                        descriptionInput
-                    ) {
-
-                        descriptionInput.value =
-                            "AI-specified wire run";
-
-                        descriptionInput.dispatchEvent(
-                            new Event(
-                                "input",
-                                {
-                                    bubbles: true
-                                }
-                            )
-                        );
-
-                        descriptionInput.dispatchEvent(
-                            new Event(
-                                "change",
-                                {
-                                    bubbles: true
-                                }
-                            )
-                        );
-
-                    }
+                    lengthInput.dispatchEvent(
+                        new Event(
+                            "change",
+                            {
+                                bubbles: true
+                            }
+                        )
+                    );
 
                 }
 
 
+                // ---------------------------------------
+                // Quantity
+                // ---------------------------------------
+
                 if (
-                    typeof updateWireRunsSummary ===
-                    "function"
+                    quantityInput
                 ) {
 
-                    updateWireRunsSummary();
+                    quantityInput.value =
+                        "1";
+
+                    quantityInput.dispatchEvent(
+                        new Event(
+                            "input",
+                            {
+                                bubbles: true
+                            }
+                        )
+                    );
+
+                    quantityInput.dispatchEvent(
+                        new Event(
+                            "change",
+                            {
+                                bubbles: true
+                            }
+                        )
+                    );
+
+                }
+
+
+                // ---------------------------------------
+                // Description
+                // ---------------------------------------
+
+                if (
+                    descriptionInput
+                ) {
+
+                    descriptionInput.value =
+                        "AI-specified wire run";
+
+                    descriptionInput.dispatchEvent(
+                        new Event(
+                            "input",
+                            {
+                                bubbles: true
+                            }
+                        )
+                    );
+
+                    descriptionInput.dispatchEvent(
+                        new Event(
+                            "change",
+                            {
+                                bubbles: true
+                            }
+                        )
+                    );
 
                 }
 
@@ -10215,10 +10252,118 @@ function applyAiInputs(
 
         }
 
+
+        // -----------------------------------------------
+        // Update wire runs summary
+        // -----------------------------------------------
+
+        if (
+            typeof updateWireRunsSummary ===
+            "function"
+        ) {
+
+            updateWireRunsSummary();
+
+        }
+
+
         appliedCount++;
 
     }
 
+
+    // ---------------------------------------------------
+    // Conductor Material
+    // ---------------------------------------------------
+
+    if (
+        inputs.material
+    ) {
+
+        const normalizedMaterial =
+            normalizeMaterial(
+                inputs.material
+            );
+
+        if (
+            setSelectValue(
+                "conductorMaterial",
+                normalizedMaterial
+            )
+        ) {
+
+            appliedCount++;
+
+        }
+
+    }
+
+
+    // ---------------------------------------------------
+    // Phase
+    // ---------------------------------------------------
+
+    if (
+        inputs.phase
+    ) {
+
+        const normalizedPhase =
+            normalizePhase(
+                inputs.phase
+            );
+
+        if (
+            setSelectValue(
+                "phaseConfig",
+                normalizedPhase
+            )
+        ) {
+
+            appliedCount++;
+
+        }
+
+    }
+
+
+    // ---------------------------------------------------
+    // Close AI modal
+    // ---------------------------------------------------
+
+    closeAiModal();
+
+
+    // ---------------------------------------------------
+    // Automatically run existing calculator
+    // ---------------------------------------------------
+
+    if (
+        appliedCount > 0
+    ) {
+
+        setTimeout(
+            function () {
+
+                const calculateButton =
+                    document.getElementById(
+                        "calculateBtn"
+                    );
+
+                if (
+                    calculateButton
+                ) {
+
+                    calculateButton.click();
+
+                }
+
+            },
+            500
+        );
+
+    }
+
+}
 
     // ---------------------------------------------------
     // Conductor Material
