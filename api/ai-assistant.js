@@ -398,7 +398,13 @@ USER REQUEST:
 ${question}
 
 Return only valid JSON.
-`;
+
+Use strict JSON syntax:
+- Every property name must be double-quoted.
+- Every string must use double quotes.
+- Never use trailing commas.
+- Do not use Markdown code fences.
+- Return exactly one JSON object.`;
 
         // ----------------------------------------------------
         // GEMINI REST URL
@@ -512,37 +518,99 @@ Return only valid JSON.
         // CLEAN RESPONSE
         // ----------------------------------------------------
 
-        const cleanText =
-            removeCodeFence(rawText);
+const cleanText =
+    removeCodeFence(rawText);
 
-        // ----------------------------------------------------
-        // PARSE JSON
-        // ----------------------------------------------------
+// ----------------------------------------------------
+// PARSE / REPAIR GEMINI JSON
+// ----------------------------------------------------
 
-        let result;
+function parseGeminiJson(text) {
 
-        try {
+    let value = String(text || "").trim();
 
-            result =
-                JSON.parse(cleanText);
+    // Remove accidental markdown fences again.
+    value = value
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/\s*```$/i, "")
+        .trim();
 
-        } catch (error) {
+    // Keep only the outermost JSON object.
+    const firstBrace = value.indexOf("{");
+    const lastBrace = value.lastIndexOf("}");
 
-            console.error(
-                "Gemini JSON parse error:",
-                error
-            );
+    if (
+        firstBrace !== -1 &&
+        lastBrace !== -1 &&
+        lastBrace > firstBrace
+    ) {
+        value = value.slice(
+            firstBrace,
+            lastBrace + 1
+        );
+    }
 
-            console.error(
-                "Gemini raw response:",
-                rawText
-            );
+    // First try strict JSON.
+    try {
+        return JSON.parse(value);
+    } catch (_) {
+        // Continue with safe repairs.
+    }
 
-            return sendJson(res, 502, {
-                error:
-                    "Gemini returned an unexpected response."
-            });
-        }
+    // Remove trailing commas before } or ].
+    value = value.replace(
+        /,\s*([}\]])/g,
+        "$1"
+    );
+
+    // Convert common smart quotes.
+    value = value
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'");
+
+    // Retry.
+    try {
+        return JSON.parse(value);
+    } catch (_) {
+        // Continue.
+    }
+
+    // Repair simple unquoted object property names:
+    // { intent: "calculate" }
+    // -> { "intent": "calculate" }
+    value = value.replace(
+        /([{,]\s*)([A-Za-z_][A-Za-z0-9_]*)\s*:/g,
+        '$1"$2":'
+    );
+
+    // Retry.
+    try {
+        return JSON.parse(value);
+    } catch (_) {
+        return null;
+    }
+}
+
+const result =
+    parseGeminiJson(cleanText);
+
+if (!result || typeof result !== "object") {
+
+    console.error(
+        "Gemini JSON parse failed."
+    );
+
+    console.error(
+        "Gemini raw response:",
+        rawText
+    );
+
+    return sendJson(res, 502, {
+        error:
+            "Gemini returned an unexpected response."
+    });
+}
 
         // ----------------------------------------------------
         // NORMALIZE INTENT
