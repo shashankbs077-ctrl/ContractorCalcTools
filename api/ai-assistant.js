@@ -39,13 +39,7 @@ const ALLOWED_ORIGINS = new Set([
 // SAFE JSON RESPONSE
 // ============================================================
 
-function sendJson(
-    res,
-    status,
-    payload,
-    origin = null
-) {
-
+function sendJson(res, status, payload, origin = null) {
     res.status(status);
 
     res.setHeader(
@@ -63,15 +57,10 @@ function sendJson(
         "nosniff"
     );
 
-    // --------------------------------------------------------
-    // CORS
-    // --------------------------------------------------------
-
     if (
         origin &&
         ALLOWED_ORIGINS.has(origin)
     ) {
-
         res.setHeader(
             "Access-Control-Allow-Origin",
             origin
@@ -81,7 +70,6 @@ function sendJson(
             "Vary",
             "Origin"
         );
-
     }
 
     res.end(
@@ -93,11 +81,7 @@ function sendJson(
 // SAFE TEXT
 // ============================================================
 
-function safeText(
-    value,
-    maxLength
-) {
-
+function safeText(value, maxLength) {
     return String(
         value ?? ""
     ).slice(
@@ -107,38 +91,27 @@ function safeText(
 }
 
 // ============================================================
-// NORMALIZE INPUT FIELDS
+// NORMALIZE FIELDS
 // ============================================================
 
-function normalizeFields(
-    fields
-) {
-
+function normalizeFields(fields) {
     if (
         !fields ||
         typeof fields !== "object" ||
         Array.isArray(fields)
     ) {
-
         return {};
-
     }
 
     const entries =
         Object
             .entries(fields)
-            .slice(
-                0,
-                MAX_FIELDS
-            );
+            .slice(0, MAX_FIELDS);
 
     return Object.fromEntries(
         entries.map(
             ([key, value]) => [
-                safeText(
-                    key,
-                    100
-                ),
+                safeText(key, 100),
                 safeText(
                     value,
                     MAX_FIELD_VALUE_LENGTH
@@ -149,45 +122,30 @@ function normalizeFields(
 }
 
 // ============================================================
-// ORIGIN VALIDATION
+// ORIGIN CHECK
 // ============================================================
 
-function isAllowedOrigin(
-    origin
-) {
-
-    if (
-        !origin
-    ) {
-
+function isAllowedOrigin(origin) {
+    if (!origin) {
         return true;
-
     }
 
     if (
-        ALLOWED_ORIGINS.has(
-            origin
-        )
+        ALLOWED_ORIGINS.has(origin)
     ) {
-
         return true;
-
     }
 
-    // Local development
     return /^https?:\/\/localhost(?::\d+)?$/.test(
         origin
     );
 }
 
 // ============================================================
-// RETRYABLE STATUS CODES
+// RETRYABLE STATUS
 // ============================================================
 
-function isRetryableStatus(
-    status
-) {
-
+function isRetryableStatus(status) {
     return (
         status === 408 ||
         status === 429 ||
@@ -202,10 +160,7 @@ function isRetryableStatus(
 // SLEEP
 // ============================================================
 
-function sleep(
-    ms
-) {
-
+function sleep(ms) {
     return new Promise(
         resolve =>
             setTimeout(
@@ -223,21 +178,15 @@ async function callGroqWithRetry(
     url,
     options
 ) {
-
-    let lastResponse =
-        null;
-
-    let lastData =
-        null;
+    let lastResponse = null;
+    let lastData = null;
 
     for (
         let attempt = 0;
         attempt <= MAX_RETRIES;
         attempt++
     ) {
-
         try {
-
             const response =
                 await fetch(
                     url,
@@ -250,79 +199,53 @@ async function callGroqWithRetry(
             let data;
 
             try {
-
                 data =
                     await response.json();
-
             } catch (_) {
-
                 data = {
                     error: {
                         message:
                             "Invalid service response."
                     }
                 };
-
             }
 
             lastData =
                 data;
 
-            // ------------------------------------------------
             // Successful response
-            // ------------------------------------------------
-
             if (
                 response.ok
             ) {
-
                 return {
                     response,
                     data
                 };
-
             }
 
-            // ------------------------------------------------
-            // Do not retry permanent errors
-            // ------------------------------------------------
-
+            // Permanent error
             if (
                 !isRetryableStatus(
                     response.status
                 )
             ) {
-
                 return {
                     response,
                     data
                 };
-
             }
 
-            // ------------------------------------------------
             // Retry limit reached
-            // ------------------------------------------------
-
             if (
                 attempt >= MAX_RETRIES
             ) {
-
                 return {
                     response,
                     data
                 };
-
             }
 
-            // ------------------------------------------------
             // Exponential backoff
-            //
-            // ~1 second
-            // ~2 seconds
-            // ~4 seconds
-            // ------------------------------------------------
-
             const baseDelay =
                 1000 *
                 Math.pow(
@@ -352,18 +275,9 @@ async function callGroqWithRetry(
                 }
             );
 
-            await sleep(
-                delay
-            );
+            await sleep(delay);
 
-        } catch (
-            error
-        ) {
-
-            // ------------------------------------------------
-            // Network-level failure
-            // ------------------------------------------------
-
+        } catch (error) {
             lastData = {
                 error: {
                     message:
@@ -375,9 +289,7 @@ async function callGroqWithRetry(
             if (
                 attempt >= MAX_RETRIES
             ) {
-
                 break;
-
             }
 
             const baseDelay =
@@ -407,32 +319,24 @@ async function callGroqWithRetry(
                 }
             );
 
-            await sleep(
-                delay
-            );
-
+            await sleep(delay);
         }
     }
 
     return {
-        response:
-            lastResponse,
-
-        data:
-            lastData
+        response: lastResponse,
+        data: lastData
     };
 }
 
 // ============================================================
-// STRICT STRUCTURED OUTPUT SCHEMA
+// STRUCTURED OUTPUT SCHEMA
 // ============================================================
 
 const calculatorSchema = {
-
     type: "object",
 
     properties: {
-
         intent: {
             type: "string",
             enum: [
@@ -456,11 +360,9 @@ const calculatorSchema = {
         },
 
         inputs: {
-
             type: "object",
 
             properties: {
-
                 voltage: {
                     type: [
                         "number",
@@ -495,7 +397,6 @@ const calculatorSchema = {
                         "null"
                     ]
                 }
-
             },
 
             required: [
@@ -506,12 +407,10 @@ const calculatorSchema = {
                 "phase"
             ],
 
-            additionalProperties:
-                false
+            additionalProperties: false
         },
 
         missingInputs: {
-
             type: "array",
 
             items: {
@@ -522,7 +421,6 @@ const calculatorSchema = {
         confidence: {
             type: "number"
         }
-
     },
 
     required: [
@@ -535,8 +433,7 @@ const calculatorSchema = {
         "confidence"
     ],
 
-    additionalProperties:
-        false
+    additionalProperties: false
 };
 
 // ============================================================
@@ -547,21 +444,16 @@ export default async function handler(
     req,
     res
 ) {
-
     const origin =
-        req.headers.origin ||
-        null;
+        req.headers.origin || null;
 
-    // ========================================================
+    // --------------------------------------------------------
     // ORIGIN CHECK
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
-        !isAllowedOrigin(
-            origin
-        )
+        !isAllowedOrigin(origin)
     ) {
-
         return sendJson(
             res,
             403,
@@ -571,24 +463,19 @@ export default async function handler(
             },
             origin
         );
-
     }
 
-    // ========================================================
+    // --------------------------------------------------------
     // CORS PREFLIGHT
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
         req.method === "OPTIONS"
     ) {
-
         if (
             origin &&
-            ALLOWED_ORIGINS.has(
-                origin
-            )
+            ALLOWED_ORIGINS.has(origin)
         ) {
-
             res.setHeader(
                 "Access-Control-Allow-Origin",
                 origin
@@ -598,7 +485,6 @@ export default async function handler(
                 "Vary",
                 "Origin"
             );
-
         }
 
         res.setHeader(
@@ -621,14 +507,13 @@ export default async function handler(
             .end();
     }
 
-    // ========================================================
+    // --------------------------------------------------------
     // METHOD CHECK
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
         req.method !== "POST"
     ) {
-
         res.setHeader(
             "Allow",
             "POST, OPTIONS"
@@ -643,17 +528,15 @@ export default async function handler(
             },
             origin
         );
-
     }
 
-    // ========================================================
+    // --------------------------------------------------------
     // API KEY CHECK
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
         !process.env.GROQ_API_KEY
     ) {
-
         console.error(
             "AI API key is missing."
         );
@@ -667,17 +550,15 @@ export default async function handler(
             },
             origin
         );
-
     }
 
-    // ========================================================
+    // --------------------------------------------------------
     // MODEL CHECK
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
         !MODEL
     ) {
-
         console.error(
             "AI model is missing."
         );
@@ -691,14 +572,12 @@ export default async function handler(
             },
             origin
         );
-
     }
 
     try {
-
-        // ====================================================
+        // ----------------------------------------------------
         // REQUEST BODY
-        // ====================================================
+        // ----------------------------------------------------
 
         const body =
             req.body || {};
@@ -721,14 +600,13 @@ export default async function handler(
                 body.fields
             );
 
-        // ====================================================
-        // QUESTION VALIDATION
-        // ====================================================
+        // ----------------------------------------------------
+        // VALIDATE QUESTION
+        // ----------------------------------------------------
 
         if (
             !question
         ) {
-
             return sendJson(
                 res,
                 400,
@@ -738,12 +616,11 @@ export default async function handler(
                 },
                 origin
             );
-
         }
 
-        // ====================================================
-        // SYSTEM INSTRUCTIONS
-        // ====================================================
+        // ----------------------------------------------------
+        // SYSTEM PROMPT
+        // ----------------------------------------------------
 
         const systemPrompt = `
 You are the AI assistant for ContractorCalcTools.
@@ -793,7 +670,6 @@ Use "single" or "three" only if explicitly stated.
 
 Example:
 
-User:
 "I have a 20 amp, 120 volt circuit that runs 100 feet."
 
 Expected inputs:
@@ -809,18 +685,16 @@ Expected inputs:
 Never invent material, phase, or wire gauge.
 `;
 
-        // ====================================================
+        // ----------------------------------------------------
         // USER PROMPT
-        // ====================================================
+        // ----------------------------------------------------
 
         const userPrompt = `
 Calculator:
 ${calculator}
 
 Current calculator fields:
-${JSON.stringify(
-    fields
-)}
+${JSON.stringify(fields)}
 
 User request:
 ${question}
@@ -828,16 +702,12 @@ ${question}
 Extract only information explicitly provided by the user.
 `;
 
-        // ====================================================
-        // GROQ ENDPOINT
-        // ====================================================
+        // ----------------------------------------------------
+        // GROQ API
+        // ----------------------------------------------------
 
         const groqUrl =
             "https://api.groq.com/openai/v1/chat/completions";
-
-        // ====================================================
-        // CALL GROQ
-        // ====================================================
 
         const {
             response: groqResponse,
@@ -846,28 +716,22 @@ Extract only information explicitly provided by the user.
             await callGroqWithRetry(
                 groqUrl,
                 {
-
-                    method:
-                        "POST",
+                    method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json",
 
                         "Authorization":
                             `Bearer ${process.env.GROQ_API_KEY}`
-
                     },
 
                     body:
                         JSON.stringify({
-
                             model:
                                 MODEL,
 
                             messages: [
-
                                 {
                                     role:
                                         "system",
@@ -883,7 +747,6 @@ Extract only information explicitly provided by the user.
                                     content:
                                         userPrompt
                                 }
-
                             ],
 
                             temperature:
@@ -893,12 +756,10 @@ Extract only information explicitly provided by the user.
                                 700,
 
                             response_format: {
-
                                 type:
                                     "json_schema",
 
                                 json_schema: {
-
                                     name:
                                         "contractor_calculator_assistant",
 
@@ -907,44 +768,33 @@ Extract only information explicitly provided by the user.
 
                                     schema:
                                         calculatorSchema
-
                                 }
-
                             }
-
                         })
-
                 }
             );
 
-        // ====================================================
+        // ----------------------------------------------------
         // PROVIDER ERROR HANDLING
-        // ====================================================
+        // ----------------------------------------------------
 
         if (
             !groqResponse ||
             !groqResponse.ok
         ) {
-
-            // Detailed information remains server-side.
             console.error(
                 "AI provider error:",
                 data
             );
 
             const status =
-                groqResponse
-                    ?.status ||
+                groqResponse?.status ||
                 502;
 
-            // ------------------------------------------------
-            // RATE LIMIT
-            // ------------------------------------------------
-
+            // Rate limit
             if (
                 status === 429
             ) {
-
                 return sendJson(
                     res,
                     429,
@@ -954,20 +804,15 @@ Extract only information explicitly provided by the user.
                     },
                     origin
                 );
-
             }
 
-            // ------------------------------------------------
-            // TEMPORARY SERVER ERROR
-            // ------------------------------------------------
-
+            // Temporary service problem
             if (
                 status === 500 ||
                 status === 502 ||
                 status === 503 ||
                 status === 504
             ) {
-
                 return sendJson(
                     res,
                     503,
@@ -977,18 +822,13 @@ Extract only information explicitly provided by the user.
                     },
                     origin
                 );
-
             }
 
-            // ------------------------------------------------
-            // AUTHENTICATION
-            // ------------------------------------------------
-
+            // Authentication
             if (
                 status === 401 ||
                 status === 403
             ) {
-
                 return sendJson(
                     res,
                     503,
@@ -998,13 +838,9 @@ Extract only information explicitly provided by the user.
                     },
                     origin
                 );
-
             }
 
-            // ------------------------------------------------
-            // GENERIC ERROR
-            // ------------------------------------------------
-
+            // Generic error
             return sendJson(
                 res,
                 502,
@@ -1014,12 +850,11 @@ Extract only information explicitly provided by the user.
                 },
                 origin
             );
-
         }
 
-        // ====================================================
-        // EXTRACT RESPONSE CONTENT
-        // ====================================================
+        // ----------------------------------------------------
+        // EXTRACT CONTENT
+        // ----------------------------------------------------
 
         const content =
             data
@@ -1031,7 +866,6 @@ Extract only information explicitly provided by the user.
             !content ||
             typeof content !== "string"
         ) {
-
             console.error(
                 "AI response content was empty:",
                 data
@@ -1046,26 +880,20 @@ Extract only information explicitly provided by the user.
                 },
                 origin
             );
-
         }
 
-        // ====================================================
-        // PARSE JSON
-        // ====================================================
+        // ----------------------------------------------------
+        // PARSE STRUCTURED JSON
+        // ----------------------------------------------------
 
         let result;
 
         try {
-
             result =
                 JSON.parse(
                     content
                 );
-
-        } catch (
-            error
-        ) {
-
+        } catch (error) {
             console.error(
                 "AI JSON parse error:",
                 error
@@ -1085,19 +913,17 @@ Extract only information explicitly provided by the user.
                 },
                 origin
             );
-
         }
 
-        // ====================================================
-        // VALIDATE RESULT OBJECT
-        // ====================================================
+        // ----------------------------------------------------
+        // VALIDATE OBJECT
+        // ----------------------------------------------------
 
         if (
             !result ||
             typeof result !== "object" ||
             Array.isArray(result)
         ) {
-
             console.error(
                 "AI returned invalid object."
             );
@@ -1111,12 +937,11 @@ Extract only information explicitly provided by the user.
                 },
                 origin
             );
-
         }
 
-        // ====================================================
-        // NORMALIZE INTENT
-        // ====================================================
+        // ----------------------------------------------------
+        // INTENT
+        // ----------------------------------------------------
 
         const validIntents = [
             "calculate",
@@ -1132,9 +957,9 @@ Extract only information explicitly provided by the user.
                 ? result.intent
                 : "explain";
 
-        // ====================================================
-        // NORMALIZE INPUTS
-        // ====================================================
+        // ----------------------------------------------------
+        // INPUTS
+        // ----------------------------------------------------
 
         const rawInputs =
             result.inputs &&
@@ -1147,25 +972,15 @@ Extract only information explicitly provided by the user.
 
         const inputs = {};
 
-        // ----------------------------------------------------
-        // Voltage
-        // ----------------------------------------------------
-
         if (
             typeof rawInputs.voltage === "number" &&
             Number.isFinite(
                 rawInputs.voltage
             )
         ) {
-
             inputs.voltage =
                 rawInputs.voltage;
-
         }
-
-        // ----------------------------------------------------
-        // Amps
-        // ----------------------------------------------------
 
         if (
             typeof rawInputs.amps === "number" &&
@@ -1173,15 +988,9 @@ Extract only information explicitly provided by the user.
                 rawInputs.amps
             )
         ) {
-
             inputs.amps =
                 rawInputs.amps;
-
         }
-
-        // ----------------------------------------------------
-        // Distance
-        // ----------------------------------------------------
 
         if (
             typeof rawInputs.distance_ft === "number" &&
@@ -1189,49 +998,35 @@ Extract only information explicitly provided by the user.
                 rawInputs.distance_ft
             )
         ) {
-
             inputs.distance_ft =
                 rawInputs.distance_ft;
-
         }
-
-        // ----------------------------------------------------
-        // Material
-        // ----------------------------------------------------
 
         if (
             typeof rawInputs.material === "string" &&
             rawInputs.material.trim()
         ) {
-
             inputs.material =
                 safeText(
                     rawInputs.material,
                     100
                 );
-
         }
-
-        // ----------------------------------------------------
-        // Phase
-        // ----------------------------------------------------
 
         if (
             typeof rawInputs.phase === "string" &&
             rawInputs.phase.trim()
         ) {
-
             inputs.phase =
                 safeText(
                     rawInputs.phase,
                     100
                 );
-
         }
 
-        // ====================================================
+        // ----------------------------------------------------
         // MISSING INPUTS
-        // ====================================================
+        // ----------------------------------------------------
 
         const missingInputs =
             Array.isArray(
@@ -1251,9 +1046,9 @@ Extract only information explicitly provided by the user.
                     )
                 : [];
 
-        // ====================================================
+        // ----------------------------------------------------
         // CONFIDENCE
-        // ====================================================
+        // ----------------------------------------------------
 
         let confidence =
             typeof result.confidence === "number"
@@ -1269,15 +1064,14 @@ Extract only information explicitly provided by the user.
                 )
             );
 
-        // ====================================================
+        // ----------------------------------------------------
         // FINAL RESPONSE
-        // ====================================================
+        // ----------------------------------------------------
 
         return sendJson(
             res,
             200,
             {
-
                 intent:
                     intent,
 
@@ -1308,22 +1102,16 @@ Extract only information explicitly provided by the user.
 
                 confidence:
                     confidence
-
             },
             origin
         );
 
-    } catch (
-        error
-    ) {
-
-        // Detailed information stays in Vercel logs.
+    } catch (error) {
         console.error(
             "AI assistant internal error:",
             error
         );
 
-        // Generic user-facing response.
         return sendJson(
             res,
             500,
